@@ -1,0 +1,29 @@
+HTML / PHP server
+
+
+# packages
+----------
+apache php-apache
+
+
+# Configuration
+---------------
+/etc/httpd/conf/httpd.conf
+
+# libphp7.so will only work with mod_mpm_prefork (not mod_mpm_event)
+# LoadModule mpm_event_module modules/mod_mpm_event.so
+LoadModule mpm_prefork_module modules/mod_mpm_prefork.so
+
+LoadModule php7_module modules/libphp7.so
+LoadModule http2_module modules/mod_http2.so
+
+<FilesMatch \.php$>
+  {{ SetHandler application/x-httpd-php}}
+</FilesMatch>
+
+
+
+# Service
+---------
+systemctl start httpd
+systemctl enable httpd
