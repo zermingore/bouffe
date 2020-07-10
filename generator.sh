@@ -32,6 +32,8 @@ get_content_one()
 
 generate_html()
 {
+  local ori_ifs="$IFS"
+
   echo "<h1>$(get_content_one __NAME__)</h1>"
 
   echo "<hr/>"
@@ -56,11 +58,9 @@ generate_html()
     echo "<hr/>"
     echo "<h2>Notes</h2>"
     echo "<ul>"
-    local ori_ifs="$IFS"
     echo "$notes" | while IFS= read -r note; do
       echo "  <li>$(echo $note | awk '{$1=""}1' | sed s/'^ *'//)</li>"
     done
-    IFS="$ori_ifs"
     echo "</ul>"
   fi
 
@@ -68,23 +68,21 @@ generate_html()
   echo "<h2>Ingredients</h2>"
   echo "<ul>"
   ingredients=$(grep __INGREDIENT__ "$SRC")
-  local ori_ifs="$IFS"
   echo "$ingredients" | while IFS= read -r ingredient; do
     echo "  <li>$(echo $ingredient | awk '{$1=""}1' | sed s/'^ *'//)</li>"
   done
-  IFS="$ori_ifs"
   echo "</ul>"
 
   echo "<hr/>"
   echo "<h2>Steps</h2>"
   echo "<ul>"
   steps=$(grep __STEP_EN__ "$SRC")
-  local ori_ifs="$IFS"
   echo "$steps" | while IFS= read -r step; do
     echo "  <li>$(echo $step | awk '{$1=""}1' | sed s/'^ *'//)</li>"
   done
-  IFS="$ori_ifs"
   echo "</ul>"
+
+  IFS="$ori_ifs"
 }
 
 
