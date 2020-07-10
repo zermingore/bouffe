@@ -3,15 +3,13 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-
   <title>Bouffe</title>
-
 </head>
 
 <body>
   <h1>List:</h1>
-  <?php
 
+  <?php
   $recipes_dir = './src';
   foreach (new DirectoryIterator("$recipes_dir") as $fileInfo)
   {
