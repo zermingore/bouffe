@@ -7,7 +7,7 @@
 </head>
 
 <body>
-  <h1>List:</h1>
+  <h1>List</h1>
 
   <?php
   $recipes_dir = './src';
@@ -16,7 +16,9 @@
     if ($fileInfo->isDot())
       continue;
 
-    echo $fileInfo->getFilename() . "<br>";
+    $path='/generated/' . $fileInfo->getFilename();
+    echo "<a href=" . $path . ">" . $fileInfo->getFilename() . "</a>";
+    echo "<br/>";
   }
   ?>
 
