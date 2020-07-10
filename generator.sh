@@ -91,8 +91,7 @@ main()
 {
   check_arguments $@
 
-  rm -rf generated/
-  mkdir generated/
+  mkdir -p generated/
 
   $(generate_html > generated/$(basename $SRC))
 }
