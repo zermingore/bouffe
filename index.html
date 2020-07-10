@@ -9,9 +9,18 @@
 </head>
 
 <body>
-  <h1>LOL</h1>
+  <h1>List:</h1>
   <?php
-   echo 'Hello' . ' world!';
+
+  $recipes_dir = './src';
+  foreach (new DirectoryIterator("$recipes_dir") as $fileInfo)
+  {
+    if ($fileInfo->isDot())
+      continue;
+
+    echo $fileInfo->getFilename() . "<br>";
+  }
   ?>
+
 </body>
 </html>
