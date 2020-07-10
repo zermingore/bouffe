@@ -11,14 +11,9 @@ time backing: <?php "time_backing"?><br/>
 
 Quantity: <?php echo $_POST["quantity"]?><br/>
 
-Difficulty:<br/>
-<?php echo $_POST["difficulty"]?><br/>
-
-Annoyance:<br/>
-<?php echo $_POST["annoyance"]?><br/>
-
-Threads:<br/>
-<?php echo $_POST["threads"]?><br/>
+Difficulty: <?php echo $_POST["difficulty"]?><br/>
+Annoyance: <?php echo $_POST["annoyance"]?><br/>
+Threads: <?php echo $_POST["threads"]?><br/>
 
 Ingredients: <?php echo $_POST["ingredients"]?><br/>
 Steps: <?php echo $_POST["steps"]?><br/>
