@@ -51,6 +51,19 @@ generate_html()
   echo "  <li>Threads: $(get_content_one "__THREADS__")</li>"
   echo "</ul>"
 
+  notes=$(grep __NOTE__ "$SRC")
+  if ! [ -z "$notes" ]; then
+    echo "<hr/>"
+    echo "<h2>Notes</h2>"
+    echo "<ul>"
+    local ori_ifs="$IFS"
+    echo "$notes" | while IFS= read -r note; do
+      echo "  <li>$(echo $note | awk '{$1=""}1' | sed s/'^ *'//)</li>"
+    done
+    IFS="$ori_ifs"
+    echo "</ul>"
+  fi
+
   echo "<hr/>"
   echo "<h2>Ingredients</h2>"
   echo "<ul>"
