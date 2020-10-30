@@ -8,14 +8,14 @@ INSERT INTO version VALUES(0, 0, 1);
 
 
 CREATE TABLE languages(
-  id INTEGER NOT NULL,
+  id INTEGER PRIMARY KEY,
   name TEXT
 );
 
 
 
 CREATE TABLE translations(
-  id INTEGER NOT NULL,
+  id INTEGER PRIMARY KEY,
   id_language INTEGER NOT NULL,
   content TEXT,
 
@@ -25,7 +25,7 @@ CREATE TABLE translations(
 
 
 CREATE TABLE ingredients(
-  id INTEGER NOT NULL,
+  id INTEGER PRIMARY KEY,
   name INTEGER,
 
   FOREIGN KEY(name) REFERENCES translations(id)
@@ -34,26 +34,28 @@ CREATE TABLE ingredients(
 
 
 CREATE TABLE quantities(
-  id INTEGER NOT NULL,
-  name INTEGER NOT NULL,
+  id INTEGER PRIMARY KEY,
+  id_translation INTEGER NOT NULL,
   symbol TEXT,
 
-  FOREIGN KEY(name) REFERENCES translations(id)
+  FOREIGN KEY(id_translation) REFERENCES translations(id)
 );
 
 
 
 CREATE TABLE requirements(
-  id_recipe INTEGER NOT NULL,
+  id_recipe INTEGER PRIMARY KEY,
   id_ingredient INTEGER NOT NULL,
   quantity INTEGER,
-  id_quantity_unit INTEGER
+  id_quantity_unit INTEGER,
+
+  FOREIGN KEY(id_ingredient) REFERENCES ingredients(id)
 );
 
 
 
 CREATE TABLE steps(
-  id INTEGER NOT NULL,
+  id INTEGER PRIMARY KEY,
   id_recipe INTEGER NOT NULL,
   num INTEGER NOT NULL,
   description INTEGER NOT NULL,
@@ -76,6 +78,10 @@ CREATE TABLE recipe(
   FOREIGN KEY(name) REFERENCES translations(id)
   FOREIGN KEY(description) REFERENCES translations(id)
 );
+
+
+
+.read values.sql
 
 
 
