@@ -10,7 +10,9 @@
   <h1>List</h1>
 
   <?php
-  $recipes_dir = './src';
+  $p = dirname(__FILE__);
+  $recipes_dir = "$p/src/";
+  //print("$recipes_dir");
   foreach (new DirectoryIterator("$recipes_dir") as $fileInfo)
   {
     if ($fileInfo->isDot())
