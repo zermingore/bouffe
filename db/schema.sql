@@ -26,9 +26,8 @@ CREATE TABLE translations(
 
 CREATE TABLE ingredients(
   id INTEGER PRIMARY KEY,
-  name INTEGER,
 
-  FOREIGN KEY(name) REFERENCES translations(id)
+  FOREIGN KEY(id) REFERENCES translations(id)
 );
 
 
@@ -66,7 +65,7 @@ CREATE TABLE steps(
 
 
 
-CREATE TABLE recipe(
+CREATE TABLE recipes(
   id INTEGER PRIMARY KEY,
   name INTEGER NOT NULL,
   description INTEGER,

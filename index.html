@@ -11,6 +11,7 @@
 
   <?php
   $p = dirname(__FILE__);
+
   $recipes_dir = "$p/src/";
   //print("$recipes_dir");
   foreach (new DirectoryIterator("$recipes_dir") as $fileInfo)
@@ -22,8 +23,21 @@
     echo "<a href=" . $path . ">" . $fileInfo->getFilename() . "</a>";
     echo "<br/>";
   }
-  ?>
 
+  $db_file = "$p/db/db";
+  $db = new SQLite3("$db_file");
+
+  $query = "SELECT * FROM recipes;";
+  $array['dbhandle'] = $db;
+  $array['query'] = "$query";
+  $result = $db->query($query);
+
+
+  while ($row = $result->fetchArray()) {
+    echo "<a href=/pages/recipe.php?id={$row['id']}>" . "{$row['name']}" . "</a><br/>";
+  }
+
+  ?>
 
   <h3><a href=srv/add_recipe.php>Add a recipe</a><h3>
 </body>
