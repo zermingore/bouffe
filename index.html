@@ -31,10 +31,13 @@
   $array['dbhandle'] = $db;
   $array['query'] = "$query";
   $result = $db->query($query);
-
-
-  while ($row = $result->fetchArray()) {
-    echo "<a href=/pages/recipe.php?id={$row['id']}>" . "{$row['name']}" . "</a><br/>";
+  while ($row = $result->fetchArray())
+  {
+    $query_name = "SELECT name FROM words WHERE id={$row['name']};";
+    $array['dbhandle'] = $db;
+    $array['query'] = "$query_name";
+    $recipe_name = $db->querySingle($query_name);
+    echo "<a href=/pages/recipe.php?id={$row['id']}>" . "$recipe_name" . "</a><br/>";
   }
 
   ?>
