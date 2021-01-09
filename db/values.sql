@@ -2,93 +2,94 @@ INSERT INTO languages(id, name) VALUES(1, "english");
 INSERT INTO languages(id, name) VALUES(2, "deutsch");
 INSERT INTO languages(id, name) VALUES(3, "français");
 
-INSERT INTO translations(id_language, content) VALUES (1, 'gram');
-INSERT INTO quantities(id_translation, symbol) VALUES (last_insert_rowid(), "g");
-INSERT INTO translations(id_language, content) VALUES (2, 'Gramm');
-INSERT INTO quantities(id_translation, symbol) VALUES (last_insert_rowid(), "g");
-INSERT INTO translations(id_language, content) VALUES (3, 'gramme');
-INSERT INTO quantities(id_translation, symbol) VALUES (last_insert_rowid(), "g");
 
-INSERT INTO translations(id_language, content) VALUES (1, 'liter');
-INSERT INTO quantities(id_translation, symbol) VALUES (last_insert_rowid(), "L");
-INSERT INTO translations(id_language, content) VALUES (2, 'Liter');
-INSERT INTO quantities(id_translation, symbol) VALUES (last_insert_rowid(), "L");
-INSERT INTO translations(id_language, content) VALUES (3, 'litre');
-INSERT INTO quantities(id_translation, symbol) VALUES (last_insert_rowid(), "L");
+INSERT INTO words(name) VALUES ("gram");
+INSERT INTO quantities(id_word, symbol) VALUES (last_insert_rowid(), "g");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (2, (SELECT id FROM words WHERE name="gram"), "Gramm");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (3, (SELECT id FROM words WHERE name="gram"), "gramme");
 
-INSERT INTO translations(id_language, content) VALUES (1, 'minutes');
-INSERT INTO quantities(id_translation, symbol) VALUES (last_insert_rowid(), "min");
-INSERT INTO translations(id_language, content) VALUES (2, 'Minuten');
-INSERT INTO quantities(id_translation, symbol) VALUES (last_insert_rowid(), "min");
-INSERT INTO translations(id_language, content) VALUES (3, 'minutes');
-INSERT INTO quantities(id_translation, symbol) VALUES (last_insert_rowid(), "min");
+INSERT INTO words(name) VALUES ("liter");
+INSERT INTO quantities(id_word, symbol) VALUES (last_insert_rowid(), "L");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (2, (SELECT id FROM words WHERE name="liter"), "Liter");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (3, (SELECT id FROM words WHERE name="liter"), "litre");
 
-INSERT INTO translations(id_language, content) VALUES (1, 'hours');
-INSERT INTO quantities(id_translation, symbol) VALUES (last_insert_rowid(), "h");
-INSERT INTO translations(id_language, content) VALUES (2, 'Stunde');
-INSERT INTO quantities(id_translation, symbol) VALUES (last_insert_rowid(), "h");
-INSERT INTO translations(id_language, content) VALUES (3, 'heures');
-INSERT INTO quantities(id_translation, symbol) VALUES (last_insert_rowid(), "h");
+INSERT INTO words(name) VALUES ("minutes");
+INSERT INTO quantities(id_word, symbol) VALUES (last_insert_rowid(), "min");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (2, (SELECT id FROM words WHERE name="minutes"), "Minuten");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (3, (SELECT id FROM words WHERE name="minutes"), "minutes");
 
-
-
-INSERT INTO translations(id_language, content) VALUES (1, 'milk');
-INSERT INTO ingredients(id) VALUES (last_insert_rowid());
-INSERT INTO translations(id_language, content) VALUES (2, 'Milch');
-INSERT INTO ingredients(id) VALUES (last_insert_rowid());
-INSERT INTO translations(id_language, content) VALUES (3, 'lait');
-INSERT INTO ingredients(id) VALUES (last_insert_rowid());
-
-INSERT INTO translations(id_language, content) VALUES (1, 'flour');
-INSERT INTO ingredients(id) VALUES (last_insert_rowid());
-INSERT INTO translations(id_language, content) VALUES (2, 'Mehl');
-INSERT INTO ingredients(id) VALUES (last_insert_rowid());
-INSERT INTO translations(id_language, content) VALUES (3, 'farine');
-INSERT INTO ingredients(id) VALUES (last_insert_rowid());
-
-INSERT INTO translations(id_language, content) VALUES (1, 'eggs');
-INSERT INTO ingredients(id) VALUES (last_insert_rowid());
-INSERT INTO translations(id_language, content) VALUES (2, 'Eier');
-INSERT INTO ingredients(id) VALUES (last_insert_rowid());
-INSERT INTO translations(id_language, content) VALUES (3, 'oeufs');
-INSERT INTO ingredients(id) VALUES (last_insert_rowid());
-
-INSERT INTO translations(id_language, content) VALUES (1, 'bier');
-INSERT INTO ingredients(id) VALUES (last_insert_rowid());
-INSERT INTO translations(id_language, content) VALUES (2, 'Bier');
-INSERT INTO ingredients(id) VALUES (last_insert_rowid());
-INSERT INTO translations(id_language, content) VALUES (3, 'bière');
-INSERT INTO ingredients(id) VALUES (last_insert_rowid());
-
-INSERT INTO translations(id_language, content) VALUES (1, 'oil');
-INSERT INTO ingredients(id) VALUES (last_insert_rowid());
-INSERT INTO translations(id_language, content) VALUES (2, 'Öl');
-INSERT INTO ingredients(id) VALUES (last_insert_rowid());
-INSERT INTO translations(id_language, content) VALUES (3, 'huile');
-INSERT INTO ingredients(id) VALUES (last_insert_rowid());
-
-INSERT INTO translations(id_language, content) VALUES (1, 'carrots');
-INSERT INTO ingredients(id) VALUES (last_insert_rowid());
-INSERT INTO translations(id_language, content) VALUES (2, 'Karotten');
-INSERT INTO ingredients(id) VALUES (last_insert_rowid());
-INSERT INTO translations(id_language, content) VALUES (3, 'carottes');
-INSERT INTO ingredients(id) VALUES (last_insert_rowid());
-
-INSERT INTO translations(id_language, content) VALUES (1, 'lemons');
-INSERT INTO ingredients(id) VALUES (last_insert_rowid());
-INSERT INTO translations(id_language, content) VALUES (2, 'Zitronen');
-INSERT INTO ingredients(id) VALUES (last_insert_rowid());
-INSERT INTO translations(id_language, content) VALUES (3, 'citrons');
-INSERT INTO ingredients(id) VALUES (last_insert_rowid());
+INSERT INTO words(name) VALUES ("hours");
+INSERT INTO quantities(id_word, symbol) VALUES (last_insert_rowid(), "h");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (2, (SELECT id FROM words WHERE name="hours"), "Stunden");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (3, (SELECT id FROM words WHERE name="hours"), "heures");
 
 
 
-INSERT INTO translations(id_language, content) VALUES (1, 'Pancakes (Crêpes)');
-INSERT INTO ingredients(id) VALUES (last_insert_rowid());
-INSERT INTO translations(id_language, content) VALUES (2, 'Pfankuchen (Crêpes)');
-INSERT INTO ingredients(id) VALUES (last_insert_rowid());
-INSERT INTO translations(id_language, content) VALUES (3, 'Crêpes');
-INSERT INTO ingredients(id) VALUES (last_insert_rowid());
+INSERT INTO words(name) VALUES ("milk");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (2, (SELECT id FROM words WHERE name="milk"), "Milch");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (3, (SELECT id FROM words WHERE name="milk"), "lait");
 
-INSERT INTO translations(id_language, content) VALUES (1, 'Carrots cake');
-INSERT INTO recipes(name) VALUES (last_insert_rowid());
+INSERT INTO words(name) VALUES ("flour");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (2, (SELECT id FROM words WHERE name="flour"), "Mehl");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (3, (SELECT id FROM words WHERE name="flour"), "farine");
+
+INSERT INTO words(name) VALUES ("eggs");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (2, (SELECT id FROM words WHERE name="eggs"), "Eier");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (3, (SELECT id FROM words WHERE name="eggs"), "oeufs");
+
+INSERT INTO words(name) VALUES ("bier");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (2, (SELECT id FROM words WHERE name="bier"), "Bier");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (3, (SELECT id FROM words WHERE name="bier"), "bière");
+
+INSERT INTO words(name) VALUES ("oil");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (2, (SELECT id FROM words WHERE name="oil"), "Öl");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (3, (SELECT id FROM words WHERE name="oil"), "huile");
+
+INSERT INTO words(name) VALUES ("carrots");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (2, (SELECT id FROM words WHERE name="carrots"), "Karotten");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (3, (SELECT id FROM words WHERE name="carrots"), "carottes");
+
+INSERT INTO words(name) VALUES ("lemons");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (2, (SELECT id FROM words WHERE name="lemons"), "Zitronen");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (3, (SELECT id FROM words WHERE name="lemons"), "citrons");
+
+
+
+
+INSERT INTO words(name) VALUES ("Carrots cake");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (2, (SELECT id FROM words WHERE name="Carrots cake"), "Karottenkuchen");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (3, (SELECT id FROM words WHERE name="Carrots cake"), "Gâteau aux carottes");
+
+INSERT INTO recipes(name, time_total, time_preparation, time_crafting, time_backing)
+  VALUES ((SELECT id FROM words WHERE name="Carrots cake"), 75, 0, 60, 60);
+
+
+INSERT INTO words(name) VALUES ("Pancakes (Crêpes)");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (2, (SELECT id FROM words WHERE name="Pancakes (Crêpes)"), "Pfankuchen (Crêpes)");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (3, (SELECT id FROM words WHERE name="Pancakes (Crêpes)"), "Crêpes");
