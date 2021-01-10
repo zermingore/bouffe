@@ -37,7 +37,7 @@
     $array['dbhandle'] = $db;
     $array['query'] = "$query_name";
     $recipe_name = $db->querySingle($query_name);
-    echo "<a href=/pages/recipe.php?id={$row['id']}>" . "$recipe_name" . "</a><br/>";
+    echo "<a href=/srv/recipe.php?id={$row['id']}>" . "$recipe_name" . "</a><br/>";
   }
 
   ?>
