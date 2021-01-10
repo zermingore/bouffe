@@ -51,14 +51,14 @@ print("<hr/>");
 
 
 // TODO Integrate in the DB
-// print("<h2>Metadata</h2>");
-// print("<ul>");
-// print("  <li>Quantity: 20</li>");
-// print("  <li>Difficulty: 1</li>");
-// print("  <li>Annoyance: 1</li>");
-// print("  <li>Threads: 1</li>");
-// print("</ul>");
-// print("<hr/>");
+print("<h2>Metadata</h2>");
+print("<ul>");
+print("  <li>Quantity: " . $recipe['quantity'] . "</li>");
+print("  <li>Difficulty: " . $recipe['difficulty'] . "</li>");
+print("  <li>Annoyance: " . $recipe['annoyance'] . "</li>");
+print("  <li>Threads: " . $recipe['threads'] . "</li>");
+print("</ul>");
+print("<hr/>");
 
 
 // print("<h2>Notes</h2>"); // TODO
@@ -83,7 +83,7 @@ while ($requirement = $result->fetchArray())
   $array['query'] = "$query";
   $unit = $db->querySingle($query); // TODO handle translations
 
-  print("  <li>$ingredient_name ({$requirement['quantity']}$unit)</li><br/>");
+  print("  <li>$ingredient_name ({$requirement['quantity']}$unit)</li>");
 }
 print("</ul>");
 print("<hr/>");

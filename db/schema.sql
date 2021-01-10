@@ -80,14 +80,20 @@ CREATE TABLE steps(
 CREATE TABLE recipes(
   id INTEGER PRIMARY KEY,
   id_word INTEGER NOT NULL,
-  description INTEGER,
+  summary INTEGER,
+
   time_total,       -- minutes
   time_preparation, -- minutes
   time_crafting,    -- minutes
   time_backing,     -- minutes
 
+  quantity INTEGER DEFAULT 1,
+  difficulty INTEGER,
+  annoyance INTEGER,
+  threads INTEGER,
+
   FOREIGN KEY(id_word) REFERENCES words(id)
-  FOREIGN KEY(description) REFERENCES translations(id)
+  FOREIGN KEY(summary) REFERENCES translations(id)
 );
 
 

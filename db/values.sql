@@ -108,8 +108,10 @@ INSERT INTO translations(id_language, id_word, name)
 INSERT INTO translations(id_language, id_word, name)
   VALUES (3, (SELECT id FROM words WHERE name="Carrots cake"), "Gâteau aux carottes");
 
-INSERT INTO recipes(id_word, time_total, time_preparation, time_crafting, time_backing)
-  VALUES ((SELECT id FROM words WHERE name="Carrots cake"), 120, 0, 60, 60);
+INSERT INTO recipes(id_word,
+                    time_total, time_preparation, time_crafting, time_backing,
+                    quantity, difficulty, annoyance, threads)
+  VALUES ((SELECT id FROM words WHERE name="Carrots cake"), 120, 0, 60, 60, "8 personnes", 2, 4, 4);
 
 
 INSERT INTO words(name) VALUES ("Pancakes (Crêpes)");
@@ -118,8 +120,9 @@ INSERT INTO translations(id_language, id_word, name)
 INSERT INTO translations(id_language, id_word, name)
   VALUES (3, (SELECT id FROM words WHERE name="Pancakes (Crêpes)"), "Crêpes");
 
-INSERT INTO recipes(id_word, time_total, time_preparation, time_crafting, time_backing)
-  VALUES ((SELECT id FROM words WHERE name="Pancakes (Crêpes)"), 140, 90, 5, 45);
+INSERT INTO recipes(id_word, time_total, time_preparation, time_crafting, time_backing,
+                    quantity, difficulty, annoyance, threads)
+  VALUES ((SELECT id FROM words WHERE name="Pancakes (Crêpes)"), 140, 90, 5, 45, 20, 1, 1, 1);
 
 
 INSERT INTO requirements(id_recipe, id_ingredient, quantity)
