@@ -54,7 +54,7 @@ CREATE TABLE quantities(
 
 
 CREATE TABLE requirements(
-  id_recipe INTEGER PRIMARY KEY,
+  id_recipe INTEGER NOT NULL,
   id_ingredient INTEGER NOT NULL,
   quantity INTEGER,
   id_quantity_unit INTEGER,
@@ -79,14 +79,14 @@ CREATE TABLE steps(
 
 CREATE TABLE recipes(
   id INTEGER PRIMARY KEY,
-  name INTEGER NOT NULL,
+  id_word INTEGER NOT NULL,
   description INTEGER,
   time_total,       -- minutes
   time_preparation, -- minutes
   time_crafting,    -- minutes
   time_backing,     -- minutes
 
-  FOREIGN KEY(name) REFERENCES translations(id)
+  FOREIGN KEY(id_word) REFERENCES words(id)
   FOREIGN KEY(description) REFERENCES translations(id)
 );
 
