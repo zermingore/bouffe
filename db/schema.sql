@@ -43,9 +43,11 @@ CREATE TABLE ingredients(
 
 CREATE TABLE quantities(
   id INTEGER PRIMARY KEY,
+  id_language INTEGER NOT NULL,
   id_word INTEGER NOT NULL,
   symbol TEXT,
 
+  FOREIGN KEY(id_language) REFERENCES languages(id),
   FOREIGN KEY(id_word) REFERENCES words(id)
 );
 
@@ -58,6 +60,7 @@ CREATE TABLE requirements(
   id_quantity_unit INTEGER,
 
   FOREIGN KEY(id_ingredient) REFERENCES ingredients(id)
+  FOREIGN KEY(id_quantity_unit) REFERENCES quantities(id)
 );
 
 
