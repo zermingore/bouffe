@@ -148,3 +148,17 @@ INSERT INTO requirements(id_recipe, id_ingredient, quantity, id_quantity_unit)
   VALUES ((SELECT id FROM recipes WHERE id_word=(SELECT id FROM WORDS WHERE name="Pancakes (Crêpes)")),
           (SELECT id FROM ingredients WHERE id=(SELECT id FROM words WHERE name="oil")),
           3, (SELECT id FROM quantities WHERE id=(SELECT id FROM words WHERE name="teaspoon")));
+
+
+
+INSERT INTO words(name) VALUES ("Mix everything");
+INSERT INTO steps(id_language, id_recipe, num, description)
+ VALUES ((SELECT id FROM languages WHERE id=1),
+         (SELECT id FROM recipes WHERE id_word=(SELECT id FROM WORDS WHERE name="Pancakes (Crêpes)")),
+         1, last_insert_rowid());
+
+INSERT INTO words(name) VALUES ("Wait at least one hour or destroy any lump");
+INSERT INTO steps(id_language, id_recipe, num, description)
+ VALUES ((SELECT id FROM languages WHERE id=1),
+         (SELECT id FROM recipes WHERE id_word=(SELECT id FROM WORDS WHERE name="Pancakes (Crêpes)")),
+         2, last_insert_rowid());

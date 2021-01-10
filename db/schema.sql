@@ -67,12 +67,13 @@ CREATE TABLE requirements(
 
 CREATE TABLE steps(
   id INTEGER PRIMARY KEY,
+  id_language INTEGER NOT NULL,
   id_recipe INTEGER NOT NULL,
   num INTEGER NOT NULL,
   description INTEGER NOT NULL,
 
   FOREIGN KEY(description) REFERENCES translations(id)
-  FOREIGN KEY(id_recipe) REFERENCES recipe(id)
+  FOREIGN KEY(id_recipe) REFERENCES recipes(id)
 );
 
 
