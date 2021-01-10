@@ -33,7 +33,7 @@
   $result = $db->query($query);
   while ($row = $result->fetchArray())
   {
-    $query_name = "SELECT name FROM words WHERE id={$row['name']};";
+    $query_name = "SELECT name FROM words WHERE id={$row['id_word']};";
     $array['dbhandle'] = $db;
     $array['query'] = "$query_name";
     $recipe_name = $db->querySingle($query_name);
