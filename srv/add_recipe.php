@@ -6,11 +6,13 @@
 <form method="post" action="handle_add_recipe.php">
 
   <hr/>
-  Name: <input type="text" name="name">
+  Name: <input type="text" name="name"><br/>
+  Summary: <input type="text" name="summary">
 
   <br/><br/>
   <h3>Time</h3>
   time total: <input type="text" name="time_total"><br/>
+  time preparation: <input type="text" name="time_preparation"><br/>
   time crafting: <input type="text" name="time_crafting"><br/>
   time backing: <input type="text" name="time_backing"><br/>
 
