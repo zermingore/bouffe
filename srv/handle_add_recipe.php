@@ -29,20 +29,22 @@ $db = new SQLite3("$db_file");
 // Insert the recipe name only if it does not exist yet
 $query = "SELECT id FROM words WHERE name='" . $_POST['name'] . "';";
 $name_id = $db->querySingle($query);
-if (!isset($name_id))
+if (empty($name_id))
 {
   $query = "INSERT INTO words('name') VALUES('" . $_POST['name'] . "');";
-  $name_id = $db->querySingle($query);
+  $db->querySingle($query);
+  $name_id=$db->lastInsertRowID();
 }
 
 
 // Insert the recipe summary only if it does not exist yet
 $query = "SELECT id FROM words WHERE name='" . $_POST['summary'] . "';";
 $summary_id = $db->querySingle($query);
-if (!isset($summary_id))
+if (empty($summary_id))
 {
   $query = "INSERT INTO words('name') VALUES('" . $_POST['summary'] . "');";
-  $summary_id = $db->querySingle($query);
+  $db->querySingle($query);
+  $summary_id=$db->lastInsertRowID();
 }
 
 // print_r($_POST);
