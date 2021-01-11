@@ -87,7 +87,7 @@ print("<hr/>");
 
 
 // Instructions steps
-$nb_steps = $db->querySingle("SELECT COUNT(*) FROM steps;");
+$nb_steps = $db->querySingle("SELECT MAX(num) FROM steps WHERE id_recipe={$recipe['id']};");
 
 $query = "SELECT * FROM steps WHERE id_recipe={$recipe['id']}; ORDER BY num";
 $result = $db->query($query);
