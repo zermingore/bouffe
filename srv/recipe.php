@@ -82,8 +82,26 @@ print("</ul>");
 print("<hr/>");
 
 
-// print("<h2>Notes</h2>"); // TODO
-// print("<hr/>")
+// Notes: display nothing if there's none
+$query = "SELECT * FROM notes WHERE id_recipe={$recipe['id']}";
+$check_empty = $db->querySingle($query);
+if (!empty($check_empty))
+{
+  print("<h2>Notes</h2>");
+  print("<hr/>");
+
+  $query = "SELECT * FROM notes WHERE id_recipe={$recipe['id']}";
+  $result = $db->query($query);
+  print("<ul>");
+  while ($note = $result->fetchArray())
+  {
+    $query = "SELECT name FROM words WHERE id={$note['description']};";
+    $description = $db->querySingle($query);
+    print("  <li>$description</li>");
+  }
+  print("</ul>");
+  print("<hr/>");
+}
 
 
 // Instructions steps
@@ -101,6 +119,6 @@ while ($step = $result->fetchArray())
   print("  <li>{$step['num']}/$nb_steps - $description</li>");
 }
 print("</ul>");
-print("<hr/>");
+
 
 ?>

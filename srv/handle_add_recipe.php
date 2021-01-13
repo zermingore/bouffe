@@ -119,7 +119,13 @@ foreach ($steps as $step)
 $notes = preg_split('/\n|\r/', $_POST['notes'], -1, PREG_SPLIT_NO_EMPTY);
 foreach ($notes as $note)
 {
-  print("$note <br/>");
+  $query = "INSERT INTO words('name') VALUES('" . $note . "');";
+  $db->querySingle($query);
+
+  $query = "INSERT INTO notes('id_language', 'id_recipe', 'description') VALUES('"
+    . $lg . "', '" . $id_recipe
+    . "', '" . "', '" . $db->lastInsertRowID() . "');";
+  $db->querySingle($query);
 }
 
 ?>

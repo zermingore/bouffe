@@ -78,6 +78,18 @@ CREATE TABLE steps(
 
 
 
+CREATE TABLE notes(
+  id INTEGER PRIMARY KEY,
+  id_language INTEGER NOT NULL,
+  id_recipe INTEGER NOT NULL,
+  description INTEGER NOT NULL,
+
+  FOREIGN KEY(description) REFERENCES translations(id)
+  FOREIGN KEY(id_recipe) REFERENCES recipes(id)
+);
+
+
+
 CREATE TABLE recipes(
   id INTEGER PRIMARY KEY,
   id_word INTEGER NOT NULL,

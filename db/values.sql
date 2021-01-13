@@ -162,3 +162,10 @@ INSERT INTO steps(id_language, id_recipe, num, description)
  VALUES ((SELECT id FROM languages WHERE id=1),
          (SELECT id FROM recipes WHERE id_word=(SELECT id FROM WORDS WHERE name="Pancakes (Crêpes)")),
          2, last_insert_rowid());
+
+
+INSERT INTO words(name) VALUES ("It is much easier to just let it rest ~4h");
+INSERT INTO notes(id_language, id_recipe, description)
+ VALUES ((SELECT id FROM languages WHERE id=1),
+         (SELECT id FROM recipes WHERE id_word=(SELECT id FROM WORDS WHERE name="Pancakes (Crêpes)")),
+         last_insert_rowid());
