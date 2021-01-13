@@ -101,7 +101,7 @@ foreach ($ingredients as $ingredient)
 
 
 $steps = preg_split('/\n|\r/', $_POST['steps'], -1, PREG_SPLIT_NO_EMPTY);
-$i = 0;
+$i = 1;
 foreach ($steps as $step)
 {
   $query = "INSERT INTO words('name') VALUES('" . $step . "');";
