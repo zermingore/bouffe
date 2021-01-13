@@ -16,7 +16,7 @@ CREATE TABLE languages(
 
 CREATE TABLE words(
   id INTEGER PRIMARY KEY,
-  name TEXT NOT NULL UNIQUE
+  name TEXT NOT NULL
 );
 
 

@@ -76,8 +76,19 @@ $db_ingredients = $db->query("select * from words where id in (select id from in
 $ingredients = preg_split('/\n|\r/', $_POST['ingredients'], -1, PREG_SPLIT_NO_EMPTY);
 foreach ($ingredients as $ingredient)
 {
+  $ingredient_found = 0;
+  $db_ingredients->reset();
+  while ($res = $db_ingredients->fetchArray())
+  {
+    if ($res['name'] == $ingredient)
+    {
+      $ingredient_found = 1;
+      break;
+    }
+  }
+
   // Insert the ingredient name only if it does not exist yet
-  if (!in_array($ingredient, $db_ingredients->fetchArray(), true))
+  if (!$ingredient_found)
   {
     print("Inserting not yet existing ingredient " . $ingredient . "<br/>");
 
