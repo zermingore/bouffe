@@ -25,6 +25,13 @@ Notes: <?php echo $_POST["notes"]?><br/>
 $db_file = "../db/db";
 $db = new SQLite3("$db_file");
 
+$lg = 1;
+if (isset($_GET['lg']))
+{
+  $lg = $_GET['lg'];
+  # TODO check language_table['$_GET['lg']'] exists
+}
+
 
 // Insert the recipe name only if it does not exist yet
 $query = "SELECT id FROM words WHERE name='" . $_POST['name'] . "';";
@@ -54,15 +61,55 @@ $query = "INSERT INTO recipes(
   summary,
   time_total, time_preparation, time_crafting, time_backing,
   quantity, difficulty, annoyance, threads) VALUES("
-  . $name_id . ", " . $summary_id . ", "
-  . $_POST['time_total'] . ", " . $_POST['time_preparation'] . ", "
-  . $_POST['time_crafting'] . ", " . $_POST['time_backing'] . ", "
-  . $_POST['difficulty'] . ", " . $_POST['annoyance'] . ", " . $_POST['threads'] . ", "
+  . "'" . $name_id . "', '" . $summary_id . "', '"
+  . $_POST['time_total'] . "', '" . $_POST['time_preparation'] . "', '"
+  . $_POST['time_crafting'] . "', '" . $_POST['time_backing'] . "', '"
+  . $_POST['difficulty'] . "', '" . $_POST['annoyance'] . "', '" . $_POST['threads'] . "', '"
   . $_POST['quantity']
-  . ");";
-
+  . "');";
 print("query: $query");
 $db->query($query);
+$id_recipe = $db->lastInsertRowID();
+
+$db_ingredients = $db->query("select * from words where id in (select id from ingredients)");
+
+$ingredients = preg_split('/\n|\r/', $_POST['ingredients'], -1, PREG_SPLIT_NO_EMPTY);
+foreach ($ingredients as $ingredient)
+{
+  // Insert the ingredient name only if it does not exist yet
+  if (!in_array($ingredient, $db_ingredients->fetchArray(), true))
+  {
+    print("Inserting not yet existing ingredient " . $ingredient . "<br/>");
+
+    $query = "INSERT INTO words('name') VALUES('" . $ingredient . "');";
+    $db->querySingle($query);
+    $query = "INSERT INTO ingredients('id') VALUES('" . $db->lastInsertRowID() . "');";
+    $db->querySingle($query);
+  }
+}
+
+
+$steps = preg_split('/\n|\r/', $_POST['steps'], -1, PREG_SPLIT_NO_EMPTY);
+$i = 0;
+foreach ($steps as $step)
+{
+  $query = "INSERT INTO words('name') VALUES('" . $step . "');";
+  $db->querySingle($query);
+
+  $query = "INSERT INTO steps('id_language', 'id_recipe', 'num', 'description') VALUES('"
+    . $lg . "', '" . $id_recipe
+    . "', '" . $i . "', '" . $db->lastInsertRowID() . "');";
+  $db->querySingle($query);
+
+  ++$i;
+}
+
+
+$notes = preg_split('/\n|\r/', $_POST['notes'], -1, PREG_SPLIT_NO_EMPTY);
+foreach ($notes as $note)
+{
+  print("$note <br/>");
+}
 
 ?>
 
