@@ -28,13 +28,15 @@ if (isset($_GET['lg']) && $_GET['lg'] != '1')
 }
 
 
-// View
+// Title + summary (if any)
 print("<h1>" . $name . "</h1>");
+if (isset($recipe['summary']))
+{
+  $query = "SELECT name FROM words WHERE id={$recipe['summary']};";
+  $summary = $db->querySingle($query, true)['name'];
+  print("<h3>$summary</h3>");
+}
 print("<hr/>");
-
-// Summary
-// print("<h2>Summary</h2>"); // TODO
-// print("<hr/>")
 
 // Read time
 // TODO Translations
