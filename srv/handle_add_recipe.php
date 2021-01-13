@@ -124,7 +124,7 @@ foreach ($notes as $note)
 
   $query = "INSERT INTO notes('id_language', 'id_recipe', 'description') VALUES('"
     . $lg . "', '" . $id_recipe
-    . "', '" . "', '" . $db->lastInsertRowID() . "');";
+    . "', '" . $db->lastInsertRowID() . "');";
   $db->querySingle($query);
 }
 
