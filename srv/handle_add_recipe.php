@@ -97,6 +97,8 @@ foreach ($ingredients as $ingredient)
     $query = "INSERT INTO ingredients('id') VALUES('" . $db->lastInsertRowID() . "');";
     $db->querySingle($query);
   }
+
+  // TODO Add the required ingredients (requirements table)
 }
 
 
