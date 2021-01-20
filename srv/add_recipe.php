@@ -49,8 +49,35 @@
   <br/><br/>
   <hr/>
   <h3>Ingredients</h3>
-  Ingredients (One per line):<br/>
-  <textarea name="ingredients" rows="5" cols="80"></textarea>
+
+  <div>
+    Ingredients:<br/>
+    <textarea name="ingredients" rows="5" cols="80"></textarea>
+
+    <br/>
+    <a href="#" id="filldetails" onclick="addIngredientField()">Add an ingredient</a>
+    <div id="g_ingredients_container"/>
+
+    <script type='text/javascript'>
+      var g_ingredients_number = 0; // global
+      var g_ingredients_container = document.getElementById("g_ingredients_container");
+
+      function addIngredientField() {
+        g_ingredients_number++;
+        // Append a node
+        g_ingredients_container.appendChild(
+        document.createTextNode("Ingredient " + (g_ingredients_number)));
+
+        // Create an <input> element, set its type and name attributes
+        var input = document.createElement("input");
+        input.type = "text";
+        input.name = "member" + g_ingredients_number;
+
+        g_ingredients_container.appendChild(input);
+        g_ingredients_container.appendChild(document.createElement("br"));
+      }
+    </script>
+  </div>
 
   <br/><br/>
   <hr/>
