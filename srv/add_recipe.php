@@ -53,9 +53,12 @@
   <div>
     Ingredients:<br/>
     <textarea name="ingredients" rows="5" cols="80"></textarea>
-
     <br/>
-    <a href="#" id="filldetails" onclick="addIngredientField()">Add an ingredient</a>
+
+    <button type="button" id="filldetails" onclick="addIngredientField()">
+      Add an ingredient
+    </button>
+
     <div id="g_ingredients_container"/>
 
     <script type='text/javascript'>
@@ -66,7 +69,7 @@
         g_ingredients_number++;
         // Append a node
         g_ingredients_container.appendChild(
-        document.createTextNode("Ingredient " + (g_ingredients_number)));
+          document.createTextNode("Ingredient " + (g_ingredients_number)));
 
         // Create an <input> element, set its type and name attributes
         var input = document.createElement("input");
