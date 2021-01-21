@@ -75,16 +75,44 @@
         }
 
         g_ingredients_number++;
+
         // Append a node
         g_ingredients_container.appendChild(
-          document.createTextNode("Ingredient " + (g_ingredients_number)));
+          document.createTextNode("Ingredient " + (g_ingredients_number) + " "));
+
+
 
         // Create an <input> element, set its type and name attributes
-        var input = document.createElement("input");
-        input.type = "text";
-        input.name = "member" + g_ingredients_number;
+        var ingredient_qty = document.createElement("input");
+        ingredient_qty.type = "text";
+        ingredient_qty.name = "ingredient" + g_ingredients_number;
+        g_ingredients_container.appendChild(ingredient_qty);
 
-        g_ingredients_container.appendChild(input);
+
+        // Create an <input> element, set its type and name attributes
+        var ingredient_unit = document.createElement("select");
+        ingredient_unit.type = "text";
+        ingredient_unit.name = "ingredient" + g_ingredients_number;
+        var unit = g_ingredients_container.appendChild(ingredient_unit);
+
+        quantity_list = ["aaa", "bbb", "ccc"]; // TODO fetch from DB
+        for (x in quantity_list)
+        {
+            quantity = document.createElement("option");
+            quantity.value = quantity_list[x];
+            quantity.label = quantity_list[x];
+            unit.appendChild(quantity);
+        }
+
+
+        // Create an <input> element, set its type and name attributes
+        var ingredient_name = document.createElement("input");
+        ingredient_name.type = "text";
+        ingredient_name.name = "ingredient" + g_ingredients_number;
+        g_ingredients_container.appendChild(ingredient_name);
+
+
+
         g_ingredients_container.appendChild(document.createElement("br"));
       }
     </script>
