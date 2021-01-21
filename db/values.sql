@@ -2,6 +2,15 @@ INSERT INTO languages(id, name) VALUES(1, "english");
 INSERT INTO languages(id, name) VALUES(2, "deutsch");
 INSERT INTO languages(id, name) VALUES(3, "français");
 
+-- None *MUST* be first
+INSERT INTO words(name) VALUES ("-");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (2, (SELECT id FROM words WHERE name="-"), "-");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (3, (SELECT id FROM words WHERE name="-"), "-");
+INSERT INTO quantities(id_language, id_word, symbol) VALUES (1, (SELECT id from words where name="-"), "-");
+INSERT INTO quantities(id_language, id_word, symbol) VALUES (2, (SELECT id from words where name="-"), "-");
+INSERT INTO quantities(id_language, id_word, symbol) VALUES (3, (SELECT id from words where name="-"), "-");
 
 INSERT INTO words(name) VALUES ("gram");
 INSERT INTO translations(id_language, id_word, name)
@@ -47,16 +56,6 @@ INSERT INTO translations(id_language, id_word, name)
 INSERT INTO quantities(id_language, id_word, symbol) VALUES (1, (SELECT id from words where name="teaspoon"), "tsp");
 INSERT INTO quantities(id_language, id_word, symbol) VALUES (2, (SELECT id from words where name="teaspoon"), "TL");
 INSERT INTO quantities(id_language, id_word, symbol) VALUES (3, (SELECT id from words where name="teaspoon"), "cc");
-
--- None
-INSERT INTO words(name) VALUES ("-");
-INSERT INTO translations(id_language, id_word, name)
-  VALUES (2, (SELECT id FROM words WHERE name="-"), "-");
-INSERT INTO translations(id_language, id_word, name)
-  VALUES (3, (SELECT id FROM words WHERE name="-"), "-");
-INSERT INTO quantities(id_language, id_word, symbol) VALUES (1, (SELECT id from words where name="-"), "-");
-INSERT INTO quantities(id_language, id_word, symbol) VALUES (2, (SELECT id from words where name="-"), "-");
-INSERT INTO quantities(id_language, id_word, symbol) VALUES (3, (SELECT id from words where name="-"), "-");
 
 
 
