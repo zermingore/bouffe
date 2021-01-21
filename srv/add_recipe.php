@@ -64,8 +64,16 @@
     <script type='text/javascript'>
       var g_ingredients_number = 0; // global
       var g_ingredients_container = document.getElementById("g_ingredients_container");
+      var g_max_ingredients = 30;
 
-      function addIngredientField() {
+      function addIngredientField()
+      {
+        if (g_ingredients_number > g_max_ingredients - 1)
+        {
+          alert("Too many ingredients (max: " + g_max_ingredients + ")");
+          return;
+        }
+
         g_ingredients_number++;
         // Append a node
         g_ingredients_container.appendChild(
