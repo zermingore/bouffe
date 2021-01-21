@@ -61,6 +61,7 @@
 
     <div id="g_ingredients_container"/>
 
+
     <script type='text/javascript'>
       var g_ingredients_number = 0; // global
       var g_ingredients_container = document.getElementById("g_ingredients_container");
@@ -80,14 +81,11 @@
         g_ingredients_container.appendChild(
           document.createTextNode("Ingredient " + (g_ingredients_number) + " "));
 
-
-
         // Create an <input> element, set its type and name attributes
         var ingredient_qty = document.createElement("input");
         ingredient_qty.type = "text";
         ingredient_qty.name = "ingredient" + g_ingredients_number;
         g_ingredients_container.appendChild(ingredient_qty);
-
 
         // Create an <input> element, set its type and name attributes
         var ingredient_unit = document.createElement("select");
@@ -95,13 +93,30 @@
         ingredient_unit.name = "ingredient" + g_ingredients_number;
         var unit = g_ingredients_container.appendChild(ingredient_unit);
 
-        quantity_list = ["aaa", "bbb", "ccc"]; // TODO fetch from DB
+        quantity_list = <?php
+          $db_file = "../db/db";
+          $db = new SQLite3("$db_file");
+
+          $list = $db->query("select * from words where id in (select id_word from quantities)");
+          $ingredient_found = 0;
+          $list->reset();
+
+          $txt = [];
+          while ($res = $list->fetchArray())
+          {
+            $txt[] = $res['name'];
+          }
+
+          echo json_encode($txt);
+        ?>;
+
+
         for (x in quantity_list)
         {
-            quantity = document.createElement("option");
-            quantity.value = quantity_list[x];
-            quantity.label = quantity_list[x];
-            unit.appendChild(quantity);
+          quantity = document.createElement("option");
+          quantity.value = quantity_list[x];
+          quantity.label = quantity_list[x];
+          unit.appendChild(quantity);
         }
 
 
@@ -110,7 +125,6 @@
         ingredient_name.type = "text";
         ingredient_name.name = "ingredient" + g_ingredients_number;
         g_ingredients_container.appendChild(ingredient_name);
-
 
 
         g_ingredients_container.appendChild(document.createElement("br"));
