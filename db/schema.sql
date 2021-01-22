@@ -36,7 +36,7 @@ CREATE TABLE translations(
 CREATE TABLE ingredients(
   id INTEGER PRIMARY KEY,
 
-  FOREIGN KEY(id) REFERENCES translations(id)
+  FOREIGN KEY(id) REFERENCES words(id)
 );
 
 
@@ -72,7 +72,7 @@ CREATE TABLE steps(
   num INTEGER NOT NULL,
   description INTEGER NOT NULL,
 
-  FOREIGN KEY(description) REFERENCES translations(id)
+  FOREIGN KEY(description) REFERENCES words(id)
   FOREIGN KEY(id_recipe) REFERENCES recipes(id)
 );
 
@@ -84,7 +84,7 @@ CREATE TABLE notes(
   id_recipe INTEGER NOT NULL,
   description INTEGER NOT NULL,
 
-  FOREIGN KEY(description) REFERENCES translations(id)
+  FOREIGN KEY(description) REFERENCES words(id)
   FOREIGN KEY(id_recipe) REFERENCES recipes(id)
 );
 

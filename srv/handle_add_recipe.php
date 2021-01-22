@@ -66,25 +66,31 @@ $query = "INSERT INTO recipes(
   . $_POST['difficulty'] . "', '" . $_POST['annoyance'] . "', '" . $_POST['threads'] . "', '"
   . $_POST['quantity']
   . "');";
-print("query: $query");
 $db->query($query);
 $id_recipe = $db->lastInsertRowID();
 
 
 
-$db_ingredients = $db->query("select * from words where id in (select id from ingredients)");
+$db_ingredients = $db->query("SELECT * FROM words WHERE id IN (SELECT id FROM ingredients)");
 
+// TODO handle translations (searching by name...)
 
 // 100: ingredients max number should be 30
 for ($i = 1; $i <= 100; $i++)
 {
   if (!isset($_POST["ingredient_" . $i . "_name"]))
   {
-    echo "Found " . ($i - 1) . " ingredients\n";
+    // echo "Found " . ($i - 1) . " ingredients\n";
     return;
   }
 
-  // echo "Found " . $_POST["ingredient_" . $i . "_name"] . "<br/>";
+  if (!isset($_POST["ingredient_" . $i . "_qty"]) || !isset($_POST["ingredient_" . $i . "_qty_unit"]))
+  {
+    echo "Ill-Formed ingredient:<br/>";
+    echo "<pre>"; print_r($_POST); echo "</pre>";
+    return;
+  }
+
 
   $ingredient_name = $_POST["ingredient_" . $i . "_name"];
   $ingredient_found = 0;
@@ -110,6 +116,21 @@ for ($i = 1; $i <= 100; $i++)
     $query = "INSERT INTO ingredients('id') VALUES('" . $db->lastInsertRowID() . "');";
     $db->querySingle($query);
   }
+
+
+
+  // Fetch the ingredient id
+  $ingredient_id = $db->querySingle(
+    "SELECT * FROM ingredients WHERE id IN (SELECT id FROM words WHERE name='" . $ingredient_name . "')");
+
+  // Fetch the quantity unit id
+  $quantity_unit_id = $db->querySingle(
+    "SELECT * FROM quantities WHERE id_word IN (SELECT id FROM words WHERE name='" . $_POST["ingredient_" . $i . "_qty_unit"] . "')");
+
+  // Add the requirement
+  $query = "INSERT INTO requirements('id_recipe', 'id_ingredient', 'quantity', 'id_quantity_unit') VALUES('"
+    . $id_recipe . "','" . $ingredient_id . "', '" . $_POST["ingredient_" . $i . "_qty"] . "', '" . $quantity_unit_id . "');";
+  $db->query($query);
 }
 
 
