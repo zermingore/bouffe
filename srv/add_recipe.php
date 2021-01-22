@@ -74,13 +74,13 @@
         g_ingredients_number++;
 
         // Append a node
-        var prefix = "Ingredient " + g_ingredients_number;
+        var prefix = "ingredient_" + g_ingredients_number;
         var ingredient = g_ingredients_container.appendChild(document.createTextNode(prefix));
 
         // Quantity <input> element
         var ingredient_qty = document.createElement("input");
         ingredient_qty.type = "text";
-        ingredient_qty.name = "ingredient" + g_ingredients_number + "_qty";
+        ingredient_qty.name = "ingredient_" + g_ingredients_number + "_qty";
         g_ingredients_container.appendChild(ingredient_qty);
 
         // Quantity unit <select> element
