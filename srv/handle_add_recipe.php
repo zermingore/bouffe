@@ -14,7 +14,6 @@ Difficulty: <?php echo $_POST["difficulty"]?><br/>
 Annoyance: <?php echo $_POST["annoyance"]?><br/>
 Threads: <?php echo $_POST["threads"]?><br/>
 
-Ingredients: <?php echo $_POST["ingredients"]?><br/>
 Steps: <?php echo $_POST["steps"]?><br/>
 Notes: <?php echo $_POST["notes"]?><br/>
 
@@ -71,17 +70,31 @@ print("query: $query");
 $db->query($query);
 $id_recipe = $db->lastInsertRowID();
 
+
+
 $db_ingredients = $db->query("select * from words where id in (select id from ingredients)");
 
-$ingredients = preg_split('/\n|\r/', $_POST['ingredients'], -1, PREG_SPLIT_NO_EMPTY);
-foreach ($ingredients as $ingredient)
+
+// 100: ingredients max number should be 30
+for ($i = 1; $i <= 100; $i++)
 {
+  if (!isset($_POST["ingredient_" . $i . "_name"]))
+  {
+    echo "Found " . ($i - 1) . " ingredients\n";
+    return;
+  }
+
+  // echo "Found " . $_POST["ingredient_" . $i . "_name"] . "<br/>";
+
+  $ingredient_name = $_POST["ingredient_" . $i . "_name"];
   $ingredient_found = 0;
   $db_ingredients->reset();
   while ($res = $db_ingredients->fetchArray())
   {
-    if ($res['name'] == $ingredient)
+    if ($res['name'] == $ingredient_name)
     {
+      // echo $_POST["ingredient_" . $i . "_name"] . " already in DB!<br/>";
+
       $ingredient_found = 1;
       break;
     }
@@ -90,16 +103,15 @@ foreach ($ingredients as $ingredient)
   // Insert the ingredient name only if it does not exist yet
   if (!$ingredient_found)
   {
-    print("Inserting not yet existing ingredient " . $ingredient . "<br/>");
+    print("Inserting not yet existing ingredient " . $ingredient_name . "<br/>");
 
-    $query = "INSERT INTO words('name') VALUES('" . $ingredient . "');";
+    $query = "INSERT INTO words('name') VALUES('" . $ingredient_name . "');";
     $db->querySingle($query);
     $query = "INSERT INTO ingredients('id') VALUES('" . $db->lastInsertRowID() . "');";
     $db->querySingle($query);
   }
-
-  // TODO Add the required ingredients (requirements table)
 }
+
 
 
 $steps = preg_split('/\n|\r/', $_POST['steps'], -1, PREG_SPLIT_NO_EMPTY);
