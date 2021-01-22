@@ -54,7 +54,7 @@ if (empty($summary_id))
   $summary_id=$db->lastInsertRowID();
 }
 
-// print_r($_POST);
+echo "<pre>"; print_r($_POST); echo "</pre>";
 
 $query = "INSERT INTO recipes(
   id_word,

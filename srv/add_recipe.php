@@ -51,10 +51,6 @@
   <h3>Ingredients</h3>
 
   <div>
-    Ingredients:<br/>
-    <textarea name="ingredients" rows="5" cols="80"></textarea>
-    <br/>
-
     <button type="button" id="filldetails" onclick="addIngredientField()">
       Add an ingredient
     </button>
@@ -78,19 +74,19 @@
         g_ingredients_number++;
 
         // Append a node
-        g_ingredients_container.appendChild(
-          document.createTextNode("Ingredient " + (g_ingredients_number) + " "));
+        var prefix = "Ingredient " + g_ingredients_number;
+        var ingredient = g_ingredients_container.appendChild(document.createTextNode(prefix));
 
-        // Create an <input> element, set its type and name attributes
+        // Quantity <input> element
         var ingredient_qty = document.createElement("input");
         ingredient_qty.type = "text";
-        ingredient_qty.name = "ingredient" + g_ingredients_number;
+        ingredient_qty.name = "ingredient" + g_ingredients_number + "_qty";
         g_ingredients_container.appendChild(ingredient_qty);
 
-        // Create an <input> element, set its type and name attributes
+        // Quantity unit <select> element
         var ingredient_unit = document.createElement("select");
         ingredient_unit.type = "text";
-        ingredient_unit.name = "ingredient" + g_ingredients_number;
+        ingredient_unit.name = "ingredient" + g_ingredients_number + "_qty_unit";
         var unit = g_ingredients_container.appendChild(ingredient_unit);
 
         quantity_list = <?php
@@ -120,10 +116,10 @@
         }
 
 
-        // Create an <input> element, set its type and name attributes
+        // Name <input> element
         var ingredient_name = document.createElement("input");
         ingredient_name.type = "text";
-        ingredient_name.name = "ingredient" + g_ingredients_number;
+        ingredient_name.name = "ingredient" + g_ingredients_number + "_name";
         g_ingredients_container.appendChild(ingredient_name);
 
 
