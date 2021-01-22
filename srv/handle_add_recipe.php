@@ -112,8 +112,6 @@ for ($i = 1; $i <= 100; $i++)
   // Insert the ingredient name only if it does not exist yet
   if (!$ingredient_found)
   {
-    print("Inserting not yet existing ingredient " . $ingredient_name . "<br/>");
-
     $query = "INSERT INTO words('name') VALUES('" . $ingredient_name . "');";
     $db->querySingle($query);
     $query = "INSERT INTO ingredients('id') VALUES('" . $db->lastInsertRowID() . "');";
