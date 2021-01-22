@@ -86,7 +86,7 @@
         // Quantity unit <select> element
         var ingredient_unit = document.createElement("select");
         ingredient_unit.type = "text";
-        ingredient_unit.name = "ingredient" + g_ingredients_number + "_qty_unit";
+        ingredient_unit.name = prefix + "_qty_unit";
         var unit = g_ingredients_container.appendChild(ingredient_unit);
 
         quantity_list = <?php
@@ -119,7 +119,7 @@
         // Name <input> element
         var ingredient_name = document.createElement("input");
         ingredient_name.type = "text";
-        ingredient_name.name = "ingredient" + g_ingredients_number + "_name";
+        ingredient_name.name = prefix + "_name";
         g_ingredients_container.appendChild(ingredient_name);
 
 
