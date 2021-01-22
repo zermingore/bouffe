@@ -53,7 +53,7 @@ if (empty($summary_id))
   $summary_id=$db->lastInsertRowID();
 }
 
-echo "<pre>"; print_r($_POST); echo "</pre>";
+// echo "<pre>"; print_r($_POST); echo "</pre>";
 
 $query = "INSERT INTO recipes(
   id_word,
@@ -70,6 +70,9 @@ $db->query($query);
 $id_recipe = $db->lastInsertRowID();
 
 
+
+
+echo "Ingredients:<br/>";
 
 $db_ingredients = $db->query("SELECT * FROM words WHERE id IN (SELECT id FROM ingredients)");
 
@@ -131,6 +134,16 @@ for ($i = 1; $i <= 100; $i++)
   $query = "INSERT INTO requirements('id_recipe', 'id_ingredient', 'quantity', 'id_quantity_unit') VALUES('"
     . $id_recipe . "','" . $ingredient_id . "', '" . $_POST["ingredient_" . $i . "_qty"] . "', '" . $quantity_unit_id . "');";
   $db->query($query);
+
+
+  if ($_POST["ingredient_" . $i . "_qty_unit"] != "-")
+  {
+    echo $ingredient_name . " (". $_POST["ingredient_" . $i . "_qty"] . " ". $_POST["ingredient_" . $i . "_qty_unit"] . ")<br/>";
+  }
+  else
+  {
+    echo $_POST["ingredient_" . $i . "_qty"] . " " . $ingredient_name . "<br/>";
+  }
 }
 
 
