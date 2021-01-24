@@ -10,23 +10,26 @@ class Helper
 
   public function fetchWord(string $word)
   {
+    echo 'language: <script type="text/JavaScript"> localStorage.getItem("language"); </script><br/>';
+
+    $language_id = $_SESSION["language"];
+
     // Default language
-    if (!isset($_SESSION["language"]) || $_SESSION["language"] == "1")
+    if ($language_id == "1")
     {
-      echo "DEFAULT<br/>";
       return $word;
     }
 
     // Sanity check
-    if ($_SESSION["language"] != "2" && $_SESSION["language"] != "3")
+    if ($language_id != "2" && $language_id != "3")
     {
-      echo "Invalid language " . $_SESSION["language"] . "<br/>";
+      echo "Invalid language " . $language_id . "<br/>";
       return "___";
     }
 
     // Fetch the appropriate translation
     $query = "SELECT name from translations where id_language='"
-      . $_SESSION["language"] . "' and id_word = "
+      . $language_id . "' and id_word = "
       . "(SELECT id FROM words WHERE name='" . $word . "')";
 
     // echo $query;
@@ -35,6 +38,7 @@ class Helper
     if ($text == "")
     {
       echo "ERROR: missing word<br/>";
+      return $word;
     }
     return $text;
   }
