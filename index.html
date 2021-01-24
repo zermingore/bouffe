@@ -5,33 +5,13 @@
   <meta charset="utf-8">
   <title>Bouffe</title>
 
-  <?php session_start(); ?>
-
   <?php
-   if (!isset($_SESSION["language"]))
-   {
-    $_SESSION["language"] = "1";
-   }
-   else
-   {
-     $lg = $_SESSION["language"];
-     if ($lg == "1")
-     {
-      $_SESSION["language"] = "2";
-     }
-     else if ($lg == "2")
-     {
-      $_SESSION["language"] = "3";
-     }
-     else
-     {
-       $_SESSION["language"] = "1";
-     }
-
-     echo("language: " . $_SESSION["language"]);
-   }
-  ?>
-
+   session_start();
+    if (!isset($_SESSION["language"]))
+    {
+      $_SESSION["language"] = "1";
+    }
+ ?>
 </head>
 
 <body>
@@ -39,8 +19,10 @@
     include "srv/helper.php";
   ?>
 
-  <form action="index.html">
-    <input type="submit" value="Switch Language">
+  <form method="post" action="srv/switch_language.php">
+    <input type="submit" name="language" value="English">
+    <input type="submit" name="language" value="Deutsch">
+    <input type="submit" name="language" value="Français">
   </form>
 
 
@@ -59,7 +41,6 @@
 
 
   $recipes_dir = "$p/src/";
-  //print("$recipes_dir");
   foreach (new DirectoryIterator("$recipes_dir") as $fileInfo)
   {
     if ($fileInfo->isDot())
