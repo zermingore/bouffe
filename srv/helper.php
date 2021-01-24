@@ -10,8 +10,6 @@ class Helper
 
   public function fetchWord(string $word)
   {
-    echo 'language: <script type="text/JavaScript"> localStorage.getItem("language"); </script><br/>';
-
     $language_id = $_SESSION["language"];
 
     // Default language
