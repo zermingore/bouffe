@@ -7,16 +7,6 @@
 
   <?php session_start(); ?>
 
-  <script type="text/javascript">
-    window.onload = function ()
-    {
-      if (localStorage.getItem("language") == null)
-      {
-        localStorage.setItem("language", "1");
-      }
-    }
-  </script>
-
   <?php
    if (!isset($_SESSION["language"]))
    {
@@ -52,32 +42,6 @@
   <form action="index.html">
     <input type="submit" value="Switch Language">
   </form>
-
-<!-- 
-  <button type="button" onclick="nextLanguage();">
-    Switch language
-  </button> -->
-
-  <script type='text/javascript'>
-    function nextLanguage()
-    {
-      if (localStorage.getItem("language") == null || localStorage.getItem("language") == "1")
-      {
-        localStorage.setItem("language", "2");
-      }
-      else if (localStorage.getItem("language") == "2")
-      {
-        localStorage.setItem("language", "3");
-      }
-      else
-      {
-        localStorage.setItem("language", "1");
-      }
-
-      window.location.reload();
-    }
-  </script>
-
 
 
   <h1>List</h1>
