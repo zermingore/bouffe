@@ -71,7 +71,7 @@ INSERT INTO translations(id_language, id_word, name)
 
 INSERT INTO words(name) VALUES ("Add a recipe");
 INSERT INTO translations(id_language, id_word, name)
-  VALUES (2, (SELECT id FROM words WHERE name="Add a recipe"), "Rezept hinzufÜgen");
+  VALUES (2, (SELECT id FROM words WHERE name="Add a recipe"), "Rezept hinzufügen");
 INSERT INTO translations(id_language, id_word, name)
   VALUES (3, (SELECT id FROM words WHERE name="Add a recipe"), "Ajouter une recette");
 

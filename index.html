@@ -37,17 +37,6 @@
 
     echo("<h1>" . $h->fetchWord("Recipes") . "</h1>");
 
-    $recipes_dir = "$p/src/";
-    foreach (new DirectoryIterator("$recipes_dir") as $fileInfo)
-    {
-      if ($fileInfo->isDot())
-        continue;
-
-      $path='/generated/' . $fileInfo->getFilename();
-      echo "<a href=" . $path . ">" . $fileInfo->getFilename() . "</a>";
-      echo "<br/>";
-    }
-
     $query = "SELECT * FROM recipes;";
     $array['dbhandle'] = $db;
     $array['query'] = "$query";
@@ -61,9 +50,9 @@
       echo "<a href=/srv/recipe.php?id={$row['id']}>" . "$recipe_name" . "</a><br/>";
     }
 
-  ?>
 
-  <h3><a href=srv/add_recipe.php>Add a recipe</a></h3>
+    echo("<h3><a href=srv/add_recipe.php>" . $h->fetchWord("Add a recipe") . "</h3>");
+  ?>
 
   </body>
 </html>
