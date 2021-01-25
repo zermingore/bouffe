@@ -41,14 +41,15 @@ CREATE TABLE ingredients(
 
 
 
-CREATE TABLE quantities(
+CREATE TABLE units(
   id INTEGER PRIMARY KEY,
-  id_language INTEGER NOT NULL,
   id_word INTEGER NOT NULL,
-  symbol TEXT,
+  id_type INTEGER NOT NULL,
+  id_symbol INTEGER NOT NULL,
 
-  FOREIGN KEY(id_language) REFERENCES languages(id),
   FOREIGN KEY(id_word) REFERENCES words(id)
+  FOREIGN KEY(id_type) REFERENCES words(id)
+  FOREIGN KEY(id_symbol) REFERENCES words(id)
 );
 
 
@@ -56,11 +57,11 @@ CREATE TABLE quantities(
 CREATE TABLE requirements(
   id_recipe INTEGER NOT NULL,
   id_ingredient INTEGER NOT NULL,
-  quantity INTEGER,
-  id_quantity_unit INTEGER,
+  unit INTEGER,
+  id_unit INTEGER,
 
   FOREIGN KEY(id_ingredient) REFERENCES ingredients(id)
-  FOREIGN KEY(id_quantity_unit) REFERENCES quantities(id)
+  FOREIGN KEY(id_unit) REFERENCES units(id)
 );
 
 
@@ -101,12 +102,14 @@ CREATE TABLE recipes(
   time_backing,     -- minutes
 
   quantity INTEGER DEFAULT 1,
+  quantity_unit INTEGER,
   difficulty INTEGER,
   annoyance INTEGER,
   threads INTEGER,
 
   FOREIGN KEY(id_word) REFERENCES words(id)
   FOREIGN KEY(summary) REFERENCES translations(id)
+  FOREIGN KEY(quantity_unit) REFERENCES units(id)
 );
 
 

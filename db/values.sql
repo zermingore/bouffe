@@ -2,15 +2,25 @@ INSERT INTO languages(id, name) VALUES(1, "english");
 INSERT INTO languages(id, name) VALUES(2, "deutsch");
 INSERT INTO languages(id, name) VALUES(3, "français");
 
--- None *MUST* be first
-INSERT INTO words(name) VALUES ("-");
+INSERT INTO words(name) VALUES ("-"); -- Should be the first word
+
+-- Units categories
+INSERT INTO words(name) VALUES ("unit_none");
+INSERT INTO words(name) VALUES ("unit_ingredient");
+INSERT INTO words(name) VALUES ("unit_time");
+
+
 INSERT INTO translations(id_language, id_word, name)
-  VALUES (2, (SELECT id FROM words WHERE name="-"), "-");
+  VALUES (2, (SELECT id FROM words WHERE name="-"),
+    (SELECT id FROM words WHERE name="-"));
 INSERT INTO translations(id_language, id_word, name)
-  VALUES (3, (SELECT id FROM words WHERE name="-"), "-");
-INSERT INTO quantities(id_language, id_word, symbol) VALUES (1, (SELECT id from words where name="-"), "-");
-INSERT INTO quantities(id_language, id_word, symbol) VALUES (2, (SELECT id from words where name="-"), "-");
-INSERT INTO quantities(id_language, id_word, symbol) VALUES (3, (SELECT id from words where name="-"), "-");
+  VALUES (3, (SELECT id FROM words WHERE name="-"),
+    (SELECT id FROM words WHERE name="-"));
+INSERT INTO units(id_word, id_type, id_symbol)
+  VALUES ((SELECT id FROM words WHERE name="-"),
+    (SELECT id FROM words WHERE name="unit_none"),
+    (SELECT id FROM words WHERE name="-"));
+
 
 -- Units
 INSERT INTO words(name) VALUES ("gram");
@@ -18,45 +28,88 @@ INSERT INTO translations(id_language, id_word, name)
   VALUES (2, (SELECT id FROM words WHERE name="gram"), "Gramm");
 INSERT INTO translations(id_language, id_word, name)
   VALUES (3, (SELECT id FROM words WHERE name="gram"), "gramme");
-INSERT INTO quantities(id_language, id_word, symbol) VALUES (1, (SELECT id from words where name="gram"), "g");
-INSERT INTO quantities(id_language, id_word, symbol) VALUES (2, (SELECT id from words where name="gram"), "g");
-INSERT INTO quantities(id_language, id_word, symbol) VALUES (3, (SELECT id from words where name="gram"), "g");
+
+INSERT INTO words(name) VALUES ("g");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (2, (SELECT id FROM words WHERE name="g"), "g");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (3, (SELECT id FROM words WHERE name="g"), "g");
+
+INSERT INTO units(id_word, id_type, id_symbol)
+  VALUES ((SELECT id FROM words WHERE name="gram"),
+          (SELECT id FROM words WHERE name="unit_ingredient"),
+          (SELECT id FROM words WHERE name="g"));
+
 
 INSERT INTO words(name) VALUES ("liter");
 INSERT INTO translations(id_language, id_word, name)
   VALUES (2, (SELECT id FROM words WHERE name="liter"), "Liter");
 INSERT INTO translations(id_language, id_word, name)
   VALUES (3, (SELECT id FROM words WHERE name="liter"), "litre");
-INSERT INTO quantities(id_language, id_word, symbol) VALUES (1, (SELECT id from words where name="liter"), "L");
-INSERT INTO quantities(id_language, id_word, symbol) VALUES (2, (SELECT id from words where name="liter"), "L");
-INSERT INTO quantities(id_language, id_word, symbol) VALUES (3, (SELECT id from words where name="liter"), "L");
+
+INSERT INTO words(name) VALUES ("L");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (2, (SELECT id FROM words WHERE name="L"), "L");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (3, (SELECT id FROM words WHERE name="L"), "L");
+
+INSERT INTO units(id_word, id_type, id_symbol)
+  VALUES ((SELECT id FROM words WHERE name="liter"),
+          (SELECT id FROM words WHERE name="unit_ingredient"),
+          (SELECT id FROM words WHERE name="L"));
+
 
 INSERT INTO words(name) VALUES ("minute");
 INSERT INTO translations(id_language, id_word, name)
-  VALUES (2, (SELECT id FROM words WHERE name="minute"), "Minuten");
+  VALUES (2, (SELECT id FROM words WHERE name="minute"), "Minute");
 INSERT INTO translations(id_language, id_word, name)
   VALUES (3, (SELECT id FROM words WHERE name="minute"), "minute");
-INSERT INTO quantities(id_language, id_word, symbol) VALUES (1, (SELECT id from words where name="minute"), "min");
-INSERT INTO quantities(id_language, id_word, symbol) VALUES (2, (SELECT id from words where name="minute"), "min");
-INSERT INTO quantities(id_language, id_word, symbol) VALUES (3, (SELECT id from words where name="minute"), "min");
+
+INSERT INTO words(name) VALUES ("min.");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (2, (SELECT id FROM words WHERE name="min."), "min.");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (3, (SELECT id FROM words WHERE name="min."), "min.");
+INSERT INTO units(id_word, id_type, id_symbol)
+  VALUES ((SELECT id FROM words WHERE name="minute"),
+          (SELECT id FROM words WHERE name="unit_time"),
+          (SELECT id FROM words WHERE name="min."));
+
 
 INSERT INTO words(name) VALUES ("hour");
 INSERT INTO translations(id_language, id_word, name)
   VALUES (2, (SELECT id FROM words WHERE name="hour"), "Stunde");
 INSERT INTO translations(id_language, id_word, name)
   VALUES (3, (SELECT id FROM words WHERE name="hour"), "heure");
-INSERT INTO quantities(id_language, id_word, symbol) VALUES (1, (SELECT id from words where name="hour"), "h");
-INSERT INTO quantities(id_language, id_word, symbol) VALUES (2, (SELECT id from words where name="hour"), "h");
-INSERT INTO quantities(id_language, id_word, symbol) VALUES (3, (SELECT id from words where name="hour"), "h");
+
+INSERT INTO words(name) VALUES ("h");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (2, (SELECT id FROM words WHERE name="h"), "S");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (3, (SELECT id FROM words WHERE name="h"), "h");
+INSERT INTO units(id_word, id_type, id_symbol)
+  VALUES ((SELECT id FROM words WHERE name="hour"),
+          (SELECT id FROM words WHERE name="unit_time"),
+          (SELECT id FROM words WHERE name="h"));
+
 
 INSERT INTO words(name) VALUES ("teaspoon");
 INSERT INTO translations(id_language, id_word, name)
   VALUES (2, (SELECT id FROM words WHERE name="teaspoon"), "Teelöffel");
 INSERT INTO translations(id_language, id_word, name)
   VALUES (3, (SELECT id FROM words WHERE name="teaspoon"), "Cuillère à café");
-INSERT INTO quantities(id_language, id_word, symbol) VALUES (1, (SELECT id from words where name="teaspoon"), "tsp");
-INSERT INTO quantities(id_language, id_word, symbol) VALUES (2, (SELECT id from words where name="teaspoon"), "TL");
-INSERT INTO quantities(id_language, id_word, symbol) VALUES (3, (SELECT id from words where name="teaspoon"), "cc");
+
+INSERT INTO words(name) VALUES ("tsp");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (2, (SELECT id FROM words WHERE name="tsp"), "TL");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (3, (SELECT id FROM words WHERE name="tsp"), "cc");
+
+INSERT INTO units(id_word, id_type, id_symbol)
+  VALUES ((SELECT id FROM words WHERE name="teaspoon"),
+          (SELECT id FROM words WHERE name="unit_ingredient"),
+          (SELECT id FROM words WHERE name="tsp"));
+
 
 
 
@@ -153,29 +206,30 @@ INSERT INTO recipes(id_word, time_total, time_preparation, time_crafting, time_b
   VALUES ((SELECT id FROM words WHERE name="Pancakes (Crêpes)"), 140, 90, 5, 45, 20, 1, 1, 1);
 
 
-INSERT INTO requirements(id_recipe, id_ingredient, quantity)
+INSERT INTO requirements(id_recipe, id_ingredient, unit, id_unit)
   VALUES ((SELECT id FROM recipes WHERE id_word=(SELECT id FROM WORDS WHERE name="Pancakes (Crêpes)")),
-          (SELECT id FROM ingredients WHERE id=(SELECT id FROM words WHERE name="egg")), 4);
+          (SELECT id FROM ingredients WHERE id=(SELECT id FROM words WHERE name="egg")),
+          4, (SELECT id FROM units WHERE id_word=(SELECT id FROM words WHERE name="-")));
 
-INSERT INTO requirements(id_recipe, id_ingredient, quantity, id_quantity_unit)
+INSERT INTO requirements(id_recipe, id_ingredient, unit, id_unit)
   VALUES ((SELECT id FROM recipes WHERE id_word=(SELECT id FROM WORDS WHERE name="Pancakes (Crêpes)")),
           (SELECT id FROM ingredients WHERE id=(SELECT id FROM words WHERE name="flour")),
-          500, (SELECT id FROM quantities WHERE id=(SELECT id FROM words WHERE name="gram")));
+          500, (SELECT id FROM units WHERE id_word=(SELECT id FROM words WHERE name="gram")));
 
-INSERT INTO requirements(id_recipe, id_ingredient, quantity, id_quantity_unit)
+INSERT INTO requirements(id_recipe, id_ingredient, unit, id_unit)
   VALUES ((SELECT id FROM recipes WHERE id_word=(SELECT id FROM WORDS WHERE name="Pancakes (Crêpes)")),
           (SELECT id FROM ingredients WHERE id=(SELECT id FROM words WHERE name="milk")),
-          1, (SELECT id FROM quantities WHERE id=(SELECT id FROM words WHERE name="liter")));
+          1, (SELECT id FROM units WHERE id=(SELECT id FROM words WHERE name="liter")));
 
-INSERT INTO requirements(id_recipe, id_ingredient, quantity, id_quantity_unit)
+INSERT INTO requirements(id_recipe, id_ingredient, unit, id_unit)
   VALUES ((SELECT id FROM recipes WHERE id_word=(SELECT id FROM WORDS WHERE name="Pancakes (Crêpes)")),
           (SELECT id FROM ingredients WHERE id=(SELECT id FROM words WHERE name="bier")),
-          "1/4", (SELECT id FROM quantities WHERE id=(SELECT id FROM words WHERE name="liter")));
+          "1/4", (SELECT id FROM units WHERE id=(SELECT id FROM words WHERE name="liter")));
 
-INSERT INTO requirements(id_recipe, id_ingredient, quantity, id_quantity_unit)
+INSERT INTO requirements(id_recipe, id_ingredient, unit, id_unit)
   VALUES ((SELECT id FROM recipes WHERE id_word=(SELECT id FROM WORDS WHERE name="Pancakes (Crêpes)")),
           (SELECT id FROM ingredients WHERE id=(SELECT id FROM words WHERE name="oil")),
-          3, (SELECT id FROM quantities WHERE id=(SELECT id FROM words WHERE name="teaspoon")));
+          3, (SELECT id FROM units WHERE id=(SELECT id FROM words WHERE name="teaspoon")));
 
 
 
