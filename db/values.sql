@@ -12,6 +12,7 @@ INSERT INTO quantities(id_language, id_word, symbol) VALUES (1, (SELECT id from 
 INSERT INTO quantities(id_language, id_word, symbol) VALUES (2, (SELECT id from words where name="-"), "-");
 INSERT INTO quantities(id_language, id_word, symbol) VALUES (3, (SELECT id from words where name="-"), "-");
 
+-- Units
 INSERT INTO words(name) VALUES ("gram");
 INSERT INTO translations(id_language, id_word, name)
   VALUES (2, (SELECT id FROM words WHERE name="gram"), "Gramm");
@@ -58,6 +59,24 @@ INSERT INTO quantities(id_language, id_word, symbol) VALUES (2, (SELECT id from 
 INSERT INTO quantities(id_language, id_word, symbol) VALUES (3, (SELECT id from words where name="teaspoon"), "cc");
 
 
+
+-- HTML
+
+INSERT INTO words(name) VALUES ("Recipes");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (2, (SELECT id FROM words WHERE name="Recipes"), "Kochrezepte");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (3, (SELECT id FROM words WHERE name="Recipes"), "Recettes");
+
+
+INSERT INTO words(name) VALUES ("Add a recipe");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (2, (SELECT id FROM words WHERE name="Add a recipe"), "Rezept hinzufÜgen");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (3, (SELECT id FROM words WHERE name="Add a recipe"), "Ajouter une recette");
+
+
+-- Ingredients
 
 INSERT INTO words(name) VALUES ("milk");
 INSERT INTO ingredients(id) VALUES (last_insert_rowid());
