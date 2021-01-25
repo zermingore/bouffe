@@ -27,12 +27,11 @@
   </form>
 
 
+  <!-- Recipes list -->
   <?php
     $p = dirname(__FILE__);
-
     $db_file = "$p/db/db";
     $db = new SQLite3("$db_file");
-
     $h = new Helper($db_file);
 
     echo("<h1>" . $h->fetchWord("Recipes") . "</h1>");
@@ -47,9 +46,10 @@
       $array['dbhandle'] = $db;
       $array['query'] = "$query_name";
       $recipe_name = $db->querySingle($query_name);
-      echo "<a href=/srv/recipe.php?id={$row['id']}>" . "$recipe_name" . "</a><br/>";
-    }
 
+      echo "<a href=/srv/recipe.php?id={$row['id']}>"
+        . $h->fetchWord($recipe_name) . "</a><br/>";
+    }
 
     echo("<h3><a href=srv/add_recipe.php>" . $h->fetchWord("Add a recipe") . "</h3>");
   ?>
