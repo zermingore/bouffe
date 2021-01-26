@@ -84,7 +84,7 @@ INSERT INTO translations(id_language, id_word, name)
 
 INSERT INTO words(name) VALUES ("h");
 INSERT INTO translations(id_language, id_word, name)
-  VALUES (2, (SELECT id FROM words WHERE name="h"), "S");
+  VALUES (2, (SELECT id FROM words WHERE name="h"), "Std.");
 INSERT INTO translations(id_language, id_word, name)
   VALUES (3, (SELECT id FROM words WHERE name="h"), "h");
 INSERT INTO units(id_word, id_type, id_symbol)
