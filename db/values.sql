@@ -121,12 +121,96 @@ INSERT INTO translations(id_language, id_word, name)
 INSERT INTO translations(id_language, id_word, name)
   VALUES (3, (SELECT id FROM words WHERE name="Recipes"), "Recettes");
 
-
 INSERT INTO words(name) VALUES ("Add a recipe");
 INSERT INTO translations(id_language, id_word, name)
   VALUES (2, (SELECT id FROM words WHERE name="Add a recipe"), "Rezept hinzufügen");
 INSERT INTO translations(id_language, id_word, name)
   VALUES (3, (SELECT id FROM words WHERE name="Add a recipe"), "Ajouter une recette");
+
+-- Add recipe
+
+INSERT INTO words(name) VALUES ('Name');
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (2, (SELECT id FROM words WHERE name='Name'), 'Name');
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (3, (SELECT id FROM words WHERE name='Name'), 'Nom');
+
+INSERT INTO words(name) VALUES ("Summary");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (2, (SELECT id FROM words WHERE name="Summary"), "Zusammenfassung");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (3, (SELECT id FROM words WHERE name="Summary"), "Résumé");
+
+INSERT INTO words(name) VALUES ("Time");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (2, (SELECT id FROM words WHERE name="Time"), "Zeit");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (3, (SELECT id FROM words WHERE name="Time"), "Temps");
+
+
+INSERT INTO words(name) VALUES ("Time total");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (2, (SELECT id FROM words WHERE name="Time total"), "Zeit total");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (3, (SELECT id FROM words WHERE name="Time total"), "Temps total");
+
+INSERT INTO words(name) VALUES ("Time preparation");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (2, (SELECT id FROM words WHERE name="Time preparation"), "Zeit Vorbereitung");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (3, (SELECT id FROM words WHERE name="Time preparation"), "Temps de préparation");
+
+INSERT INTO words(name) VALUES ("Time crafting");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (2, (SELECT id FROM words WHERE name="Time crafting"), "Zeit Handwerk");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (3, (SELECT id FROM words WHERE name="Time crafting"), "Temps crafting");
+
+INSERT INTO words(name) VALUES ("Time backing");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (2, (SELECT id FROM words WHERE name="Time backing"), "Zeit kochen");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (3, (SELECT id FROM words WHERE name="Time backing"), "Temps cuisson");
+
+
+INSERT INTO words(name) VALUES ("Difficulty");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (2, (SELECT id FROM words WHERE name="Difficulty"), "Schwerigkeit");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (3, (SELECT id FROM words WHERE name="Difficulty"), "Difficulté");
+
+INSERT INTO words(name) VALUES ("Annoyance");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (2, (SELECT id FROM words WHERE name="Annoyance"), "Ärger");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (3, (SELECT id FROM words WHERE name="Annoyance"), "Agacement");
+
+INSERT INTO words(name) VALUES ("Ideal number of people");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (2, (SELECT id FROM words WHERE name="Ideal number of people"), "Ideal Menge Köcher");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (3, (SELECT id FROM words WHERE name="Ideal number of people"), "Nombre idéal de personnes");
+
+
+INSERT INTO words(name) VALUES ("Quantity");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (2, (SELECT id FROM words WHERE name="Quantity"), "Menge");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (3, (SELECT id FROM words WHERE name="Quantity"), "Quantité");
+
+
+INSERT INTO words(name) VALUES ("Ingredients");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (2, (SELECT id FROM words WHERE name="Ingredients"), "Zutaten");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (3, (SELECT id FROM words WHERE name="Ingredients"), "Ingrédients");
+
+INSERT INTO words(name) VALUES ("Add an ingredient");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (2, (SELECT id FROM words WHERE name="Add an ingredient"), "Zutat hinzufügen");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (3, (SELECT id FROM words WHERE name="Add an ingredient"), "Ajouter un ingrédient");
+
 
 
 -- Ingredients

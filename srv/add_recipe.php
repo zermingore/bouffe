@@ -1,13 +1,29 @@
 <html>
 <body>
 
-<h1>Add recipe</h1>
+<?php
+  session_start();
+  if (!isset($_SESSION["language"]))
+  {
+    $_SESSION["language"] = "1";
+  }
+
+  include "helper.php";
+
+  $db_file = "../db/db";
+  $db = new SQLite3("$db_file");
+
+  $h = new Helper($db_file);
+  echo("<h3>" . $h->fetchWord("Add a recipe") . "</h3>");
+?>
 
 <form method="post" action="handle_add_recipe.php">
 
   <hr/>
-  Name: <input type="text" name="name"><br/>
-  Summary: <input type="text" name="summary">
+  <?php
+    echo($h->fetchWord("Name") . ":<input type='text' name='name'><br/>");
+    echo($h->fetchWord("Summary") . ":<input type='text' name='summary'>");
+  ?>
 
   <br/><br/>
   <h3>Time</h3>
