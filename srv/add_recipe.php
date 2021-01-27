@@ -74,9 +74,7 @@
   <?php echo("<h3>" . $h->fetchWord("Ingredients") . "</h3>"); ?>
 
   <div>
-    <button type="button" id="filldetails" onclick="addIngredientField()">
-    <?php echo($h->fetchWord("Add an ingredient")); ?>
-    </button>
+
 
     <div id="g_ingredients_container"/>
 
@@ -95,6 +93,7 @@
         }
 
         g_ingredients_number++;
+        g_ingredients_container.appendChild(document.createElement("br"));
 
         // Append a node
         var prefix = "ingredient_" + g_ingredients_number;
@@ -116,7 +115,10 @@
           $db_file = "../db/db";
           $db = new SQLite3("$db_file");
 
-          $list = $db->query("select * from words where id in (select id_word from quantities)");
+          $query = "SELECT * FROM translations WHERE id_language="
+            .  $_SESSION["language"]
+            . " AND id_word IN (SELECT id_word FROM units)";
+          $list = $db->query($query);
           $ingredient_found = 0;
           $list->reset();
 
@@ -144,27 +146,28 @@
         ingredient_name.type = "text";
         ingredient_name.name = prefix + "_name";
         g_ingredients_container.appendChild(ingredient_name);
-
-
-        g_ingredients_container.appendChild(document.createElement("br"));
       }
     </script>
+
+    <button type="button" id="filldetails" onclick="addIngredientField()">
+      <?php echo($h->fetchWord("Add an ingredient")); ?>
+      <br/>
+    </button>
   </div>
 
   <br/><br/>
   <hr/>
-  <h3>Steps</h3>
-  Steps (One per line):<br/>
+  <?php echo($h->fetchWord("Steps") . " (". $h->fetchWord("one per line") . ")<br/>"); ?>
   <textarea name="steps" rows="5" cols="80"></textarea>
 
   <br/><br/>
   <hr/>
-  Notes (one per line):<br/>
+  <?php echo($h->fetchWord("Notes") . " (". $h->fetchWord("one per line") . ")<br/>"); ?>
   <textarea name="notes" rows="5" cols="80"></textarea>
 
   <br/><br/>
   <hr/>
-  <input type="submit" value="Add">
+  <?php echo("<input type='submit' value='" . $h->fetchWord("Add the recipe") . "'>"); ?>
 
   </form>
 

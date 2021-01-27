@@ -11,11 +11,9 @@ INSERT INTO words(name) VALUES ("unit_time");
 
 
 INSERT INTO translations(id_language, id_word, name)
-  VALUES (2, (SELECT id FROM words WHERE name="-"),
-    (SELECT id FROM words WHERE name="-"));
+  VALUES (2, (SELECT id FROM words WHERE name="-"), "-");
 INSERT INTO translations(id_language, id_word, name)
-  VALUES (3, (SELECT id FROM words WHERE name="-"),
-    (SELECT id FROM words WHERE name="-"));
+  VALUES (3, (SELECT id FROM words WHERE name="-"), "-");
 INSERT INTO units(id_word, id_type, id_symbol)
   VALUES ((SELECT id FROM words WHERE name="-"),
     (SELECT id FROM words WHERE name="unit_none"),
@@ -218,6 +216,33 @@ INSERT INTO translations(id_language, id_word, name)
   VALUES (3, (SELECT id FROM words WHERE name="Add an ingredient"), "Ajouter un ingrédient");
 
 
+INSERT INTO words(name) VALUES ("Steps");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (2, (SELECT id FROM words WHERE name="Steps"), "Schritte");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (3, (SELECT id FROM words WHERE name="Steps"), "Étapes");
+
+INSERT INTO words(name) VALUES ("Notes");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (2, (SELECT id FROM words WHERE name="Notes"), "Anmerkungen");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (3, (SELECT id FROM words WHERE name="Notes"), "Remarques");
+
+
+
+INSERT INTO words(name) VALUES ("Add the recipe");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (2, (SELECT id FROM words WHERE name="Add the recipe"), "Rezept hinzufügen");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (3, (SELECT id FROM words WHERE name="Add the recipe"), "Ajouter la recette");
+
+
+
+INSERT INTO words(name) VALUES ("one per line");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (2, (SELECT id FROM words WHERE name="one per line"), "eins pro Linie");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (3, (SELECT id FROM words WHERE name="one per line"), "une par ligne");
 
 -- Ingredients
 
