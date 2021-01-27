@@ -21,19 +21,24 @@
 
   <hr/>
   <?php
-    echo($h->fetchWord("Name") . ":<input type='text' name='name'><br/>");
-    echo($h->fetchWord("Summary") . ":<input type='text' name='summary'>");
+    echo($h->fetchWord("Name") . ": <input type='text' name='name'><br/>");
+    echo($h->fetchWord("Summary") . ": <input type='text' name='summary'>");
   ?>
 
   <br/><br/>
-  <h3>Time</h3>
-  time total: <input type="text" name="time_total"><br/>
-  time preparation: <input type="text" name="time_preparation"><br/>
-  time crafting: <input type="text" name="time_crafting"><br/>
-  time backing: <input type="text" name="time_backing"><br/>
+  <?php
+    echo("<h3>" . $h->fetchWord("Time") . "</h3>");
+    echo($h->fetchWord("Time total") . ": <input type='text' name='time_total'><br/>");
+    echo($h->fetchWord("Time preparation") . ": <input type='text' name='time_preparation'><br/>");
+    echo($h->fetchWord("Time crafting") . ": <input type='text' name='time_crafting'><br/>");
+    echo($h->fetchWord("Time backing") . ": <input type='text' name='time_backing'><br/>");
+  ?>
 
   <br/><br/>
-  Difficulty:<br/>
+  <?php
+    echo("<h3>" . $h->fetchWord("Metadata") . "</h3>");
+    echo($h->fetchWord("Difficulty") . "<br/>");
+  ?>
   <input type="radio" name="difficulty" value="1">1
   <input type="radio" name="difficulty" value="2">2
   <input type="radio" name="difficulty" value="3" checked="checked">3
@@ -42,7 +47,7 @@
   <input type="radio" name="difficulty" value="6">5+
 
   <br/><br/>
-  Annoyance:<br/>
+  <?php echo($h->fetchWord("Annoyance") . "<br/>"); ?>
   <input type="radio" name="annoyance" value="1">1
   <input type="radio" name="annoyance" value="2">2
   <input type="radio" name="annoyance" value="3" checked="checked">3
@@ -51,7 +56,7 @@
   <input type="radio" name="annoyance" value="6">5+
 
   <br/><br/>
-  Threads (ideal number of people working together):<br/>
+  <?php echo($h->fetchWord("Ideal number of people") . "<br/>"); ?>
   <input type="radio" name="threads" value="1" checked="checked">1
   <input type="radio" name="threads" value="2">2
   <input type="radio" name="threads" value="3">3
@@ -60,15 +65,17 @@
   <input type="radio" name="threads" value="6">5+
 
   <br/><br/>
-  Quantity: <input type="text" name="quantity"><br/>
+  <?php
+    echo($h->fetchWord("Quantity") . ": <input type='text' name='quantity'><br/>");
+  ?>
 
   <br/><br/>
   <hr/>
-  <h3>Ingredients</h3>
+  <?php echo("<h3>" . $h->fetchWord("Ingredients") . "</h3>"); ?>
 
   <div>
     <button type="button" id="filldetails" onclick="addIngredientField()">
-      Add an ingredient
+    <?php echo($h->fetchWord("Add an ingredient")); ?>
     </button>
 
     <div id="g_ingredients_container"/>

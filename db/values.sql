@@ -173,6 +173,12 @@ INSERT INTO translations(id_language, id_word, name)
   VALUES (3, (SELECT id FROM words WHERE name="Time backing"), "Temps cuisson");
 
 
+INSERT INTO words(name) VALUES ("Metadata");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (2, (SELECT id FROM words WHERE name="Metadata"), "Metadata");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (3, (SELECT id FROM words WHERE name="Metadata"), "Metadata");
+
 INSERT INTO words(name) VALUES ("Difficulty");
 INSERT INTO translations(id_language, id_word, name)
   VALUES (2, (SELECT id FROM words WHERE name="Difficulty"), "Schwerigkeit");
