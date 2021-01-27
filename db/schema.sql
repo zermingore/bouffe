@@ -57,7 +57,7 @@ CREATE TABLE units(
 CREATE TABLE requirements(
   id_recipe INTEGER NOT NULL,
   id_ingredient INTEGER NOT NULL,
-  unit INTEGER,
+  quantity INTEGER,
   id_unit INTEGER,
 
   FOREIGN KEY(id_ingredient) REFERENCES ingredients(id)

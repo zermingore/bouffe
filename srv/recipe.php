@@ -1,8 +1,18 @@
 <?php
 
+session_start();
+if (!isset($_SESSION["language"]))
+{
+  $_SESSION["language"] = "1";
+}
+
+include "helper.php";
 
 $db_file = "../db/db";
 $db = new SQLite3("$db_file");
+
+$h = new Helper($db_file);
+
 
 
 // Fetch recipe
@@ -20,47 +30,43 @@ if (!$recipe['id'])
 // Fetch recipe name
 $query = "SELECT name FROM words WHERE id={$recipe['id_word']};";
 $name = $db->querySingle($query, true)['name'];
-if (isset($_GET['lg']) && $_GET['lg'] != '1')
-{
-  $query = "SELECT name FROM translations WHERE id_language="
-  . $_GET['lg'] . " AND id_word={$recipe['name']};";
-  $name = $db->querySingle($query, true)['name'];
-}
 
 
 // Title + summary (if any)
-print("<h1>" . $name . "</h1>");
+echo("<h1>" . $h->fetchWord($name) . "</h1>");
 if (isset($recipe['summary']))
 {
   $query = "SELECT name FROM words WHERE id={$recipe['summary']};";
   $summary = $db->querySingle($query, true)['name'];
-  print("<h3>$summary</h3>");
+  $print_summary = $h->fetchWord($summary);
+  print("<h3>$print_summary</h3>");
 }
 print("<hr/>");
 
 // Read time
-// TODO Translations
 // TODO Time units
-print("<h2>Time</h2>");
+print("<h2>" . $h->fetchWord("Time") . "</h2>");
 print("<ul>");
-print("  <li>Total: " . $recipe['time_total'] . " min</li>");
-print("  <li>crafting: " . $recipe['time_crafting'] . " min</li>");
-print("  <li>backing: " . $recipe['time_backing'] . " min</li>");
+print("  <li>" . $h->fetchWord("Time total") . ": " . $recipe['time_total']
+      . " " . $h->fetchWord("min.") . "</li>");
+print("  <li>" . $h->fetchWord("Time crafting") . ": " . $recipe['time_crafting']
+      . " " . $h->fetchWord("min.") . "</li>");
+print("  <li>" . $h->fetchWord("Time backing") . ": ". $recipe['time_backing']
+      . " " . $h->fetchWord("min.") . "</li>");
 print("</ul>");
 print("<hr/>");
 
 
-print("<h2>Metadata</h2>");
+print("<h2>" . $h->fetchWord("Metadata") . "</h2>");
 print("<ul>");
-print("  <li>Quantity: " . $recipe['quantity'] . "</li>");
-print("  <li>Difficulty: " . $recipe['difficulty'] . "</li>");
-print("  <li>Annoyance: " . $recipe['annoyance'] . "</li>");
-print("  <li>Threads: " . $recipe['threads'] . "</li>");
+print("  <li>" . $h->fetchWord("Quantity") . ": " . $recipe['quantity'] . "</li>");
+print("  <li>" . $h->fetchWord("Difficulty") . ": " . $recipe['difficulty'] . "</li>");
+print("  <li>" . $h->fetchWord("Ideal number of people") . ": " . $recipe['threads'] . "</li>");
 print("</ul>");
 print("<hr/>");
 
 
-print("<h2>Ingredients</h2>");
+print("<h2>" . $h->fetchWord("Ingredients") . "</h2>");
 print("<ul>");
 
 
@@ -72,12 +78,24 @@ while ($requirement = $result->fetchArray())
   $query = "SELECT name FROM words WHERE id={$requirement['id_ingredient']};";
   $ingredient_name = $db->querySingle($query);
 
-  // TODO handle translations
-  if ($requirement['id_quantity_unit'] != "")
+  if ($requirement['id_unit'] != "")
   {
-    $query = "SELECT symbol FROM quantities WHERE id_word={$requirement['id_quantity_unit']};";
-    $unit = $db->querySingle($query);
-    print("  <li>$ingredient_name ({$requirement['quantity']}$unit)</li>");
+    $query = "SELECT id_symbol FROM units WHERE id={$requirement['id_unit']};";
+    $id_symbol = $db->querySingle($query);
+
+    $query_name = "SELECT name FROM words WHERE id={$id_symbol};";
+    $unit_name = $db->querySingle($query_name);
+
+    $h->fetchWord($unit_name);
+
+    if ($unit_name != "-")
+    {
+      print("  <li>$ingredient_name ({$requirement['quantity']} $unit_name)</li>");
+    }
+    else
+    {
+      print("  <li>$ingredient_name ({$requirement['quantity']})</li>");
+    }
   }
 }
 print("</ul>");
@@ -89,7 +107,7 @@ $query = "SELECT * FROM notes WHERE id_recipe={$recipe['id']}";
 $check_empty = $db->querySingle($query);
 if (!empty($check_empty))
 {
-  print("<h2>Notes</h2>");
+  print("<h2>" . $h->fetchWord("Notes") . "</h2>");
   print("<hr/>");
 
   $query = "SELECT * FROM notes WHERE id_recipe={$recipe['id']}";
@@ -99,7 +117,7 @@ if (!empty($check_empty))
   {
     $query = "SELECT name FROM words WHERE id={$note['description']};";
     $description = $db->querySingle($query);
-    print("  <li>$description</li>");
+    print("  <li>" . $h->fetchWord($description) . "</li>");
   }
   print("</ul>");
   print("<hr/>");
@@ -118,7 +136,7 @@ while ($step = $result->fetchArray())
   $query = "SELECT name FROM words WHERE id={$step['description']};";
   $description = $db->querySingle($query);
 
-  print("  <li>{$step['num']}/$nb_steps - $description</li>");
+  print("  <li>{$step['num']}/$nb_steps - " . $h->fetchWord($description) . "</li>");
 }
 print("</ul>");
 

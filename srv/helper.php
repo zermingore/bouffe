@@ -35,7 +35,7 @@
 
       if ($text == "")
       {
-        echo "[ERROR: missing word $word in language $language_id] <br/>";
+        echo "ERROR: missing word [$word] in language [$language_id] <br/>";
         return $word;
       }
       return $text;

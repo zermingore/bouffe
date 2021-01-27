@@ -321,30 +321,30 @@ INSERT INTO recipes(id_word, time_total, time_preparation, time_crafting, time_b
   VALUES ((SELECT id FROM words WHERE name="Pancakes (Crêpes)"), 140, 90, 5, 45, 20, 1, 1, 1);
 
 
-INSERT INTO requirements(id_recipe, id_ingredient, unit, id_unit)
+INSERT INTO requirements(id_recipe, id_ingredient, quantity, id_unit)
   VALUES ((SELECT id FROM recipes WHERE id_word=(SELECT id FROM WORDS WHERE name="Pancakes (Crêpes)")),
           (SELECT id FROM ingredients WHERE id=(SELECT id FROM words WHERE name="egg")),
           4, (SELECT id FROM units WHERE id_word=(SELECT id FROM words WHERE name="-")));
 
-INSERT INTO requirements(id_recipe, id_ingredient, unit, id_unit)
+INSERT INTO requirements(id_recipe, id_ingredient, quantity, id_unit)
   VALUES ((SELECT id FROM recipes WHERE id_word=(SELECT id FROM WORDS WHERE name="Pancakes (Crêpes)")),
           (SELECT id FROM ingredients WHERE id=(SELECT id FROM words WHERE name="flour")),
           500, (SELECT id FROM units WHERE id_word=(SELECT id FROM words WHERE name="gram")));
 
-INSERT INTO requirements(id_recipe, id_ingredient, unit, id_unit)
+INSERT INTO requirements(id_recipe, id_ingredient, quantity, id_unit)
   VALUES ((SELECT id FROM recipes WHERE id_word=(SELECT id FROM WORDS WHERE name="Pancakes (Crêpes)")),
           (SELECT id FROM ingredients WHERE id=(SELECT id FROM words WHERE name="milk")),
-          1, (SELECT id FROM units WHERE id=(SELECT id FROM words WHERE name="liter")));
+          1, (SELECT id FROM units WHERE id_word=(SELECT id FROM words WHERE name="liter")));
 
-INSERT INTO requirements(id_recipe, id_ingredient, unit, id_unit)
+INSERT INTO requirements(id_recipe, id_ingredient, quantity, id_unit)
   VALUES ((SELECT id FROM recipes WHERE id_word=(SELECT id FROM WORDS WHERE name="Pancakes (Crêpes)")),
           (SELECT id FROM ingredients WHERE id=(SELECT id FROM words WHERE name="bier")),
-          "1/4", (SELECT id FROM units WHERE id=(SELECT id FROM words WHERE name="liter")));
+          "1/4", (SELECT id FROM units WHERE id_word=(SELECT id FROM words WHERE name="liter")));
 
-INSERT INTO requirements(id_recipe, id_ingredient, unit, id_unit)
+INSERT INTO requirements(id_recipe, id_ingredient, quantity, id_unit)
   VALUES ((SELECT id FROM recipes WHERE id_word=(SELECT id FROM WORDS WHERE name="Pancakes (Crêpes)")),
           (SELECT id FROM ingredients WHERE id=(SELECT id FROM words WHERE name="oil")),
-          3, (SELECT id FROM units WHERE id=(SELECT id FROM words WHERE name="teaspoon")));
+          3, (SELECT id FROM units WHERE id_word=(SELECT id FROM words WHERE name="teaspoon")));
 
 
 
