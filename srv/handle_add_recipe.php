@@ -70,21 +70,16 @@ Notes: <?php echo $_POST["notes"]?><br/>
   $id_recipe = $db->lastInsertRowID();
 
 
-
-
   echo "Ingredients:<br/>";
 
   $db_ingredients = $db->query("SELECT * FROM words WHERE id IN (SELECT id FROM ingredients)");
 
   // TODO handle translations (searching by name...)
-
-  // 100: ingredients max number should be 30
-  for ($i = 1; $i <= 100; $i++)
+  for ($i = 1; $i <= count($_POST); $i++)
   {
     if (!isset($_POST["ingredient_" . $i . "_name"]))
     {
-      // echo "Found " . ($i - 1) . " ingredients\n";
-      return;
+      continue;
     }
 
     if (!isset($_POST["ingredient_" . $i . "_qty"]) || !isset($_POST["ingredient_" . $i . "_qty_unit"]))
@@ -117,7 +112,6 @@ Notes: <?php echo $_POST["notes"]?><br/>
       $query = "INSERT INTO ingredients('id') VALUES('" . $db->lastInsertRowID() . "');";
       $db->querySingle($query);
     }
-
 
 
     // Fetch the ingredient id
