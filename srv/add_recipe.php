@@ -113,9 +113,12 @@
           $db_file = "../db/db";
           $db = new SQLite3("$db_file");
 
+          $id_unit_ingredient = $db->querySingle("SELECT id FROM words WHERE name='unit_ingredient'");
+          $id_unit_none = $db->querySingle("SELECT id FROM words WHERE name='unit_none'");
           $query = "SELECT * FROM translations WHERE id_language="
-            .  $_SESSION["language"]
-            . " AND id_word IN (SELECT id_word FROM units)";
+            . $_SESSION["language"]
+            . " AND id_word IN (SELECT id_word FROM units WHERE (id_type="
+            . $id_unit_ingredient . " OR id_type=" . $id_unit_none . "))";
           $list = $db->query($query);
           $ingredient_found = 0;
           $list->reset();
