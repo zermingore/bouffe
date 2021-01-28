@@ -82,6 +82,19 @@
       var g_ingredients_container = document.getElementById("g_ingredients_container");
       var g_max_ingredients = 30;
 
+
+      function removeIngredient(id)
+      {
+        if (g_ingredients_number < 1)
+        {
+          return;
+        }
+
+        document.getElementById("ingredient_container_" + id).remove();
+        g_max_ingredients--;
+      }
+
+
       function addIngredientField()
       {
         if (g_ingredients_number > g_max_ingredients - 1)
@@ -91,23 +104,27 @@
         }
 
         g_ingredients_number++;
-        g_ingredients_container.appendChild(document.createElement("br"));
+        var current_id = g_ingredients_number;
+        var ingredient_container = g_ingredients_container.appendChild(document.createElement("div"));
+        ingredient_container.id = "ingredient_container_" + current_id;
+
+        ingredient_container.appendChild(document.createElement("br"));
 
         // Append a node
         var prefix = "ingredient_" + g_ingredients_number;
-        var ingredient = g_ingredients_container.appendChild(document.createTextNode(prefix));
+        var ingredient = ingredient_container.appendChild(document.createTextNode(prefix));
 
         // Quantity <input> element
         var ingredient_qty = document.createElement("input");
         ingredient_qty.type = "text";
         ingredient_qty.name = "ingredient_" + g_ingredients_number + "_qty";
-        g_ingredients_container.appendChild(ingredient_qty);
+        ingredient_container.appendChild(ingredient_qty);
 
         // Quantity unit <select> element
         var ingredient_unit = document.createElement("select");
         ingredient_unit.type = "text";
         ingredient_unit.name = prefix + "_qty_unit";
-        var unit = g_ingredients_container.appendChild(ingredient_unit);
+        var unit = ingredient_container.appendChild(ingredient_unit);
 
         quantity_list = <?php
           $db_file = "../db/db";
@@ -146,7 +163,16 @@
         var ingredient_name = document.createElement("input");
         ingredient_name.type = "text";
         ingredient_name.name = prefix + "_name";
-        g_ingredients_container.appendChild(ingredient_name);
+        ingredient_container.appendChild(ingredient_name);
+
+        if (g_ingredients_number > 1)
+        {
+          var removeButton = document.createElement("button");
+          removeButton.innerText = " x ";
+          removeButton.type = "button"; // Do not submit the form
+          removeButton.onclick = function() { removeIngredient(current_id) };
+          ingredient_container.appendChild(removeButton);
+        }
       }
     </script>
 
