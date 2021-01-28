@@ -126,10 +126,10 @@ Notes: <?php echo $_POST["notes"]?><br/>
 
     // Fetch the quantity unit id
     $quantity_unit_id = $db->querySingle(
-      "SELECT * FROM quantities WHERE id_word IN (SELECT id FROM words WHERE name='" . $_POST["ingredient_" . $i . "_qty_unit"] . "')");
+      "SELECT * FROM units WHERE id_word IN (SELECT id FROM words WHERE name='" . $_POST["ingredient_" . $i . "_qty_unit"] . "')");
 
     // Add the requirement
-    $query = "INSERT INTO requirements('id_recipe', 'id_ingredient', 'quantity', 'id_quantity_unit') VALUES('"
+    $query = "INSERT INTO requirements('id_recipe', 'id_ingredient', 'quantity', 'id_unit') VALUES('"
       . $id_recipe . "','" . $ingredient_id . "', '" . $_POST["ingredient_" . $i . "_qty"] . "', '" . $quantity_unit_id . "');";
     $db->query($query);
 
