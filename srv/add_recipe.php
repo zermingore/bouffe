@@ -74,8 +74,6 @@
   <?php echo("<h3>" . $h->fetchWord("Ingredients") . "</h3>"); ?>
 
   <div>
-
-
     <div id="g_ingredients_container"/>
 
 
@@ -153,6 +151,8 @@
       <?php echo($h->fetchWord("Add an ingredient")); ?>
       <br/>
     </button>
+
+    <script> addIngredientField(); </script> <!-- Add first ingredient fields -->
   </div>
 
   <br/><br/>
