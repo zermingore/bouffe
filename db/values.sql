@@ -8,6 +8,7 @@ INSERT INTO words(name) VALUES ("-"); -- Should be the first word
 INSERT INTO words(name) VALUES ("unit_none");
 INSERT INTO words(name) VALUES ("unit_ingredient");
 INSERT INTO words(name) VALUES ("unit_time");
+INSERT INTO words(name) VALUES ("unit_quantity");
 
 
 INSERT INTO translations(id_language, id_word, name)
@@ -107,6 +108,38 @@ INSERT INTO units(id_word, id_type, id_symbol)
   VALUES ((SELECT id FROM words WHERE name="teaspoon"),
           (SELECT id FROM words WHERE name="unit_ingredient"),
           (SELECT id FROM words WHERE name="tsp"));
+
+
+
+
+INSERT INTO words(name) VALUES ("persons");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (2, (SELECT id FROM words WHERE name="persons"), "Personen");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (3, (SELECT id FROM words WHERE name="persons"), "personnes");
+
+INSERT INTO words(name) VALUES ("pers.");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (2, (SELECT id FROM words WHERE name="pers."), "Pers.");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (3, (SELECT id FROM words WHERE name="pers."), "pers.");
+
+INSERT INTO units(id_word, id_type, id_symbol)
+  VALUES ((SELECT id FROM words WHERE name="persons"),
+          (SELECT id FROM words WHERE name="unit_quantity"),
+          (SELECT id FROM words WHERE name="pers."));
+
+
+INSERT INTO words(name) VALUES ("pieces");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (2, (SELECT id FROM words WHERE name="pieces"), "Stücke");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (3, (SELECT id FROM words WHERE name="pieces"), "parts");
+
+INSERT INTO units(id_word, id_type, id_symbol)
+  VALUES ((SELECT id FROM words WHERE name="pieces"),
+          (SELECT id FROM words WHERE name="unit_quantity"),
+          (SELECT id FROM words WHERE name="pieces"));
 
 
 
