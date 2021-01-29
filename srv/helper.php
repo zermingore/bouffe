@@ -8,7 +8,21 @@
     }
 
 
-    public function fetchWord(string $word)
+    public function fetchWord($word)
+    {
+      if (gettype($word) == "string")
+      {
+        return $this->fetchWordByName($word);
+      }
+
+      if (gettype($word) == "integer")
+      {
+        return $this->fetchWordById($word);
+      }
+    }
+
+
+    public function fetchWordByName(string $word)
     {
       $language_id = $_SESSION["language"];
 
@@ -22,7 +36,7 @@
       if ($language_id != "2" && $language_id != "3")
       {
         echo "Invalid language " . $language_id . "<br/>";
-        return "___";
+        return "___" . $word . "___";
       }
 
       // Fetch the appropriate translation
@@ -32,6 +46,16 @@
 
       // echo $query;
       $text =  $this->db->querySingle($query);
+      if ($text == NULL)
+      {
+        echo "Error: Unable to find word [" . $word . "]";
+        return "___";
+      }
+      if ($text == false)
+      {
+        echo "Error trying to fetch word [" . $word . "]";
+        return "___";
+      }
 
       if ($text == "")
       {
@@ -41,6 +65,51 @@
       return $text;
     }
 
+
+    public function fetchWordById(int $id)
+    {
+      $query = "SELECT name from words where id='" . $id . "'";
+      $text = $this->db->querySingle($query);
+      if ($text == NULL)
+      {
+        echo "Unable to find word with id [" . $id . "]";
+        return "___";
+      }
+      if ($text == false)
+      {
+        echo "Error trying to fetch word id [" . $id . "]";
+        return "___";
+      }
+
+      $language_id = $_SESSION["language"];
+
+      // Default language
+      if ($language_id == "1")
+      {
+        return $text;
+      }
+
+      // Sanity check
+      if ($language_id != "2" && $language_id != "3")
+      {
+        echo "Invalid language [" . $language_id . "]<br/>";
+        return "___" . $text . "___";
+      }
+
+      // Fetch the appropriate translation
+      $query = "SELECT name from translations where id_language='"
+        . $language_id . "' and id_word = '" . $id . "'";
+
+      // echo $query;
+      $translation =  $this->db->querySingle($query);
+
+      if ($translation == "")
+      {
+        echo "ERROR: missing word [$text] in language [$language_id] <br/>";
+        return $text;
+      }
+      return $translation;
+    }
 
     private $db;
   }
