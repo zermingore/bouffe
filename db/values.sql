@@ -58,6 +58,24 @@ INSERT INTO units(id_word, id_type, id_symbol)
           (SELECT id FROM words WHERE name="L"));
 
 
+
+INSERT INTO words(name) VALUES ("second");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (2, (SELECT id FROM words WHERE name="second"), "Sekude");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (3, (SELECT id FROM words WHERE name="second"), "seconde");
+
+INSERT INTO words(name) VALUES ("s");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (2, (SELECT id FROM words WHERE name="s"), "s");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (3, (SELECT id FROM words WHERE name="s"), "s");
+INSERT INTO units(id_word, id_type, id_symbol)
+  VALUES ((SELECT id FROM words WHERE name="second"),
+          (SELECT id FROM words WHERE name="unit_time"),
+          (SELECT id FROM words WHERE name="s"));
+
+
 INSERT INTO words(name) VALUES ("minute");
 INSERT INTO translations(id_language, id_word, name)
   VALUES (2, (SELECT id FROM words WHERE name="minute"), "Minute");
@@ -92,6 +110,31 @@ INSERT INTO units(id_word, id_type, id_symbol)
           (SELECT id FROM words WHERE name="h"));
 
 
+INSERT INTO words(name) VALUES ("day");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (2, (SELECT id FROM words WHERE name="day"), "Tag");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (3, (SELECT id FROM words WHERE name="day"), "jour");
+
+INSERT INTO units(id_word, id_type, id_symbol)
+  VALUES ((SELECT id FROM words WHERE name="day"),
+          (SELECT id FROM words WHERE name="unit_time"),
+          (SELECT id FROM words WHERE name="day"));
+
+
+INSERT INTO words(name) VALUES ("night");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (2, (SELECT id FROM words WHERE name="night"), "Nacht");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (3, (SELECT id FROM words WHERE name="night"), "nuit");
+
+INSERT INTO units(id_word, id_type, id_symbol)
+  VALUES ((SELECT id FROM words WHERE name="night"),
+          (SELECT id FROM words WHERE name="unit_time"),
+          (SELECT id FROM words WHERE name="night"));
+
+
+
 INSERT INTO words(name) VALUES ("teaspoon");
 INSERT INTO translations(id_language, id_word, name)
   VALUES (2, (SELECT id FROM words WHERE name="teaspoon"), "Teelöffel");
@@ -108,6 +151,36 @@ INSERT INTO units(id_word, id_type, id_symbol)
   VALUES ((SELECT id FROM words WHERE name="teaspoon"),
           (SELECT id FROM words WHERE name="unit_ingredient"),
           (SELECT id FROM words WHERE name="tsp"));
+
+
+INSERT INTO words(name) VALUES ("tablespoon");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (2, (SELECT id FROM words WHERE name="tablespoon"), "Esslöffel");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (3, (SELECT id FROM words WHERE name="tablespoon"), "Cuillère à soupe");
+
+INSERT INTO words(name) VALUES ("tbsp");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (2, (SELECT id FROM words WHERE name="tbsp"), "EL");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (3, (SELECT id FROM words WHERE name="tbsp"), "cs");
+
+INSERT INTO units(id_word, id_type, id_symbol)
+  VALUES ((SELECT id FROM words WHERE name="tablespoon"),
+          (SELECT id FROM words WHERE name="unit_ingredient"),
+          (SELECT id FROM words WHERE name="tbsp"));
+
+
+INSERT INTO words(name) VALUES ("glass");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (2, (SELECT id FROM words WHERE name="glass"), "Glass");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (3, (SELECT id FROM words WHERE name="glass"), "verre");
+
+INSERT INTO units(id_word, id_type, id_symbol)
+  VALUES ((SELECT id FROM words WHERE name="glass"),
+          (SELECT id FROM words WHERE name="unit_ingredient"),
+          (SELECT id FROM words WHERE name="glass"));
 
 
 
