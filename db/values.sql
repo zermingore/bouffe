@@ -58,6 +58,24 @@ INSERT INTO units(id_word, id_type, id_symbol)
           (SELECT id FROM words WHERE name="L"));
 
 
+INSERT INTO words(name) VALUES ("centiliter");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (2, (SELECT id FROM words WHERE name="centiliter"), "Centiliter");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (3, (SELECT id FROM words WHERE name="centiliter"), "centilitre");
+
+INSERT INTO words(name) VALUES ("cL");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (2, (SELECT id FROM words WHERE name="cL"), "cL");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (3, (SELECT id FROM words WHERE name="cL"), "cL");
+
+INSERT INTO units(id_word, id_type, id_symbol)
+  VALUES ((SELECT id FROM words WHERE name="centiliter"),
+          (SELECT id FROM words WHERE name="unit_ingredient"),
+          (SELECT id FROM words WHERE name="cL"));
+
+
 
 INSERT INTO words(name) VALUES ("second");
 INSERT INTO translations(id_language, id_word, name)
@@ -366,12 +384,33 @@ INSERT INTO translations(id_language, id_word, name)
 INSERT INTO translations(id_language, id_word, name)
   VALUES (3, (SELECT id FROM words WHERE name="flour"), "farine");
 
+INSERT INTO words(name) VALUES ("butter");
+INSERT INTO ingredients(id) VALUES (last_insert_rowid());
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (2, (SELECT id FROM words WHERE name="butter"), "Butter");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (3, (SELECT id FROM words WHERE name="butter"), "beurre");
+
 INSERT INTO words(name) VALUES ("egg");
 INSERT INTO ingredients(id) VALUES (last_insert_rowid());
 INSERT INTO translations(id_language, id_word, name)
   VALUES (2, (SELECT id FROM words WHERE name="egg"), "Ei");
 INSERT INTO translations(id_language, id_word, name)
   VALUES (3, (SELECT id FROM words WHERE name="egg"), "oeuf");
+
+INSERT INTO words(name) VALUES ("egg yolk");
+INSERT INTO ingredients(id) VALUES (last_insert_rowid());
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (2, (SELECT id FROM words WHERE name="egg yolk"), "Eigelb");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (3, (SELECT id FROM words WHERE name="egg yolk"), "jaune d'oeuf"); -- '
+
+INSERT INTO words(name) VALUES ("egg white");
+INSERT INTO ingredients(id) VALUES (last_insert_rowid());
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (2, (SELECT id FROM words WHERE name="egg white"), "Eiweiß");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (3, (SELECT id FROM words WHERE name="egg white"), "blanc d'oeuf"); -- '
 
 INSERT INTO words(name) VALUES ("bier");
 INSERT INTO ingredients(id) VALUES (last_insert_rowid());
@@ -401,6 +440,62 @@ INSERT INTO translations(id_language, id_word, name)
 INSERT INTO translations(id_language, id_word, name)
   VALUES (3, (SELECT id FROM words WHERE name="lemon"), "citron");
 
+INSERT INTO words(name) VALUES ("chicken cutlet");
+INSERT INTO ingredients(id) VALUES (last_insert_rowid());
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (2, (SELECT id FROM words WHERE name="chicken cutlet"), "Hunchenbrust");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (3, (SELECT id FROM words WHERE name="chicken cutlet"), "escalope de poulet");
+
+INSERT INTO words(name) VALUES ("rump steak");
+INSERT INTO ingredients(id) VALUES (last_insert_rowid());
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (2, (SELECT id FROM words WHERE name="rump steak"), "Rumpsteak");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (3, (SELECT id FROM words WHERE name="rump steak"), "rumsteck");
+
+INSERT INTO words(name) VALUES ("mushroom");
+INSERT INTO ingredients(id) VALUES (last_insert_rowid());
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (2, (SELECT id FROM words WHERE name="mushroom"), "Pilze");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (3, (SELECT id FROM words WHERE name="mushroom"), "champignons");
+
+INSERT INTO words(name) VALUES ("cream");
+INSERT INTO ingredients(id) VALUES (last_insert_rowid());
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (2, (SELECT id FROM words WHERE name="cream"), "Crème fraiche");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (3, (SELECT id FROM words WHERE name="cream"), "crème fraiche");
+
+INSERT INTO words(name) VALUES ("white wine");
+INSERT INTO ingredients(id) VALUES (last_insert_rowid());
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (2, (SELECT id FROM words WHERE name="white wine"), "Weißwein");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (3, (SELECT id FROM words WHERE name="white wine"), "vin blanc");
+
+INSERT INTO words(name) VALUES ("red wine");
+INSERT INTO ingredients(id) VALUES (last_insert_rowid());
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (2, (SELECT id FROM words WHERE name="red wine"), "Rotwein");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (3, (SELECT id FROM words WHERE name="red wine"), "vin rouge");
+
+INSERT INTO words(name) VALUES ("broth");
+INSERT INTO ingredients(id) VALUES (last_insert_rowid());
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (2, (SELECT id FROM words WHERE name="red wine"), "Brühe");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (3, (SELECT id FROM words WHERE name="red wine"), "bouillon");
+
+INSERT INTO words(name) VALUES ("puff pastry");
+INSERT INTO ingredients(id) VALUES (last_insert_rowid());
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (2, (SELECT id FROM words WHERE name="red wine"), "Blätterteig");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (3, (SELECT id FROM words WHERE name="red wine"), "pâte feuilletée");
+
 
 
 
@@ -414,6 +509,8 @@ INSERT INTO recipes(id_word,
                     time_total, time_preparation, time_crafting, time_backing,
                     quantity, difficulty, annoyance, threads)
   VALUES ((SELECT id FROM words WHERE name="Carrots cake"), 120, 0, 60, 60, "8 personnes", 2, 4, 4);
+
+
 
 
 INSERT INTO words(name) VALUES ("Pancakes (Crêpes)");
@@ -471,4 +568,139 @@ INSERT INTO words(name) VALUES ("It is much easier to just let it rest ~4h");
 INSERT INTO notes(id_language, id_recipe, description)
  VALUES ((SELECT id FROM languages WHERE id=1),
          (SELECT id FROM recipes WHERE id_word=(SELECT id FROM WORDS WHERE name="Pancakes (Crêpes)")),
+         last_insert_rowid());
+
+
+
+
+
+INSERT INTO words(name) VALUES ("Quenelle");
+INSERT INTO ingredients(id) VALUES (last_insert_rowid());
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (2, (SELECT id FROM words WHERE name="Quenelle"), "Grießklößchen");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (3, (SELECT id FROM words WHERE name="Quenelle"), "Quenelle");
+
+INSERT INTO recipes(id_word, time_total, time_preparation, time_crafting, time_backing,
+                    quantity, difficulty, annoyance, threads)
+  VALUES ((SELECT id FROM words WHERE name="Quenelle"), 45, 0, 15, 30, 8, 2, 3, 1);
+
+
+
+INSERT INTO words(name) VALUES ("Bouchées à la reine");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (2, (SELECT id FROM words WHERE name="Bouchées à la reine"), "Königin Pasteten");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (3, (SELECT id FROM words WHERE name="Bouchées à la reine"), "Bouchées à la reine");
+
+INSERT INTO recipes(id_word, time_total, time_preparation, time_crafting, time_backing,
+                    quantity, difficulty, annoyance, threads)
+  VALUES ((SELECT id FROM words WHERE name="Bouchées à la reine"), 90, 0, 90, 45, 6, 3, 4, 3);
+
+
+INSERT INTO requirements(id_recipe, id_ingredient, quantity, id_unit)
+  VALUES ((SELECT id FROM recipes WHERE id_word=(SELECT id FROM WORDS WHERE name="Bouchées à la reine")),
+          (SELECT id FROM ingredients WHERE id=(SELECT id FROM words WHERE name="Quenelle")),
+          8, (SELECT id FROM units WHERE id_word=(SELECT id FROM words WHERE name="-")));
+
+INSERT INTO requirements(id_recipe, id_ingredient, quantity, id_unit)
+  VALUES ((SELECT id FROM recipes WHERE id_word=(SELECT id FROM WORDS WHERE name="Bouchées à la reine")),
+          (SELECT id FROM ingredients WHERE id=(SELECT id FROM words WHERE name="chicken cutlet")),
+          2, (SELECT id FROM units WHERE id_word=(SELECT id FROM words WHERE name="-")));
+
+INSERT INTO requirements(id_recipe, id_ingredient, quantity, id_unit)
+  VALUES ((SELECT id FROM recipes WHERE id_word=(SELECT id FROM WORDS WHERE name="Bouchées à la reine")),
+          (SELECT id FROM ingredients WHERE id=(SELECT id FROM words WHERE name="rump steak")),
+          300, (SELECT id FROM units WHERE id_word=(SELECT id FROM words WHERE name="gram")));
+
+INSERT INTO requirements(id_recipe, id_ingredient, quantity, id_unit)
+  VALUES ((SELECT id FROM recipes WHERE id_word=(SELECT id FROM WORDS WHERE name="Bouchées à la reine")),
+          (SELECT id FROM ingredients WHERE id=(SELECT id FROM words WHERE name="mushroom")),
+          "200", (SELECT id FROM units WHERE id_word=(SELECT id FROM words WHERE name="gram")));
+
+INSERT INTO requirements(id_recipe, id_ingredient, quantity, id_unit)
+  VALUES ((SELECT id FROM recipes WHERE id_word=(SELECT id FROM WORDS WHERE name="Bouchées à la reine")),
+          (SELECT id FROM ingredients WHERE id=(SELECT id FROM words WHERE name="white wine")),
+          "1", (SELECT id FROM units WHERE id_word=(SELECT id FROM words WHERE name="glas")));
+
+INSERT INTO requirements(id_recipe, id_ingredient, quantity, id_unit)
+  VALUES ((SELECT id FROM recipes WHERE id_word=(SELECT id FROM WORDS WHERE name="Bouchées à la reine")),
+          (SELECT id FROM ingredients WHERE id=(SELECT id FROM words WHERE name="egg yolk")),
+          3, (SELECT id FROM units WHERE id_word=(SELECT id FROM words WHERE name="-")));
+
+INSERT INTO requirements(id_recipe, id_ingredient, quantity, id_unit)
+  VALUES ((SELECT id FROM recipes WHERE id_word=(SELECT id FROM WORDS WHERE name="Bouchées à la reine")),
+          (SELECT id FROM ingredients WHERE id=(SELECT id FROM words WHERE name="flour")),
+          3, (SELECT id FROM units WHERE id_word=(SELECT id FROM words WHERE name="tablespoon")));
+
+INSERT INTO requirements(id_recipe, id_ingredient, quantity, id_unit)
+  VALUES ((SELECT id FROM recipes WHERE id_word=(SELECT id FROM WORDS WHERE name="Bouchées à la reine")),
+          (SELECT id FROM ingredients WHERE id=(SELECT id FROM words WHERE name="butter")),
+          45, (SELECT id FROM units WHERE id_word=(SELECT id FROM words WHERE name="gram")));
+
+INSERT INTO requirements(id_recipe, id_ingredient, quantity, id_unit)
+  VALUES ((SELECT id FROM recipes WHERE id_word=(SELECT id FROM WORDS WHERE name="Bouchées à la reine")),
+          (SELECT id FROM ingredients WHERE id=(SELECT id FROM words WHERE name="cream")),
+          10, (SELECT id FROM units WHERE id_word=(SELECT id FROM words WHERE name="centiliter")));
+
+INSERT INTO requirements(id_recipe, id_ingredient, quantity, id_unit)
+  VALUES ((SELECT id FROM recipes WHERE id_word=(SELECT id FROM WORDS WHERE name="Bouchées à la reine")),
+          (SELECT id FROM ingredients WHERE id=(SELECT id FROM words WHERE name="broth")),
+          3/4, (SELECT id FROM units WHERE id_word=(SELECT id FROM words WHERE name="liter")));
+
+INSERT INTO requirements(id_recipe, id_ingredient, quantity, id_unit)
+  VALUES ((SELECT id FROM recipes WHERE id_word=(SELECT id FROM WORDS WHERE name="Bouchées à la reine")),
+          (SELECT id FROM ingredients WHERE id=(SELECT id FROM words WHERE name="puff pastry")),
+          2, (SELECT id FROM units WHERE id_word=(SELECT id FROM words WHERE name="-")));
+
+
+
+INSERT INTO words(name) VALUES ("Prepare the quenelles (in a poultry broth); remove them");
+INSERT INTO steps(id_language, id_recipe, num, description)
+ VALUES ((SELECT id FROM languages WHERE id=1),
+         (SELECT id FROM recipes WHERE id_word=(SELECT id FROM WORDS WHERE name="Bouchées à la reine")),
+         1, last_insert_rowid());
+
+INSERT INTO words(name) VALUES ("Prepare (and cook) the dough basis");
+INSERT INTO steps(id_language, id_recipe, num, description)
+ VALUES ((SELECT id FROM languages WHERE id=1),
+         (SELECT id FROM recipes WHERE id_word=(SELECT id FROM WORDS WHERE name="Bouchées à la reine")),
+         2, last_insert_rowid());
+
+INSERT INTO words(name) VALUES ("Cut the meat in dices; the mushrooms and quenelles in slices");
+INSERT INTO steps(id_language, id_recipe, num, description)
+ VALUES ((SELECT id FROM languages WHERE id=1),
+         (SELECT id FROM recipes WHERE id_word=(SELECT id FROM WORDS WHERE name="Bouchées à la reine")),
+         3, last_insert_rowid());
+
+INSERT INTO words(name) VALUES ("Melt the butter; merge it with the broth (where the quenelles were); make it boil");
+INSERT INTO steps(id_language, id_recipe, num, description)
+VALUES ((SELECT id FROM languages WHERE id=1),
+         (SELECT id FROM recipes WHERE id_word=(SELECT id FROM WORDS WHERE name="Bouchées à la reine")),
+         4, last_insert_rowid());
+
+INSERT INTO words(name) VALUES ("Add the meat, mushrooms, quenelles");
+INSERT INTO steps(id_language, id_recipe, num, description)
+ VALUES ((SELECT id FROM languages WHERE id=1),
+         (SELECT id FROM recipes WHERE id_word=(SELECT id FROM WORDS WHERE name="Bouchées à la reine")),
+         5, last_insert_rowid());
+
+INSERT INTO words(name) VALUES ("Merge the egg yolks with the cream; add it to the broth; reduce the firepower");
+INSERT INTO steps(id_language, id_recipe, num, description)
+ VALUES ((SELECT id FROM languages WHERE id=1),
+         (SELECT id FROM recipes WHERE id_word=(SELECT id FROM WORDS WHERE name="Bouchées à la reine")),
+         6, last_insert_rowid());
+
+
+
+INSERT INTO words(name) VALUES ("Monthly bouffe January 2021; Ratings C|S: 4|4");
+INSERT INTO notes(id_language, id_recipe, description)
+ VALUES ((SELECT id FROM languages WHERE id=1),
+         (SELECT id FROM recipes WHERE id_word=(SELECT id FROM WORDS WHERE name="Bouchées à la reine")),
+         last_insert_rowid());
+
+INSERT INTO words(name) VALUES ("2 persons minimum");
+INSERT INTO notes(id_language, id_recipe, description)
+ VALUES ((SELECT id FROM languages WHERE id=1),
+         (SELECT id FROM recipes WHERE id_word=(SELECT id FROM WORDS WHERE name="Bouchées à la reine")),
          last_insert_rowid());
