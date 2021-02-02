@@ -7,7 +7,6 @@
       $this->db = new SQLite3($db_path);
     }
 
-
     public function fetchWord($word)
     {
       if (gettype($word) == "string")

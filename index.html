@@ -5,25 +5,7 @@
   <meta charset="utf-8">
   <title>Bouffe</title>
 
-  <?php
-   session_start();
-    if (!isset($_SESSION["language"]))
-    {
-      $_SESSION["language"] = "1";
-    }
-
-    include "srv/helper.php";
-  ?>
-</head>
-
-
-<body>
-  <!-- Translation buttons -->
-  <form method="post" action="srv/switch_language.php">
-    <input type="submit" name="language" value="English">
-    <input type="submit" name="language" value="Deutsch">
-    <input type="submit" name="language" value="Français">
-  </form>
+  <?php include "srv/header.php"; /* close head; open body */ ?>
 
 
   <!-- Recipes list -->
@@ -51,7 +33,8 @@
     }
 
     echo("<h3><a href=srv/add_recipe.php>" . $h->fetchWord("Add a recipe") . "</h3>");
+
+    include "srv/footer.php";
   ?>
 
-  </body>
 </html>

@@ -1,12 +1,7 @@
 <?php
 
-session_start();
-if (!isset($_SESSION["language"]))
-{
-  $_SESSION["language"] = "1";
-}
+include "header.php";
 
-include "helper.php";
 
 $db_file = "../db/db";
 $db = new SQLite3("$db_file");
@@ -140,5 +135,7 @@ while ($step = $result->fetchArray())
 }
 print("</ul>");
 
+
+include "footer.php";
 
 ?>

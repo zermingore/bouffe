@@ -2,13 +2,7 @@
 <body>
 
 <?php
-  session_start();
-  if (!isset($_SESSION["language"]))
-  {
-    $_SESSION["language"] = "1";
-  }
-
-  include "helper.php";
+  include "header.php";
 
   $db_file = "../db/db";
   $db = new SQLite3("$db_file");
@@ -199,6 +193,8 @@
   <?php echo("<input type='submit' value='" . $h->fetchWord("Add the recipe") . "'>"); ?>
 
   </form>
+
+  <?php include "footer.php"; ?>
 
 </body>
 </html>
