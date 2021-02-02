@@ -236,6 +236,12 @@ INSERT INTO units(id_word, id_type, id_symbol)
 
 
 -- HTML
+INSERT INTO words(name) VALUES ("home");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (2, (SELECT id FROM words WHERE name="home"), "Startseite");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (3, (SELECT id FROM words WHERE name="home"), "Acceuil");
+
 
 INSERT INTO words(name) VALUES ("Recipes");
 INSERT INTO translations(id_language, id_word, name)
