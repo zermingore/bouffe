@@ -121,10 +121,11 @@ if (!empty($check_empty))
 
 // Instructions steps
 $nb_steps = $db->querySingle("SELECT MAX(num) FROM steps WHERE id_recipe={$recipe['id']};");
+$word_step = $h->fetchWord("Steps");
 
 $query = "SELECT * FROM steps WHERE id_recipe={$recipe['id']}; ORDER BY num";
 $result = $db->query($query);
-print("<h2>" . "$nb_steps" . " steps</h2>");
+print("<h2>" . "$nb_steps" . " $word_step</h2>");
 print("<ul>");
 while ($step = $result->fetchArray())
 {
