@@ -257,6 +257,12 @@ INSERT INTO translations(id_language, id_word, name)
 
 -- Add recipe
 
+INSERT INTO words(name) VALUES ('Unit');
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (2, (SELECT id FROM words WHERE name='Unit'), 'Einheit');
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (3, (SELECT id FROM words WHERE name='Unit'), 'unité');
+
 INSERT INTO words(name) VALUES ('Name');
 INSERT INTO translations(id_language, id_word, name)
   VALUES (2, (SELECT id FROM words WHERE name='Name'), 'Name');

@@ -70,7 +70,6 @@
   <div>
     <div id="g_ingredients_container"/>
 
-
     <script type='text/javascript'>
       var g_ingredients_number = 0; // global
       var g_ingredients_container = document.getElementById("g_ingredients_container");
@@ -126,6 +125,7 @@
 
           $id_unit_ingredient = $db->querySingle("SELECT id FROM words WHERE name='unit_ingredient'");
           $id_unit_none = $db->querySingle("SELECT id FROM words WHERE name='unit_none'");
+
           $query = "SELECT * FROM translations WHERE id_language="
             . $_SESSION["language"]
             . " AND id_word IN (SELECT id_word FROM units WHERE (id_type="
@@ -174,6 +174,17 @@
       <?php echo($h->fetchWord("Add an ingredient")); ?>
       <br/>
     </button>
+
+    <!-- Ingredients header (TODO CSS) -->
+    <div>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <?php
+        echo($h->fetchWord("Quantity") . "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
+        echo($h->fetchWord("Unit") . "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
+        echo($h->fetchWord("Name") . "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
+      ?>
+      <hr/>
+    </div>
 
     <script> addIngredientField(); </script> <!-- Add first ingredient fields -->
   </div>
