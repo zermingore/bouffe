@@ -201,12 +201,12 @@
 
   <br/><br/>
   <hr/>
-  <?php echo($h->fetchWord("Steps") . " (". $h->fetchWord("one per line") . ")<br/>"); ?>
+  <?php echo($h->fetchWord("Steps") . " (". $h->fetchWord("1 per line") . ")<br/>"); ?>
   <textarea name="steps" rows="5" cols="80"></textarea>
 
   <br/><br/>
   <hr/>
-  <?php echo($h->fetchWord("Notes") . " (". $h->fetchWord("one per line") . ")<br/>"); ?>
+  <?php echo($h->fetchWord("Notes") . " (". $h->fetchWord("1 per line") . ")<br/>"); ?>
   <textarea name="notes" rows="5" cols="80"></textarea>
 
   <br/><br/>
