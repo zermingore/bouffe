@@ -58,28 +58,30 @@ INSERT INTO units(id_word, id_type, id_symbol)
           (SELECT id FROM words WHERE name="L"));
 
 
-INSERT INTO words(name) VALUES ("centiliter");
+INSERT INTO words(name) VALUES ("milliliter");
 INSERT INTO translations(id_language, id_word, name)
-  VALUES (2, (SELECT id FROM words WHERE name="centiliter"), "Centiliter");
+  VALUES (2, (SELECT id FROM words WHERE name="milliliter"), "Milliliter");
 INSERT INTO translations(id_language, id_word, name)
-  VALUES (3, (SELECT id FROM words WHERE name="centiliter"), "centilitre");
+  VALUES (3, (SELECT id FROM words WHERE name="milliliter"), "millilitre");
 
-INSERT INTO words(name) VALUES ("cL");
+INSERT INTO words(name) VALUES ("ml");
 INSERT INTO translations(id_language, id_word, name)
-  VALUES (2, (SELECT id FROM words WHERE name="cL"), "cL");
+  VALUES (2, (SELECT id FROM words WHERE name="ml"), "ml");
 INSERT INTO translations(id_language, id_word, name)
-  VALUES (3, (SELECT id FROM words WHERE name="cL"), "cL");
+  VALUES (3, (SELECT id FROM words WHERE name="ml"), "ml");
 
 INSERT INTO units(id_word, id_type, id_symbol)
-  VALUES ((SELECT id FROM words WHERE name="centiliter"),
+  VALUES ((SELECT id FROM words WHERE name="milliliter"),
           (SELECT id FROM words WHERE name="unit_ingredient"),
-          (SELECT id FROM words WHERE name="cL"));
+          (SELECT id FROM words WHERE name="ml"));
+
+
 
 
 
 INSERT INTO words(name) VALUES ("second");
 INSERT INTO translations(id_language, id_word, name)
-  VALUES (2, (SELECT id FROM words WHERE name="second"), "Sekude");
+  VALUES (2, (SELECT id FROM words WHERE name="second"), "Sekunde");
 INSERT INTO translations(id_language, id_word, name)
   VALUES (3, (SELECT id FROM words WHERE name="second"), "seconde");
 
@@ -191,7 +193,7 @@ INSERT INTO units(id_word, id_type, id_symbol)
 
 INSERT INTO words(name) VALUES ("glass");
 INSERT INTO translations(id_language, id_word, name)
-  VALUES (2, (SELECT id FROM words WHERE name="glass"), "Glass");
+  VALUES (2, (SELECT id FROM words WHERE name="glass"), "Glas");
 INSERT INTO translations(id_language, id_word, name)
   VALUES (3, (SELECT id FROM words WHERE name="glass"), "verre");
 
@@ -302,7 +304,7 @@ INSERT INTO translations(id_language, id_word, name)
 
 INSERT INTO words(name) VALUES ("Time backing");
 INSERT INTO translations(id_language, id_word, name)
-  VALUES (2, (SELECT id FROM words WHERE name="Time backing"), "Zeit kochen");
+  VALUES (2, (SELECT id FROM words WHERE name="Time backing"), "Zeit Zubereitung");
 INSERT INTO translations(id_language, id_word, name)
   VALUES (3, (SELECT id FROM words WHERE name="Time backing"), "Temps cuisson");
 
@@ -315,22 +317,28 @@ INSERT INTO translations(id_language, id_word, name)
 
 INSERT INTO words(name) VALUES ("Difficulty");
 INSERT INTO translations(id_language, id_word, name)
-  VALUES (2, (SELECT id FROM words WHERE name="Difficulty"), "Schwerigkeit");
+  VALUES (2, (SELECT id FROM words WHERE name="Difficulty"), "Schwierigkeit");
 INSERT INTO translations(id_language, id_word, name)
   VALUES (3, (SELECT id FROM words WHERE name="Difficulty"), "Difficulté");
 
 INSERT INTO words(name) VALUES ("Annoyance");
 INSERT INTO translations(id_language, id_word, name)
-  VALUES (2, (SELECT id FROM words WHERE name="Annoyance"), "Ärger");
+  VALUES (2, (SELECT id FROM words WHERE name="Annoyance"), "Nervigkeit");
 INSERT INTO translations(id_language, id_word, name)
   VALUES (3, (SELECT id FROM words WHERE name="Annoyance"), "Agacement");
 
-INSERT INTO words(name) VALUES ("Ideal number of people");
+INSERT INTO words(name) VALUES ("Ideal number of cooks");
 INSERT INTO translations(id_language, id_word, name)
-  VALUES (2, (SELECT id FROM words WHERE name="Ideal number of people"), "Ideal Menge Köcher");
+  VALUES (2, (SELECT id FROM words WHERE name="Ideal number of cooks"), "Empfohlene Koch-Anzahl");
 INSERT INTO translations(id_language, id_word, name)
-  VALUES (3, (SELECT id FROM words WHERE name="Ideal number of people"), "Nombre idéal de personnes");
+  VALUES (3, (SELECT id FROM words WHERE name="Ideal number of cooks"), "Nombre idéal de cuisiniers");
 
+
+INSERT INTO words(name) VALUES ("For");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (2, (SELECT id FROM words WHERE name="For"), "Für");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (3, (SELECT id FROM words WHERE name="For"), "Pour");
 
 INSERT INTO words(name) VALUES ("Quantity");
 INSERT INTO translations(id_language, id_word, name)
@@ -374,11 +382,11 @@ INSERT INTO translations(id_language, id_word, name)
 
 
 
-INSERT INTO words(name) VALUES ("one per line");
+INSERT INTO words(name) VALUES ("1 per line");
 INSERT INTO translations(id_language, id_word, name)
-  VALUES (2, (SELECT id FROM words WHERE name="one per line"), "eins pro Linie");
+  VALUES (2, (SELECT id FROM words WHERE name="1 per line"), "1 pro Linie");
 INSERT INTO translations(id_language, id_word, name)
-  VALUES (3, (SELECT id FROM words WHERE name="one per line"), "une par ligne");
+  VALUES (3, (SELECT id FROM words WHERE name="1 per line"), "1 par ligne");
 
 -- Ingredients
 

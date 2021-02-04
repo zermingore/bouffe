@@ -50,7 +50,7 @@
   <input type="radio" name="annoyance" value="6">5+
 
   <br/><br/>
-  <?php echo($h->fetchWord("Ideal number of people") . "<br/>"); ?>
+  <?php echo($h->fetchWord("Ideal number of cooks") . "<br/>"); ?>
   <input type="radio" name="threads" value="1" checked="checked">1
   <input type="radio" name="threads" value="2">2
   <input type="radio" name="threads" value="3">3
@@ -60,7 +60,7 @@
 
   <br/><br/>
   <?php
-    echo($h->fetchWord("Quantity") . ": <input type='text' name='quantity'><br/>");
+    echo($h->fetchWord("For") . ": <input type='text' name='quantity'><br/>");
   ?>
 
   <br/><br/>

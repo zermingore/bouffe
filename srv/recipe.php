@@ -54,9 +54,9 @@ print("<hr/>");
 
 print("<h2>" . $h->fetchWord("Metadata") . "</h2>");
 print("<ul>");
-print("  <li>" . $h->fetchWord("Quantity") . ": " . $recipe['quantity'] . "</li>");
+print("  <li>" . $h->fetchWord("For") . ": " . $recipe['quantity'] . "</li>");
 print("  <li>" . $h->fetchWord("Difficulty") . ": " . $recipe['difficulty'] . "</li>");
-print("  <li>" . $h->fetchWord("Ideal number of people") . ": " . $recipe['threads'] . "</li>");
+print("  <li>" . $h->fetchWord("Ideal number of cooks") . ": " . $recipe['threads'] . "</li>");
 print("</ul>");
 print("<hr/>");
 
