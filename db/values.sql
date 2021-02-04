@@ -516,4 +516,4 @@ INSERT INTO translations(id_language, id_word, name)
   VALUES (3, (SELECT id FROM words WHERE name="rusk"), "biscotte");
 
 
-.read custom_values.sql
+.read custom/custom_values.sql
