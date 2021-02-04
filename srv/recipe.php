@@ -72,6 +72,7 @@ while ($requirement = $result->fetchArray())
 {
   $query = "SELECT name FROM words WHERE id={$requirement['id_ingredient']};";
   $ingredient_name = $db->querySingle($query);
+  $ingredient_name = $h->fetchWord($ingredient_name);
 
   if ($requirement['id_unit'] != "")
   {

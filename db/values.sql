@@ -505,16 +505,16 @@ INSERT INTO translations(id_language, id_word, name)
 INSERT INTO words(name) VALUES ("broth");
 INSERT INTO ingredients(id) VALUES (last_insert_rowid());
 INSERT INTO translations(id_language, id_word, name)
-  VALUES (2, (SELECT id FROM words WHERE name="red wine"), "Brühe");
+  VALUES (2, (SELECT id FROM words WHERE name="broth"), "Brühe");
 INSERT INTO translations(id_language, id_word, name)
-  VALUES (3, (SELECT id FROM words WHERE name="red wine"), "bouillon");
+  VALUES (3, (SELECT id FROM words WHERE name="broth"), "bouillon");
 
 INSERT INTO words(name) VALUES ("puff pastry");
 INSERT INTO ingredients(id) VALUES (last_insert_rowid());
 INSERT INTO translations(id_language, id_word, name)
-  VALUES (2, (SELECT id FROM words WHERE name="red wine"), "Blätterteig");
+  VALUES (2, (SELECT id FROM words WHERE name="puff pastry"), "Blätterteig");
 INSERT INTO translations(id_language, id_word, name)
-  VALUES (3, (SELECT id FROM words WHERE name="red wine"), "pâte feuilletée");
+  VALUES (3, (SELECT id FROM words WHERE name="puff pastry"), "pâte feuilletée");
 
 INSERT INTO words(name) VALUES ("rusk");
 INSERT INTO ingredients(id) VALUES (last_insert_rowid());
