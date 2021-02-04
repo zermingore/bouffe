@@ -29,7 +29,7 @@
       $recipe_name = $db->querySingle($query_name);
 
       echo "<a href=/srv/recipe.php?id={$row['id']}>"
-        . $h->fetchWord($recipe_name) . "</a><br/>";
+        . $h->fetchWord($recipe_name, true) . "</a><br/>";
     }
 
     echo("<h3><a href=srv/add_recipe.php>" . $h->fetchWord("Add a recipe") . "</h3>");

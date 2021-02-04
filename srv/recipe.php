@@ -113,7 +113,7 @@ if (!empty($check_empty))
   {
     $query = "SELECT name FROM words WHERE id={$note['description']};";
     $description = $db->querySingle($query);
-    print("  <li>" . $h->fetchWord($description) . "</li>");
+    print("  <li>" . $h->fetchWord($description, true) . "</li>");
   }
   print("</ul>");
   print("<hr/>");
@@ -133,7 +133,7 @@ while ($step = $result->fetchArray())
   $query = "SELECT name FROM words WHERE id={$step['description']};";
   $description = $db->querySingle($query);
 
-  print("  <li>{$step['num']}/$nb_steps - " . $h->fetchWord($description) . "</li>");
+  print("  <li>{$step['num']}/$nb_steps - " . $h->fetchWord($description, true) . "</li>");
 }
 print("</ul>");
 

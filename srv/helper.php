@@ -7,21 +7,21 @@
       $this->db = new SQLite3($db_path);
     }
 
-    public function fetchWord($word)
+    public function fetchWord($word, $accept_error = false)
     {
       if (gettype($word) == "string")
       {
-        return $this->fetchWordByName($word);
+        return $this->fetchWordByName($word, $accept_error);
       }
 
       if (gettype($word) == "integer")
       {
-        return $this->fetchWordById($word);
+        return $this->fetchWordById($word, $accept_error);
       }
     }
 
 
-    public function fetchWordByName(string $word)
+    public function fetchWordByName(string $word, $accept_error)
     {
       $language_id = $_SESSION["language"];
 
@@ -47,8 +47,12 @@
       $text =  $this->db->querySingle($query);
       if ($text == NULL)
       {
+        if ($accept_error)
+        {
+          return "[TR] $word";
+        }
         echo "Error: Unable to find word [" . $word . "]";
-        return "___";
+        return "__ $word __";
       }
       if ($text == false)
       {
@@ -58,6 +62,11 @@
 
       if ($text == "")
       {
+        if ($accept_error)
+        {
+          return "[En] $word";
+        }
+
         echo "ERROR: missing word [$word] in language [$language_id] <br/>";
         return $word;
       }
@@ -65,7 +74,7 @@
     }
 
 
-    public function fetchWordById(int $id)
+    public function fetchWordById(int $id, $accept_error)
     {
       $query = "SELECT name from words where id='" . $id . "'";
       $text = $this->db->querySingle($query);
@@ -104,6 +113,11 @@
 
       if ($translation == "")
       {
+        if ($accept_error)
+        {
+          return "[En] $text";
+        }
+
         echo "ERROR: missing word [$text] in language [$language_id] <br/>";
         return $text;
       }

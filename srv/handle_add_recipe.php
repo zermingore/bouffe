@@ -1,4 +1,5 @@
 <html>
+<?php include "header.php"; ?>
 <body>
 
 
@@ -168,6 +169,9 @@ Notes: <?php echo $_POST["notes"]?><br/>
     $db->querySingle($query);
   }
 
+
+
+  include "footer.php";
 ?>
 
 
