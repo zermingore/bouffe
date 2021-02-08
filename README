@@ -16,6 +16,7 @@ Customization:
 As default, the following are loaded (errors can safely be ignored)
 - The SQLite schema (db/schema.sql -> db/values.sql) includes custom/db/values.sql
 - A favicon may be placed in custom/favicon.png
+(tracking your custom/ directory [for instance with git] might be a good idea)
 
 If you want to add ingredients or even a language,
 you may want to edit the schema.sql and submit a pull request.
