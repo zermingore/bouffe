@@ -110,7 +110,7 @@
 
   <br/><br/>
   <hr/>
-  <?php echo("<h3>" . $h->fetchWord("Ingredients") . "</h3>"); ?>
+  <?php echo("<h2>" . $h->fetchWord("Ingredients") . "</h2>"); ?>
 
   <div>
     <div id="g_ingredients_container"/>
@@ -225,10 +225,11 @@
       }
     </script>
 
-    <button type="button" id="filldetails" onclick="addIngredientField()">
+    <!-- TODO support add / rm ingredient -->
+    <!-- <button type="button" id="filldetails" onclick="addIngredientField()">
       <?php echo($h->fetchWord("Add an ingredient")); ?>
       <br/>
-    </button>
+    </button> -->
 
     <!-- Ingredients header (TODO CSS) -->
     <div>
@@ -241,8 +242,40 @@
       <hr/>
     </div>
 
-    <script> addIngredientField(); </script> <!-- Add first ingredient fields -->
+    <!-- <script> addIngredientField(); </script> -->
+    <!-- Add first ingredient fields -->
   </div>
+
+
+  <?php
+    // Fetch ingredients from 'requirements' table
+    $query = "SELECT * FROM requirements WHERE id_recipe={$recipe['id']};";
+    $result = $db->query($query);
+    while ($requirement = $result->fetchArray())
+    {
+      $query = "SELECT name FROM words WHERE id={$requirement['id_ingredient']};";
+      $ingredient_name = $db->querySingle($query);
+      $ingredient_name = $h->fetchWord($ingredient_name);
+
+      if ($requirement['id_unit'] != "")
+      {
+        $query = "SELECT id_word FROM units WHERE id={$requirement['id_unit']};";
+        $id_symbol = $db->querySingle($query);
+
+        $query_name = "SELECT name FROM words WHERE id={$id_symbol};";
+        $unit_name = $db->querySingle($query_name);
+
+        $unit_name = $h->fetchWord($unit_name);
+      }
+
+      echo("<input type='text' name=ingredient_quantity_{$i} value='". $requirement['quantity'] . "'>");
+      echo("<input type='text' name=ingredient_unit_name_{$i} value='". $unit_name . "'>");
+      echo("<input type='text' name=ingredient_name_{$i} value='". $ingredient_name . "'><br/>");
+    }
+    print("</ul>");
+    print("<hr/>");
+  ?>
+
 
   <br/><br/>
   <hr/>
