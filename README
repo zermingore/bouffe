@@ -1,0 +1,26 @@
+Dummy cooking recipes web viewer
+
+*WARNING* This code is not safe (the PHP fields are not even sanitized)
+do *NOT* use it online
+(Pull Request [not only on safety topic] are of course welcomed)
+
+
+Database:
+Initialize the database running the following in the db/ folder
+$> cd db; rm db; touch db && chmod 666 db && sqlite3 db
+sqlite> .read schema.sql
+This gives you the database schema; filling it is up to you.
+(You can safely ignore: 'Error: cannot open "../custom/db/custom_values.sql"')
+
+Customization:
+As default, the following are loaded (errors can safely be ignored)
+- The SQLite schema (db/schema.sql -> db/values.sql) includes custom/db/values.sql
+- A favicon may be placed in custom/favicon.png
+
+If you want to add ingredients or even a language,
+you may want to edit the schema.sql and submit a pull request.
+
+
+This server requires SQLite and PHP support
+For installation pointers, check the INSTALL file
+(The client browser requires javascript)
