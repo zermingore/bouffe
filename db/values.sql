@@ -250,6 +250,12 @@ INSERT INTO translations(id_language, id_word, name)
 INSERT INTO translations(id_language, id_word, name)
   VALUES (3, (SELECT id FROM words WHERE name="edit"), "modifier");
 
+INSERT INTO words(name) VALUES ("Edit the recipe");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (2, (SELECT id FROM words WHERE name="Edit the recipe"), "Rezept anpassen");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (3, (SELECT id FROM words WHERE name="Edit the recipe"), "Modifier la recette");
+
 
 INSERT INTO words(name) VALUES ("Recipes");
 INSERT INTO translations(id_language, id_word, name)

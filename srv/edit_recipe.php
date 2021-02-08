@@ -246,17 +246,51 @@
 
   <br/><br/>
   <hr/>
-  <?php echo($h->fetchWord("Steps") . " (". $h->fetchWord("1 per line") . ")<br/>"); ?>
-  <textarea name="steps" rows="5" cols="80"></textarea>
+
+
+  <!-- Instructions steps -->
+  <?php
+    $word_step = $h->fetchWord("Steps");
+
+    $query = "SELECT * FROM steps WHERE id_recipe={$recipe['id']}; ORDER BY num";
+    $result = $db->query($query);
+    print("<h2>$word_step</h2>");
+    print("<ul>");
+    while ($step = $result->fetchArray())
+    {
+      $query = "SELECT name FROM words WHERE id={$step['description']};";
+      $description = $db->querySingle($query);
+
+      echo("<input type='text' name=step_{$step['num']} value='". $description . "'><br/>");
+    }
+    print("</ul>");
+  ?>
+
+
+  <!-- Notes -->
+  <br/><br/>
+  <hr/>
+  <?php
+    $word_note = $h->fetchWord("Notes");
+
+    $query = "SELECT * FROM notes WHERE id_recipe={$recipe['id']}; ORDER BY num";
+    $result = $db->query($query);
+    print("<h2>$word_note</h2>");
+    print("<ul>");
+    while ($note = $result->fetchArray())
+    {
+      $query = "SELECT name FROM words WHERE id={$note['description']};";
+      $description = $db->querySingle($query);
+
+      echo("<input type='text' name=note_{$note['num']} value='". $description . "'><br/>");
+    }
+    print("</ul>");
+  ?>
+
 
   <br/><br/>
   <hr/>
-  <?php echo($h->fetchWord("Notes") . " (". $h->fetchWord("1 per line") . ")<br/>"); ?>
-  <textarea name="notes" rows="5" cols="80"></textarea>
-
-  <br/><br/>
-  <hr/>
-  <?php echo("<input type='submit' value='" . $h->fetchWord("Add the recipe") . "'>"); ?>
+  <?php echo("<input type='submit' value='" . $h->fetchWord("Edit the recipe") . "'>"); ?>
 
   </form>
 
