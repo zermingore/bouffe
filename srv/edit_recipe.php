@@ -54,7 +54,7 @@
 ?>
 
 
-<form method="post" action="handle_edit_recipe.php"> <!-- call add with an edit flag -->
+<form method="post" action="handle_edit_recipe.php?id={$_GET['id']}"> <!-- call add with an edit flag -->
 
   <hr/>
   <?php
@@ -76,7 +76,6 @@
   <br/><br/>
   <?php echo("<h3>" . $h->fetchWord("Metadata") . "</h3>"); ?>
   <?php
-
     function addInputField($i, $name, $check)
     {
       $i > 5 ? $value = "5+" : $value = $i;
@@ -194,7 +193,6 @@
           }
 
           $list = $db->query($query);
-          $ingredient_found = 0;
           $list->reset();
 
           $txt = [];

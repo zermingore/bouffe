@@ -141,7 +141,6 @@
           }
 
           $list = $db->query($query);
-          $ingredient_found = 0;
           $list->reset();
 
           $txt = [];
