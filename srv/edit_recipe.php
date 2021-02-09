@@ -72,35 +72,43 @@
     echo($h->fetchWord("Time backing") . "$short'time_backing' value='$time_backing'><br/>");
   ?>
 
+
   <br/><br/>
+  <?php echo("<h3>" . $h->fetchWord("Metadata") . "</h3>"); ?>
   <?php
-    echo("<h3>" . $h->fetchWord("Metadata") . "</h3>");
+
+    function addInputField($i, $name, $check)
+    {
+      $i > 5 ? $value = "5+" : $value = $i;
+
+      if ($i == $check)
+        echo('<input type="radio" name="' . $name . '" value="' . $i . '" checked="true">' . $value);
+      else
+        echo('<input type="radio" name="' . $name . '" value="' . $i . '">' . $value);
+    }
+
+
     echo($h->fetchWord("Difficulty") . "<br/>");
+    for ($i = 1; $i < 7; $i++)
+    {
+      addInputField($i, "difficulty", $difficulty);
+    }
+
+    echo("<br/><br/>");
+    echo($h->fetchWord("Annoyance") . "<br/>");
+    for ($i = 1; $i < 7; $i++)
+    {
+      addInputField($i, "annoyance", $annoyance);
+    }
+
+    echo("<br/><br/>");
+    echo($h->fetchWord("Ideal number of cooks") . "<br/>");
+    for ($i = 1; $i < 7; $i++)
+    {
+      addInputField($i, "threads", $threads);
+    }
   ?>
-  <input type="radio" name="difficulty" value="1">1
-  <input type="radio" name="difficulty" value="2">2
-  <input type="radio" name="difficulty" value="3">3
-  <input type="radio" name="difficulty" value="4">4
-  <input type="radio" name="difficulty" value="5">5
-  <input type="radio" name="difficulty" value="6">5+
 
-  <br/><br/>
-  <?php echo($h->fetchWord("Annoyance") . "<br/>"); ?>
-  <input type="radio" name="annoyance" value="1">1
-  <input type="radio" name="annoyance" value="2">2
-  <input type="radio" name="annoyance" value="3">3
-  <input type="radio" name="annoyance" value="4">4
-  <input type="radio" name="annoyance" value="5">5
-  <input type="radio" name="annoyance" value="6">5+
-
-  <br/><br/>
-  <?php echo($h->fetchWord("Ideal number of cooks") . "<br/>"); ?>
-  <input type="radio" name="threads" value="1">1
-  <input type="radio" name="threads" value="2">2
-  <input type="radio" name="threads" value="3">3
-  <input type="radio" name="threads" value="4">4
-  <input type="radio" name="threads" value="5">5
-  <input type="radio" name="threads" value="6">5+
 
   <br/><br/>
   <?php
