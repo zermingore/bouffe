@@ -42,12 +42,28 @@ print("<hr/>");
 // TODO Time units
 print("<h2>" . $h->fetchWord("Time") . "</h2>");
 print("<ul>");
-print("  <li>" . $h->fetchWord("Time total") . ": " . $recipe['time_total']
+$time_total = $recipe['time_preparation'] + $recipe['time_crafting'] +  $recipe['time_backing'];
+print("  <li>" . $h->fetchWord("Time total") . ": " . $time_total
       . " " . $h->fetchWord("min.") . "</li>");
-print("  <li>" . $h->fetchWord("Time crafting") . ": " . $recipe['time_crafting']
-      . " " . $h->fetchWord("min.") . "</li>");
-print("  <li>" . $h->fetchWord("Time backing") . ": ". $recipe['time_backing']
-      . " " . $h->fetchWord("min.") . "</li>");
+
+if ($recipe['time_preparation'] != 0)
+{
+  print("  <li>" . $h->fetchWord("Time preparation") . ": " . $recipe['time_preparation']
+    . " " . $h->fetchWord("min.") . "</li>");
+}
+
+if ($recipe['time_crafting'] != 0)
+{
+  print("  <li>" . $h->fetchWord("Time crafting") . ": " . $recipe['time_crafting']
+    . " " . $h->fetchWord("min.") . "</li>");
+}
+
+if ($recipe['time_backing'] != 0)
+{
+  print("  <li>" . $h->fetchWord("Time backing") . ": ". $recipe['time_backing']
+    . " " . $h->fetchWord("min.") . "</li>");
+}
+
 print("</ul>");
 print("<hr/>");
 

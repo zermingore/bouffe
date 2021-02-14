@@ -96,7 +96,6 @@ CREATE TABLE recipes(
   id_word INTEGER NOT NULL,
   summary INTEGER,
 
-  time_total,       -- minutes
   time_preparation, -- minutes
   time_crafting,    -- minutes
   time_backing,     -- minutes

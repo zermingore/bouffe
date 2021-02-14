@@ -22,7 +22,6 @@
   <br/><br/>
   <?php
     echo("<h3>" . $h->fetchWord("Time") . "</h3>");
-    echo($h->fetchWord("Time total") . ": <input type='text' name='time_total'><br/>");
     echo($h->fetchWord("Time preparation") . ": <input type='text' name='time_preparation'><br/>");
     echo($h->fetchWord("Time crafting") . ": <input type='text' name='time_crafting'><br/>");
     echo($h->fetchWord("Time backing") . ": <input type='text' name='time_backing'><br/>");

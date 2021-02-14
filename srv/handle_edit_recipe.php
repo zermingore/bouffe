@@ -6,7 +6,6 @@
 Recipe __<?php echo $_POST["name"]; ?>__<br?>
 id: <?php echo $_POST["id"]?><br/>
 
-time total: <?php "time_total"?><br/>
 time crafting: <?php "time_crafting"?><br/>
 time backing: <?php "time_backing"?><br/>
 

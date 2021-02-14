@@ -66,7 +66,6 @@
   <br/><br/>
   <?php
     echo("<h3>" . $h->fetchWord("Time") . "</h3>");
-    echo($h->fetchWord("Time total") . "$short'time_total' value='$time_total'><br/>");
     echo($h->fetchWord("Time preparation") . "$short'time_preparation' value='$time_preparation'><br/>");
     echo($h->fetchWord("Time crafting") . "$short'time_crafting' value='$time_crafting'><br/>");
     echo($h->fetchWord("Time backing") . "$short'time_backing' value='$time_backing'><br/>");
