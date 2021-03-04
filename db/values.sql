@@ -250,6 +250,18 @@ INSERT INTO translations(id_language, id_word, name)
 INSERT INTO translations(id_language, id_word, name)
   VALUES (3, (SELECT id FROM words WHERE name="edit"), "modifier");
 
+INSERT INTO words(name) VALUES ("Add note");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (2, (SELECT id FROM words WHERE name="Add note"), "Notiz hinzufügen");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (3, (SELECT id FROM words WHERE name="Add note"), "Ajouter une note");
+
+INSERT INTO words(name) VALUES ("Add step");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (2, (SELECT id FROM words WHERE name="Add step"), "Schritt hinzufügen");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (3, (SELECT id FROM words WHERE name="Add step"), "Ajouter une étape");
+
 INSERT INTO words(name) VALUES ("Edit the recipe");
 INSERT INTO translations(id_language, id_word, name)
   VALUES (2, (SELECT id FROM words WHERE name="Edit the recipe"), "Rezept anpassen");

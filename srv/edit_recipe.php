@@ -253,6 +253,26 @@
 
 
   <?php
+    $id_unit_ingredient = $db->querySingle("SELECT id FROM words WHERE name='unit_ingredient'");
+    $id_unit_none = $db->querySingle("SELECT id FROM words WHERE name='unit_none'");
+
+    if (!isset($_SESSION["language"]) || $_SESSION["language"] == "1")
+    {
+      $query = "SELECT * FROM words WHERE"
+      . " id IN (SELECT id_word FROM units WHERE (id_type="
+      . $id_unit_ingredient . " OR id_type=" . $id_unit_none . "))";
+    }
+    else
+    {
+      $query = "SELECT * FROM translations WHERE id_language="
+      . $_SESSION["language"]
+      . " AND id_word IN (SELECT id_word FROM units WHERE (id_type="
+      . $id_unit_ingredient . " OR id_type=" . $id_unit_none . "))";
+    }
+
+    $units_list = $db->query($query);
+    $units_list->reset();
+
     // Fetch ingredients from 'requirements' table
     $query = "SELECT * FROM requirements WHERE id_recipe={$recipe['id']};";
     $result = $db->query($query);
@@ -273,8 +293,25 @@
         $unit_name = $h->fetchWord($unit_name);
       }
 
+      // Quantity
       echo("<input type='text' name=ingredient_quantity_{$i} value='". $requirement['quantity'] . "'>");
-      echo("<input type='text' name=ingredient_unit_name_{$i} value='". $unit_name . "'>");
+
+      // Unit
+      echo("<select id=ingredient_unit_name_{$i} value='tmp'>");
+      while ($u = $units_list->fetchArray())
+      {
+        if ($unit_name == $u['name'])
+        {
+          echo("  <option value=${u['name']} selected=selected>" . $u['name'] . "</option>");
+        }
+        else
+        {
+          echo("  <option value=${u['name']}>" . $u['name'] . "</option>");
+        }
+      }
+      echo("</select>");
+
+      // Name
       echo("<input type='text' name=ingredient_name_{$i} value='". $ingredient_name . "'><br/>");
     }
     print("</ul>");
