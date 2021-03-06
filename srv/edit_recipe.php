@@ -54,7 +54,7 @@
 ?>
 
 
-<form method="post" action="handle_edit_recipe.php?id={$_GET['id']}"> <!-- call add with an edit flag -->
+<form method="post" action='<?php echo("handle_edit_recipe.php?id=" . $_GET['id'] . "'>"); ?>
 
   <hr/>
   <?php

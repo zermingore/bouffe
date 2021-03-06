@@ -1,10 +1,19 @@
 <html>
-<?php include "header.php"; ?>
+<?php include "header.php"; echo "<pre>"; print_r($_POST); echo "</pre>";
+?>
 <body>
 
 
-Recipe __<?php echo $_POST["name"]; ?>__<br?>
-id: <?php echo $_POST["id"]?><br/>
+<?php
+  if (!isset($_GET['id']))
+  {
+    echo("Recipe id not forwarder; Aborting");
+    return;
+  }
+?>
+
+Recipe __<?php echo $_POST["name"]; ?>__<br/>
+id: <?php echo($_GET["id"])?><br/>
 
 time crafting: <?php "time_crafting"?><br/>
 time backing: <?php "time_backing"?><br/>
@@ -14,9 +23,6 @@ Quantity: <?php echo $_POST["quantity"]?><br/>
 Difficulty: <?php echo $_POST["difficulty"]?><br/>
 Annoyance: <?php echo $_POST["annoyance"]?><br/>
 Threads: <?php echo $_POST["threads"]?><br/>
-
-Steps: <?php echo $_POST["steps"]?><br/>
-Notes: <?php echo $_POST["notes"]?><br/>
 
 
 <hr/>
@@ -49,13 +55,14 @@ Notes: <?php echo $_POST["notes"]?><br/>
     $summary_id=$db->lastInsertRowID();
   }
 
-  // echo "<pre>"; print_r($_POST); echo "</pre>";
-
-  $query = "INSERT INTO recipes(
+  $id_recipe = $_GET['id'];
+  $query = "REPLACE INTO recipes(
+    id,
     id_word,
     summary,
     time_total, time_preparation, time_crafting, time_backing,
     quantity, difficulty, annoyance, threads) VALUES("
+    . $id_recipe
     . "'" . $name_id . "', '" . $summary_id . "', '"
     . $_POST['time_total'] . "', '" . $_POST['time_preparation'] . "', '"
     . $_POST['time_crafting'] . "', '" . $_POST['time_backing'] . "', '"
@@ -63,7 +70,10 @@ Notes: <?php echo $_POST["notes"]?><br/>
     . $_POST['quantity']
     . "');";
   $db->query($query);
-  $id_recipe = $db->lastInsertRowID();
+
+  // Clear ingredients before adding the new ones
+  $query = "DELETE FROM requirements WHERE id_recipe=$id_recipe;";
+  $db->query($query);
 
 
   echo "Ingredients:<br/>";
@@ -71,15 +81,15 @@ Notes: <?php echo $_POST["notes"]?><br/>
   $db_ingredients = $db->query("SELECT * FROM words WHERE id IN (SELECT id FROM ingredients)");
 
   // TODO handle translations (searching by name...)
-  for ($i = 1; $i <= count($_POST); $i++)
+  for ($i = 1; $i <= count($_POST); $i++) // count($_POST) overkill but safe
   {
-    if (!isset($_POST["ingredient_" . $i . "_name"]))
+    if (!isset($_POST["ingredient_name_" . $i]))
     {
       continue;
     }
 
-    if (   !isset($_POST["ingredient_" . $i . "_qty"])
-        || !isset($_POST["ingredient_" . $i . "_qty_unit"]))
+    if (   !isset($_POST["ingredient_quantity_" . $i])
+        || !isset($_POST["ingredient_unit_name_" . $i]))
     {
       echo "Ill-Formed ingredient:<br/>";
       echo "<pre>"; print_r($_POST); echo "</pre>";
@@ -87,15 +97,13 @@ Notes: <?php echo $_POST["notes"]?><br/>
     }
 
 
-    $ingredient_name = $_POST["ingredient_" . $i . "_name"];
+    $ingredient_name = $_POST["ingredient_name_" . $i];
     $ingredient_found = 0;
     $db_ingredients->reset();
     while ($res = $db_ingredients->fetchArray())
     {
       if ($res['name'] == $ingredient_name)
       {
-        // echo $_POST["ingredient_" . $i . "_name"] . " already in DB!<br/>";
-
         $ingredient_found = 1;
         break;
       }
@@ -119,24 +127,23 @@ Notes: <?php echo $_POST["notes"]?><br/>
     // Fetch the quantity unit id
     $quantity_unit_id = $db->querySingle(
       "SELECT * FROM units WHERE id_word IN (SELECT id FROM words WHERE name='"
-      . $_POST["ingredient_" . $i . "_qty_unit"] . "')");
+      . $_POST["ingredient_unit_name_" . $i] . "')");
 
     // Add the requirement
     $query =
       "INSERT INTO requirements('id_recipe', 'id_ingredient', 'quantity', 'id_unit') VALUES('"
       . $id_recipe . "','" . $ingredient_id . "', '"
-      . $_POST["ingredient_" . $i . "_qty"] . "', '" . $quantity_unit_id . "');";
-    $db->query($query);
+      . $_POST["ingredient_quantity_" . $i] . "', '" . $quantity_unit_id . "');";
+    $res = $db->query($query);
 
-
-    if ($_POST["ingredient_" . $i . "_qty_unit"] != "-")
+    if ($_POST["ingredient_unit_name_" . $i] != "-")
     {
       echo $ingredient_name . " (". $_POST["ingredient_" . $i . "_qty"]
-        . " ". $_POST["ingredient_" . $i . "_qty_unit"] . ")<br/>";
+        . " ". $_POST["ingredient_unit_name_" . $i] . ")<br/>";
     }
     else
     {
-      echo $_POST["ingredient_" . $i . "_qty"] . " " . $ingredient_name . "<br/>";
+      echo $_POST["ingredient_quantity_" . $i] . " " . $ingredient_name . "<br/>";
     }
   }
 
