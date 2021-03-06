@@ -276,6 +276,7 @@
     // Fetch ingredients from 'requirements' table
     $query = "SELECT * FROM requirements WHERE id_recipe={$recipe['id']};";
     $result = $db->query($query);
+    $i = 1;
     while ($requirement = $result->fetchArray())
     {
       $query = "SELECT name FROM words WHERE id={$requirement['id_ingredient']};";
@@ -297,7 +298,7 @@
       echo("<input type='text' name=ingredient_quantity_{$i} value='". $requirement['quantity'] . "'>");
 
       // Unit
-      echo("<select id=ingredient_unit_name_{$i} value='tmp'>");
+      echo("<select name=ingredient_unit_name_{$i}>");
       while ($u = $units_list->fetchArray())
       {
         if ($unit_name == $u['name'])
@@ -313,6 +314,7 @@
 
       // Name
       echo("<input type='text' name=ingredient_name_{$i} value='". $ingredient_name . "'><br/>");
+      $i++;
     }
     print("</ul>");
     print("<hr/>");
@@ -367,9 +369,9 @@
   <hr/>
   <?php echo("<input type='submit' value='" . $h->fetchWord("Edit the recipe") . "'>"); ?>
 
-  </form>
+</form>
 
-  <?php include "footer.php"; ?>
+<?php include "footer.php"; ?>
 
 </body>
 </html>
