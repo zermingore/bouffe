@@ -37,7 +37,6 @@
     $summary = $db->querySingle($query, true)['name'];
   }
 
-  $time_total = $recipe['time_total'];
   $time_preparation = $recipe["time_preparation"];
   $time_crafting = $recipe["time_crafting"];
   $time_backing = $recipe["time_backing"];

@@ -58,10 +58,10 @@ Notes: <?php echo $_POST["notes"]?><br/>
   $query = "INSERT INTO recipes(
     id_word,
     summary,
-    time_total, time_preparation, time_crafting, time_backing,
+    time_preparation, time_crafting, time_backing,
     quantity, difficulty, annoyance, threads) VALUES("
     . "'" . $name_id . "', '" . $summary_id . "', '"
-    . $_POST['time_total'] . "', '" . $_POST['time_preparation'] . "', '"
+    . $_POST['time_preparation'] . "', '"
     . $_POST['time_crafting'] . "', '" . $_POST['time_backing'] . "', '"
     . $_POST['difficulty'] . "', '" . $_POST['annoyance'] . "', '" . $_POST['threads'] . "', '"
     . $_POST['quantity']
