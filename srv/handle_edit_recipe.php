@@ -78,7 +78,8 @@ Notes: <?php echo $_POST["notes"]?><br/>
       continue;
     }
 
-    if (!isset($_POST["ingredient_" . $i . "_qty"]) || !isset($_POST["ingredient_" . $i . "_qty_unit"]))
+    if (   !isset($_POST["ingredient_" . $i . "_qty"])
+        || !isset($_POST["ingredient_" . $i . "_qty_unit"]))
     {
       echo "Ill-Formed ingredient:<br/>";
       echo "<pre>"; print_r($_POST); echo "</pre>";
@@ -112,21 +113,26 @@ Notes: <?php echo $_POST["notes"]?><br/>
 
     // Fetch the ingredient id
     $ingredient_id = $db->querySingle(
-      "SELECT * FROM ingredients WHERE id IN (SELECT id FROM words WHERE name='" . $ingredient_name . "')");
+      "SELECT * FROM ingredients WHERE id IN (SELECT id FROM words WHERE name='"
+      . $ingredient_name . "')");
 
     // Fetch the quantity unit id
     $quantity_unit_id = $db->querySingle(
-      "SELECT * FROM units WHERE id_word IN (SELECT id FROM words WHERE name='" . $_POST["ingredient_" . $i . "_qty_unit"] . "')");
+      "SELECT * FROM units WHERE id_word IN (SELECT id FROM words WHERE name='"
+      . $_POST["ingredient_" . $i . "_qty_unit"] . "')");
 
     // Add the requirement
-    $query = "INSERT INTO requirements('id_recipe', 'id_ingredient', 'quantity', 'id_unit') VALUES('"
-      . $id_recipe . "','" . $ingredient_id . "', '" . $_POST["ingredient_" . $i . "_qty"] . "', '" . $quantity_unit_id . "');";
+    $query =
+      "INSERT INTO requirements('id_recipe', 'id_ingredient', 'quantity', 'id_unit') VALUES('"
+      . $id_recipe . "','" . $ingredient_id . "', '"
+      . $_POST["ingredient_" . $i . "_qty"] . "', '" . $quantity_unit_id . "');";
     $db->query($query);
 
 
     if ($_POST["ingredient_" . $i . "_qty_unit"] != "-")
     {
-      echo $ingredient_name . " (". $_POST["ingredient_" . $i . "_qty"] . " ". $_POST["ingredient_" . $i . "_qty_unit"] . ")<br/>";
+      echo $ingredient_name . " (". $_POST["ingredient_" . $i . "_qty"]
+        . " ". $_POST["ingredient_" . $i . "_qty_unit"] . ")<br/>";
     }
     else
     {
