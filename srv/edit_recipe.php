@@ -325,9 +325,14 @@
       $query = "SELECT name FROM words WHERE id={$step['description']};";
       $description = $db->querySingle($query);
 
-      echo("<input type='text' name=step_{$step['num']} value='". $description . "'><br/>");
+      // fancy display; use later with steps re-ordering support
+      // echo("<input type='text' name=step_{$step['num']} value='". $description . "'><br/>");
+      $steps = $steps . $description . "\n";
     }
     print("</ul>");
+
+    echo($h->fetchWord("1 per line") . "<br/>");
+    echo("<textarea name='steps' rows='5' cols='80'>" . $steps . "</textarea><br/>");
   ?>
 
 
