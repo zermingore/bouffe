@@ -320,6 +320,7 @@
     $result = $db->query($query);
     print("<h2>$word_step</h2>");
     print("<ul>");
+    $steps = "";
     while ($step = $result->fetchArray())
     {
       $query = "SELECT name FROM words WHERE id={$step['description']};";
@@ -346,6 +347,7 @@
     $result = $db->query($query);
     print("<h2>$word_note</h2>");
     print("<ul>");
+    $notes = "";
     while ($note = $result->fetchArray())
     {
       $query = "SELECT name FROM words WHERE id={$note['description']};";
