@@ -138,7 +138,7 @@
       }
 
 
-      function addIngredientField()
+      function addIngredientField(quantity, unit_str, name)
       {
         if (g_ingredients_number > g_max_ingredients - 1)
         {
@@ -161,6 +161,10 @@
         var ingredient_qty = document.createElement("input");
         ingredient_qty.type = "text";
         ingredient_qty.name = "ingredient_" + g_ingredients_number + "_qty";
+        if (quantity)
+        {
+          ingredient_qty.value = quantity;
+        }
         ingredient_container.appendChild(ingredient_qty);
 
         // Quantity unit <select> element
@@ -208,6 +212,9 @@
           quantity = document.createElement("option");
           quantity.value = quantity_list[x];
           quantity.label = quantity_list[x];
+
+          if (unit_str == quantity.value)
+            quantity.selected = "selected";
           unit.appendChild(quantity);
         }
 
@@ -216,24 +223,24 @@
         var ingredient_name = document.createElement("input");
         ingredient_name.type = "text";
         ingredient_name.name = prefix + "_name";
+        if (name)
+        {
+          ingredient_name.value = name;
+        }
         ingredient_container.appendChild(ingredient_name);
 
-        if (g_ingredients_number > 1)
-        {
-          var removeButton = document.createElement("button");
-          removeButton.innerText = " x ";
-          removeButton.type = "button"; // Do not submit the form
-          removeButton.onclick = function() { removeIngredient(current_id) };
-          ingredient_container.appendChild(removeButton);
-        }
+        var removeButton = document.createElement("button");
+        removeButton.innerText = " x ";
+        removeButton.type = "button"; // Do not submit the form
+        removeButton.onclick = function() { removeIngredient(current_id) };
+        ingredient_container.appendChild(removeButton);
       }
     </script>
 
-    <!-- TODO support add / rm ingredient -->
-    <!-- <button type="button" id="filldetails" onclick="addIngredientField()">
-      <?php echo($h->fetchWord("Add an ingredient")); ?>
-      <br/>
-    </button> -->
+      <button type="button" id="filldetails" onclick="addIngredientField()">
+        <?php echo($h->fetchWord("Add an ingredient")); ?>
+        <br/>
+    </button>
 
     <!-- Ingredients header (TODO CSS) -->
     <div>
@@ -246,12 +253,9 @@
       <hr/>
     </div>
 
-    <!-- <script> addIngredientField(); </script> -->
-    <!-- Add first ingredient fields -->
-  </div>
 
-
-  <?php
+    <!-- Add already existing ingredients -->
+    <?php
     $id_unit_ingredient = $db->querySingle("SELECT id FROM words WHERE name='unit_ingredient'");
     $id_unit_none = $db->querySingle("SELECT id FROM words WHERE name='unit_none'");
 
@@ -293,31 +297,15 @@
         $unit_name = $h->fetchWord($unit_name);
       }
 
-      // Quantity
-      echo("<input type='text' name=ingredient_quantity_{$i} value='". $requirement['quantity'] . "'>");
-
-      // Unit
-      echo("<select name=ingredient_unit_name_{$i}>");
-      while ($u = $units_list->fetchArray())
-      {
-        if ($unit_name == $u['name'])
-        {
-          echo("  <option value=${u['name']} selected=selected>" . $u['name'] . "</option>");
-        }
-        else
-        {
-          echo("  <option value=${u['name']}>" . $u['name'] . "</option>");
-        }
-      }
-      echo("</select>");
-
-      // Name
-      echo("<input type='text' name=ingredient_name_{$i} value='". $ingredient_name . "'><br/>");
       $i++;
+
+      echo("<script> addIngredientField("
+        . "'" . $requirement['quantity'] . "', "
+        . "'" . $unit_name . "', "
+        . "'" . $ingredient_name . "'); </script>");
     }
-    print("</ul>");
-    print("<hr/>");
   ?>
+  </div>
 
 
   <br/><br/>
