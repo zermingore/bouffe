@@ -237,9 +237,9 @@
       }
     </script>
 
-      <button type="button" id="filldetails" onclick="addIngredientField()">
-        <?php echo($h->fetchWord("Add an ingredient")); ?>
-        <br/>
+    <button type="button" id="filldetails" onclick="addIngredientField()">
+      <?php echo($h->fetchWord("Add an ingredient")); ?>
+      <br/>
     </button>
 
     <!-- Ingredients header (TODO CSS) -->
@@ -346,9 +346,14 @@
       $query = "SELECT name FROM words WHERE id={$note['description']};";
       $description = $db->querySingle($query);
 
-      echo("<input type='text' name=note_{$note['num']} value='". $description . "'><br/>");
+      // fancy display; use later with notes re-ordering support
+      // echo("<input type='text' name=note_{$note['num']} value='". $description . "'><br/>");
+      $notes = $notes . $description . "\n";
     }
     print("</ul>");
+
+    echo($h->fetchWord("1 per line") . "<br/>");
+    echo("<textarea name='notes' rows='5' cols='80'>" . $notes . "</textarea><br/>");
   ?>
 
 

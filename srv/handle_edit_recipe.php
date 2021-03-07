@@ -164,6 +164,10 @@ Threads: <?php echo $_POST["threads"]?><br/>
   }
 
 
+  // Clear notes before adding the new ones
+  $query = "DELETE FROM notes WHERE id_recipe=$id_recipe;";
+  $db->query($query);
+
   $notes = preg_split('/\n|\r/', $_POST['notes'], -1, PREG_SPLIT_NO_EMPTY);
   foreach ($notes as $note)
   {
