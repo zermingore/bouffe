@@ -21,6 +21,31 @@
     }
 
 
+    public function fetchTranslations($word)
+    {
+      $language_id = $_SESSION["language"];
+
+      // Fetch the appropriate translation
+      $query = "SELECT name FROM translations WHERE "
+      . "id_word = (SELECT id FROM words WHERE name='" . $word . "')"
+      . " AND id_language != " . $language_id;
+
+      $ret = [];
+      $result = $this->db->query($query);
+      while ($translation = $result->fetchArray(SQLITE3_ASSOC))
+      {
+        array_push($ret, $translation["name"]);
+      }
+
+      if ($language_id != "1")
+      {
+        array_push($ret, $word);
+      }
+
+      return $ret;
+    }
+
+
     public function fetchWordByName(string $word, $accept_error)
     {
       $language_id = $_SESSION["language"];
