@@ -26,7 +26,7 @@
       $language_id = $_SESSION["language"];
 
       // Fetch the appropriate translation
-      $query = "SELECT name FROM translations WHERE "
+      $query = "SELECT id_language, name FROM translations WHERE "
       . "id_word = (SELECT id FROM words WHERE name='" . $word . "')"
       . " AND id_language != " . $language_id;
 
@@ -34,12 +34,12 @@
       $result = $this->db->query($query);
       while ($translation = $result->fetchArray(SQLITE3_ASSOC))
       {
-        array_push($ret, $translation["name"]);
+        $ret[$translation["id_language"]] = $translation["name"];
       }
 
       if ($language_id != "1")
       {
-        array_push($ret, $word);
+        $ret[1] = $word;
       }
 
       return $ret;
@@ -133,7 +133,6 @@
       $query = "SELECT name from translations where id_language='"
         . $language_id . "' and id_word = '" . $id . "'";
 
-      // echo $query;
       $translation =  $this->db->querySingle($query);
 
       if ($translation == "")
@@ -148,6 +147,24 @@
       }
       return $translation;
     }
+
+
+
+    public function getLanguages()
+    {
+      // Fetch the appropriate translation
+      $query = "SELECT * from languages";
+
+      $ret = [];
+      $result = $this->db->query($query);
+      while ($lg = $result->fetchArray(SQLITE3_ASSOC))
+      {
+        $ret[$lg["id"]] = $lg["name"];
+      }
+
+      return $ret;
+    }
+
 
     private $db;
   }

@@ -15,7 +15,26 @@
 
   <hr/>
   <?php
+    $languages = $h->getLanguages();
+
     echo($h->fetchWord("Name") . ": <input type='text' name='name'><br/>");
+    $translations = $h->fetchTranslations("Name");
+
+    foreach ($translations as $id_lg => $name)
+    {
+      echo($name . " ($languages[$id_lg]): "
+                 . "<input type='text' name='name_$languages[$id_lg]'><br/>");
+    }
+
+
+    $i = 0;
+    foreach ($tst as $index => $str)
+    {
+      echo($languages[$index] . " | " . $str . " ; ");
+      echo("<br/>");
+      $i++;
+    }
+
     echo($h->fetchWord("Summary") . ": <input type='text' name='summary'>");
   ?>
 
