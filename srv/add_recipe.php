@@ -26,15 +26,6 @@
                  . "<input type='text' name='name_$languages[$id_lg]'><br/>");
     }
 
-
-    $i = 0;
-    foreach ($tst as $index => $str)
-    {
-      echo($languages[$index] . " | " . $str . " ; ");
-      echo("<br/>");
-      $i++;
-    }
-
     echo($h->fetchWord("Summary") . ": <input type='text' name='summary'>");
   ?>
 
