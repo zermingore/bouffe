@@ -15,17 +15,7 @@
 
   <hr/>
   <?php
-    $languages = $h->getLanguages();
-
     echo($h->fetchWord("Name") . ": <input type='text' name='name'><br/>");
-    $translations = $h->fetchTranslations("Name");
-
-    foreach ($translations as $id_lg => $name)
-    {
-      echo($name . " ($languages[$id_lg]): "
-                 . "<input type='text' name='name_$languages[$id_lg]'><br/>");
-    }
-
     echo($h->fetchWord("Summary") . ": <input type='text' name='summary'>");
   ?>
 
@@ -216,6 +206,47 @@
   <hr/>
   <?php echo($h->fetchWord("Notes") . " (". $h->fetchWord("1 per line") . ")<br/>"); ?>
   <textarea name="notes" rows="5" cols="80"></textarea>
+
+  <br/><br/>
+  <hr/>
+  <?php echo("<input type='submit' value='" . $h->fetchWord("Add the recipe") . "'>"); ?>
+
+  <br/><br/>
+  <hr/>
+  <?php
+    echo("<h3>" . $h->fetchWord("Translations") . "</h3>");
+    $languages = $h->getLanguages();
+
+    // TODO: Avoid copy-pastes
+    $translations = $h->fetchTranslations("Name");
+    foreach ($translations as $id_lg => $name)
+    {
+      echo($name . " ($languages[$id_lg]): "
+           . "<input type='text' name='name_$languages[$id_lg]'><br/>");
+    }
+
+    $translations = $h->fetchTranslations("Summary");
+    foreach ($translations as $id_lg => $summary)
+    {
+      echo($summary . " ($languages[$id_lg]): "
+           . "<input type='text' name='summary_$languages[$id_lg]'><br/>");
+    }
+
+
+    $translations = $h->fetchTranslations("Steps");
+    foreach ($translations as $id_lg => $steps)
+    {
+      echo($steps . " ($languages[$id_lg]): "
+          . "<textarea name='steps_$$languages[$id_lg]' rows='5' cols='80'></textarea><br/>");
+    }
+
+    $translations = $h->fetchTranslations("Notes");
+    foreach ($translations as $id_lg => $notes)
+    {
+      echo($notes . " ($languages[$id_lg]): "
+           . "<textarea name='notes_$languages[$id_lg]' rows='5' cols='80'></textarea><br/>");
+    }
+  ?>
 
   <br/><br/>
   <hr/>

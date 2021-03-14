@@ -238,11 +238,11 @@ INSERT INTO units(id_word, id_type, id_symbol)
 
 
 -- HTML
-INSERT INTO words(name) VALUES ("home");
+INSERT INTO words(name) VALUES ("Home");
 INSERT INTO translations(id_language, id_word, name)
-  VALUES (2, (SELECT id FROM words WHERE name="home"), "Startseite");
+  VALUES (2, (SELECT id FROM words WHERE name="Home"), "Startseite");
 INSERT INTO translations(id_language, id_word, name)
-  VALUES (3, (SELECT id FROM words WHERE name="home"), "Acceuil");
+  VALUES (3, (SELECT id FROM words WHERE name="Home"), "Acceuil");
 
 INSERT INTO words(name) VALUES ("edit");
 INSERT INTO translations(id_language, id_word, name)
@@ -268,7 +268,6 @@ INSERT INTO translations(id_language, id_word, name)
 INSERT INTO translations(id_language, id_word, name)
   VALUES (3, (SELECT id FROM words WHERE name="Edit the recipe"), "Modifier la recette");
 
-
 INSERT INTO words(name) VALUES ("Recipes");
 INSERT INTO translations(id_language, id_word, name)
   VALUES (2, (SELECT id FROM words WHERE name="Recipes"), "Kochrezepte");
@@ -280,6 +279,13 @@ INSERT INTO translations(id_language, id_word, name)
   VALUES (2, (SELECT id FROM words WHERE name="Add a recipe"), "Rezept hinzufügen");
 INSERT INTO translations(id_language, id_word, name)
   VALUES (3, (SELECT id FROM words WHERE name="Add a recipe"), "Ajouter une recette");
+
+INSERT INTO words(name) VALUES ("Translations");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (2, (SELECT id FROM words WHERE name="Translations"), "Übersetzungen");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (3, (SELECT id FROM words WHERE name="Translations"), "Traductions");
+
 
 -- Add recipe
 
