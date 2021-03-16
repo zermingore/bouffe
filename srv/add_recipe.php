@@ -15,8 +15,10 @@
 
   <hr/>
   <?php
-    echo($h->fetchWord("Name") . ": <input type='text' name='name'><br/>");
-    echo($h->fetchWord("Summary") . ": <input type='text' name='summary'>");
+    echo($h->fetchWord("Name")
+      . ": <input type='text' name='name_" . $_SESSION["language"] . "'><br/>");
+    echo($h->fetchWord("Summary")
+      . ": <input type='text' name='summary_" . $_SESSION["language"] . "'>");
   ?>
 
   <br/><br/>
@@ -199,13 +201,17 @@
 
   <br/><br/>
   <hr/>
-  <?php echo($h->fetchWord("Steps") . " (". $h->fetchWord("1 per line") . ")<br/>"); ?>
-  <textarea name="steps" rows="5" cols="80"></textarea>
+  <?php
+    echo($h->fetchWord("Steps") . " (". $h->fetchWord("1 per line") . ")<br/>");
+    echo('<textarea name="steps_' . $_SESSION['language'] . '" rows="5" cols="80"></textarea>');
+  ?>
 
   <br/><br/>
   <hr/>
-  <?php echo($h->fetchWord("Notes") . " (". $h->fetchWord("1 per line") . ")<br/>"); ?>
-  <textarea name="notes" rows="5" cols="80"></textarea>
+  <?php
+    echo($h->fetchWord("Notes") . " (". $h->fetchWord("1 per line") . ")<br/>");
+    echo('<textarea name="notes_' . $_SESSION['language'] . '" rows="5" cols="80"></textarea>');
+  ?>
 
   <br/><br/>
   <hr/>
@@ -222,14 +228,14 @@
     foreach ($translations as $id_lg => $name)
     {
       echo($name . " ($languages[$id_lg]): "
-           . "<input type='text' name='name_$languages[$id_lg]'><br/>");
+           . "<input type='text' name='name_$id_lg'><br/>");
     }
 
     $translations = $h->fetchTranslations("Summary");
     foreach ($translations as $id_lg => $summary)
     {
       echo($summary . " ($languages[$id_lg]): "
-           . "<input type='text' name='summary_$languages[$id_lg]'><br/>");
+           . "<input type='text' name='summary_$id_lg'><br/>");
     }
 
 
@@ -237,14 +243,14 @@
     foreach ($translations as $id_lg => $steps)
     {
       echo($steps . " ($languages[$id_lg]): "
-          . "<textarea name='steps_$$languages[$id_lg]' rows='5' cols='80'></textarea><br/>");
+          . "<textarea name='steps_$id_lg' rows='5' cols='80'></textarea><br/>");
     }
 
     $translations = $h->fetchTranslations("Notes");
     foreach ($translations as $id_lg => $notes)
     {
       echo($notes . " ($languages[$id_lg]): "
-           . "<textarea name='notes_$languages[$id_lg]' rows='5' cols='80'></textarea><br/>");
+           . "<textarea name='notes_$id_lg' rows='5' cols='80'></textarea><br/>");
     }
   ?>
 
