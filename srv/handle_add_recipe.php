@@ -29,15 +29,8 @@ Notes: <?php echo $_POST["notes_" . $_SESSION['language']]?><br/>
   $name_id = $h->addWordAndOrTranslations(
     array($_POST["name_1"], $_POST["name_2"], $_POST["name_3"]));
 
-  // Insert the recipe summary only if it does not exist yet
-  $query = "SELECT id FROM words WHERE name='" . $_POST['summary'] . "';";
-  $summary_id = $db->querySingle($query);
-  if (empty($summary_id))
-  {
-    $query = "INSERT INTO words('name') VALUES('" . $_POST['summary'] . "');";
-    $db->querySingle($query);
-    $summary_id=$db->lastInsertRowID();
-  }
+  $summary_id = $h->addWordAndOrTranslations(
+    array($_POST["summary_1"], $_POST["summary_2"], $_POST["summary_3"]));
 
   $query = "INSERT INTO recipes(
     id_word,
