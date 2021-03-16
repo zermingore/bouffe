@@ -166,6 +166,88 @@
     }
 
 
+
+    /**
+     * Add the given words list to the DB if they don't exist yet
+     * 1st words($names[0]): default language translation (EN -> insert in "words" table)
+     * 2nd .. nb_translations words: Added in translations words
+     * NOTE: Add a place-holder in 'words' if only translations are provided ($names[0] not set)
+     */
+    public function addWordAndOrTranslations($names)
+    {
+      // TODO Sanity check: at least a name in one language required?
+
+      // Insert the recipe name only if it does not exist yet
+      if (isset($names[0]) && !empty($names[0]))
+      {
+        $query = "SELECT id FROM words WHERE name='" . $names[0] . "';";
+        $name_id = $this->db->querySingle($query);
+        if (empty($name_id))
+        {
+          $query = "INSERT INTO words('name') VALUES('" . $names[0] . "');";
+          $this->db->querySingle($query);
+          $name_id = $this->db->lastInsertRowID();
+        }
+      }
+
+      // Insert a temporary name in order to add translations
+      $place_holder = ""; // No 'Name' in any language -> don't add anything in the DB
+      if (empty($name_id))
+      {
+        for ($i = 1; $i <= 2; $i++) // TODO Clean foreach translation
+        {
+          if (isset($names[$i]))
+          {
+            $place_holder .= "__" . $place_holder . $names[$i];
+          }
+
+          $query = "SELECT id_word FROM translations WHERE id_language='"
+                  . ($i + 1) . "' AND name='" . $names[$i] . "'";
+
+          $name_id = $this->db->querySingle($query);
+          if (!empty($name_id))
+          {
+            break;
+          }
+        }
+      }
+
+      // If we cannot find the word based on its translations; Add a temporary one
+      if (empty($name_id) && $place_holder != "")
+      {
+        $query = "INSERT INTO words('name') VALUES('TR" . $place_holder . "');";
+        $this->db->querySingle($query);
+        $name_id = $this->db->lastInsertRowID();
+      }
+
+
+      // Add translations if required
+      for ($i = 1; $i <= 2; $i++) // TODO Clean foreach translation
+      {
+        if (!isset($names[$i]))
+        {
+          continue;
+        }
+
+        $query = "SELECT id FROM translations WHERE name='" . $names[$i] . "'"
+          . " AND id_language = '" . ($i + 1) . "';";
+        $tmp = $this->db->querySingle($query);
+        if (empty($tmp))
+        {
+          $query = "INSERT INTO translations('id_language', 'id_word', 'name') VALUES('"
+            . ($i + 1) . "', '" . $name_id . "', '" . $names[$i] . "');";
+
+          if ($this->db->querySingle($query) === false)
+          {
+            echo("Failure running query [$query]<br/>");
+          }
+        }
+      }
+
+      return $name_id;
+    }
+
+
     private $db;
   }
 

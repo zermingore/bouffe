@@ -24,81 +24,10 @@ Notes: <?php echo $_POST["notes_" . $_SESSION['language']]?><br/>
 <?php
   $db_file = "../db/db";
   $db = new SQLite3("$db_file");
+  $h = new Helper($db_file);
 
-
-  // TODO Sanity check: at least a name in one language required?
-
-
-  // Insert the recipe name only if it does not exist yet
-  if (isset($_POST['name_1'])) // TODO Required default language recipe name?
-  {
-    $query = "SELECT id FROM words WHERE name='" . $_POST['name_1'] . "';";
-    $name_id = $db->querySingle($query);
-    if (empty($name_id))
-    {
-      $query = "INSERT INTO words('name') VALUES('" . $_POST['name_1'] . "');";
-      $db->querySingle($query);
-      $name_id = $db->lastInsertRowID();
-    }
-  }
-
-  // Insert a temporary name in order to add translations
-  $place_holder = ""; // No 'Name' in any language -> don't add anything in the DB
-  if (empty($name_id))
-  {
-    for ($i = 2; $i <= 3; $i++) // TODO Clean foreach translation
-    {
-      if (isset($_POST['name_' . $i]))
-      {
-        $place_holder = $place_holder + $_POST['name_' . $i];
-      }
-
-      $query = "SELECT id_word FROM translations WHERE id_language='"
-               . $i . "' AND name='" . $_POST['name_' . $i] . "'";
-
-      $name_id = $db->querySingle($query);
-      if (!empty($name_id))
-      {
-        break;
-      }
-    }
-  }
-
-  // If we cannot find the word based on its translations; Add a temporary one
-  if (empty($name_id) && $place_holder != "")
-  {
-    $query = "INSERT INTO words('name') VALUES('TR_" . $place_holder . "');";
-    $db->querySingle($query);
-    $name_id = $db->lastInsertRowID();
-  }
-
-
-  // Add translations if required
-  for ($i = 2; $i <= 3; $i++) // TODO Clean foreach translation
-  {
-    echo("check name_$i <br/>");
-    if (!isset($_POST['name_' . $i]))
-    {
-      echo("not set name_$i");
-      continue;
-    }
-
-    $query = "SELECT id FROM translations WHERE name='" . $_POST['name_' . $i] . "'"
-      . " AND id_language = '" . $i . "';";
-    $tmp = $db->querySingle($query);
-    if (empty($tmp))
-    {
-      echo("Adding name_$i: " . $_POST['name_' . $i] . "<br/>");
-      $query = "INSERT INTO translations('id_language', 'id_word', 'name') VALUES('"
-        . $i . "', '" . $name_id . "', '" . $_POST['name_' . $i] . "');";
-
-      if ($db->querySingle($query) === false)
-      {
-        echo("Failure running query [$query]<br/>");
-      }
-    }
-  }
-
+  $name_id = $h->addWordAndOrTranslations(
+    array($_POST["name_1"], $_POST["name_2"], $_POST["name_3"]));
 
   // Insert the recipe summary only if it does not exist yet
   $query = "SELECT id FROM words WHERE name='" . $_POST['summary'] . "';";
