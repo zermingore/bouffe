@@ -109,6 +109,10 @@ while ($requirement = $result->fetchArray())
       print("  <li>$ingredient_name ({$requirement['quantity']})</li>");
     }
   }
+  else
+  {
+    print("  <li>$ingredient_name</li>");
+  }
 }
 print("</ul>");
 print("<hr/>");

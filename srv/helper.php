@@ -67,10 +67,20 @@
       $query = "SELECT name from translations where id_language='"
         . $language_id . "' and id_word = "
         . "(SELECT id FROM words WHERE name='" . $word . "')";
+      $text = $this->db->querySingle($query);
 
-      // echo $query;
-      $text =  $this->db->querySingle($query);
       if ($text == NULL)
+      {
+        // Translation not found -> Try to find a place-holder in the DB
+        $query = "SELECT name FROM words WHERE name='" . $word . "';";
+        $text = $this->db->querySingle($query);
+        if ($text != NULL && $text != false)
+        {
+          return $text . " (not translated)";
+        }
+      }
+
+      if ($text == NULL) // Neither translation nor place-holder found
       {
         if ($accept_error)
         {
