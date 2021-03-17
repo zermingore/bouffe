@@ -60,7 +60,6 @@ Notes: <?php echo $_POST["notes_" . $_SESSION['language']]?><br/>
       . " AND id_word IN (SELECT id FROM ingredients);");
   }
 
-  // TODO handle translations (searching by name...)
   for ($i = 1; $i <= count($_POST); $i++)
   {
     if (!isset($_POST["ingredient_" . $i . "_name"]))
@@ -79,11 +78,12 @@ Notes: <?php echo $_POST["notes_" . $_SESSION['language']]?><br/>
     $ingredient_found = 0;
     $db_ingredients->reset();
     echo("<pre>"); print_r($db_ingredients); echo("</pre>");
+    $id_word = -1;
     while ($res = $db_ingredients->fetchArray())
     {
       if ($res['name'] == $ingredient_name)
       {
-        // echo $_POST["ingredient_" . $i . "_name"] . " already in DB!<br/>";
+        $id_word = $res['id_word'];
 
         $ingredient_found = 1;
         break;
@@ -93,10 +93,31 @@ Notes: <?php echo $_POST["notes_" . $_SESSION['language']]?><br/>
     // Insert the ingredient name only if it does not exist yet
     if (!$ingredient_found)
     {
-      $query = "INSERT INTO words('name') VALUES('" . $ingredient_name . "');";
-      $db->querySingle($query);
-      $query = "INSERT INTO ingredients('id') VALUES('" . $db->lastInsertRowID() . "');";
-      $db->querySingle($query);
+      if ($_SESSION["language"] == "1")
+      {
+        $query = "INSERT INTO words('name') VALUES('" . $ingredient_name . "');";
+        $db->querySingle($query);
+        $query = "INSERT INTO ingredients('id') VALUES('" . $db->lastInsertRowID() . "');";
+        $db->querySingle($query);
+      }
+      else
+      {
+        if ($id_word != -1) // word found based on its translation
+        {
+          $query = "INSERT INTO translations('id_language', 'id_word', 'name') VALUES('"
+            . $_SESSION["language"] . "' '" . $id_word . "' '" . $ingredient_name . "');";
+        }
+        else
+        {
+          // Word not found; add a place-holder based on its translation in 'words'
+          $query = "INSERT INTO words('name') VALUES('TR__" . $ingredient_name . "');";
+        }
+        $db->querySingle($query);
+        $id_word = $db->lastInsertRowID();
+
+        $query = "INSERT INTO ingredients('id') VALUES('" . $id_word . "');";
+        $db->querySingle($query);
+      }
     }
 
 
