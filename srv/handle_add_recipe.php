@@ -52,17 +52,13 @@ Notes: <?php echo $_POST["notes_" . $_SESSION['language']]?><br/>
   if ($_SESSION["language"] == "1")
   {
     $db_ingredients = $db->query("SELECT * FROM words WHERE id IN (SELECT id FROM ingredients);");
-    echo("<pre>"); print_r($db_ingredients); echo("</pre>");
   }
   else
   {
-    echo("else");
     $db_ingredients = $db->query(
         "SELECT * FROM translations WHERE id_language = " . $_SESSION['language']
       . " AND id_word IN (SELECT id FROM ingredients);");
   }
-
-  echo("<pre>"); print_r($db_ingredients); echo("</pre>");
 
   // TODO handle translations (searching by name...)
   for ($i = 1; $i <= count($_POST); $i++)
@@ -78,7 +74,6 @@ Notes: <?php echo $_POST["notes_" . $_SESSION['language']]?><br/>
       echo "<pre>"; print_r($_POST); echo "</pre>";
       return;
     }
-
 
     $ingredient_name = $_POST["ingredient_" . $i . "_name"];
     $ingredient_found = 0;

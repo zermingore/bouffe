@@ -12,7 +12,7 @@
     $db_file = "$p/../db/db";
     $db = new SQLite3("$db_file");
     $h = new Helper($db_file);
-    echo "<a href=/index.html>" . $h->fetchWord("home") . "</a><br/>";
+    echo "<a href=/index.html>" . $h->fetchWord("Home") . "</a><br/>";
   ?>
 
 </body>
