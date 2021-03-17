@@ -129,13 +129,13 @@
 
           if (!isset($_SESSION["language"]) || $_SESSION["language"] == "1")
           {
-            $query = "SELECT * FROM words WHERE"
+            $query = "SELECT name FROM words WHERE"
             . " id IN (SELECT id_word FROM units WHERE (id_type="
             . $id_unit_ingredient . " OR id_type=" . $id_unit_none . "))";
           }
           else
           {
-            $query = "SELECT * FROM translations WHERE id_language="
+            $query = "SELECT name FROM translations WHERE id_language="
             . $_SESSION["language"]
             . " AND id_word IN (SELECT id_word FROM units WHERE (id_type="
             . $id_unit_ingredient . " OR id_type=" . $id_unit_none . "))";

@@ -17,7 +17,7 @@
 
     echo("<h1>" . $h->fetchWord("Recipes") . "</h1>");
 
-    $query = "SELECT * FROM recipes;";
+    $query = "SELECT id, id_word FROM recipes;";
     $array['dbhandle'] = $db;
     $array['query'] = "$query";
     $result = $db->query($query);
