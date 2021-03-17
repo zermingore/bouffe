@@ -77,7 +77,6 @@ Notes: <?php echo $_POST["notes_" . $_SESSION['language']]?><br/>
     $ingredient_name = $_POST["ingredient_" . $i . "_name"];
     $ingredient_found = 0;
     $db_ingredients->reset();
-    echo("<pre>"); print_r($db_ingredients); echo("</pre>");
     $id_word = -1;
     while ($res = $db_ingredients->fetchArray())
     {
@@ -118,12 +117,18 @@ Notes: <?php echo $_POST["notes_" . $_SESSION['language']]?><br/>
         $query = "INSERT INTO ingredients('id') VALUES('" . $id_word . "');";
         $db->querySingle($query);
       }
+
+      $ingredient_id = $db->lastInsertRowID();
     }
 
 
     // Fetch the ingredient id
-    $ingredient_id = $db->querySingle(
-      "SELECT * FROM ingredients WHERE id IN (SELECT id FROM words WHERE name='" . $ingredient_name . "')");
+    if (!isset($ingredient_id))
+    {
+      $ingredient_id = $db->querySingle(
+        "SELECT * FROM ingredients WHERE id IN (SELECT id FROM words WHERE "
+        . "name='" . $ingredient_name . "' or name='TR__" . $ingredient_name . "')");
+    }
 
     // Fetch the quantity unit id
     $quantity_unit_id = $db->querySingle(
