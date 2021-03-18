@@ -126,14 +126,13 @@ if (!empty($check_empty))
   print("<h2>" . $h->fetchWord("Notes") . "</h2>");
   print("<hr/>");
 
-  $query = "SELECT * FROM notes WHERE id_recipe={$recipe['id']}";
+  $query = "SELECT * FROM notes WHERE id_recipe={$recipe['id']} "
+    . "AND id_language={$_SESSION['language']}";
   $result = $db->query($query);
   print("<ul>");
   while ($note = $result->fetchArray())
   {
-    $query = "SELECT name FROM words WHERE id={$note['description']};";
-    $description = $db->querySingle($query);
-    print("  <li>" . $h->fetchWord($description, true) . "</li>");
+    print("  <li>" . $h->fetchWord($note['description'], true) . "</li>");
   }
   print("</ul>");
   print("<hr/>");
@@ -141,25 +140,26 @@ if (!empty($check_empty))
 
 
 // Instructions steps
-$nb_steps = $db->querySingle("SELECT MAX(num) FROM steps WHERE id_recipe={$recipe['id']};");
+$nb_steps = $db->querySingle(
+  "SELECT MAX(num) FROM steps WHERE id_recipe={$recipe['id']};");
 $word_step = $h->fetchWord("Steps");
 
-$query = "SELECT * FROM steps WHERE id_recipe={$recipe['id']}; ORDER BY num";
+$query = "SELECT * FROM steps WHERE id_recipe={$recipe['id']} "
+  . "AND id_language={$_SESSION['language']}; ORDER BY num";
 $result = $db->query($query);
 print("<h2>" . "$nb_steps" . " $word_step</h2>");
 print("<ul>");
 while ($step = $result->fetchArray())
 {
-  $query = "SELECT name FROM words WHERE id={$step['description']};";
-  $description = $db->querySingle($query);
-
-  print("  <li>{$step['num']}/$nb_steps - " . $h->fetchWord($description, true) . "</li>");
+  print("  <li>{$step['num']}/$nb_steps - "
+    . $h->fetchWord($step['description'], true) . "</li>");
 }
 print("</ul>");
 
 
 echo "<hr>";
-echo "<a href=/srv/edit_recipe.php?id=" . $_GET['id'] . ">" . $h->fetchWord("edit") . "</a><br/>";
+echo "<a href=/srv/edit_recipe.php?id=" . $_GET['id'] . ">"
+  . $h->fetchWord("edit") . "</a><br/>";
 
 include "footer.php";
 
