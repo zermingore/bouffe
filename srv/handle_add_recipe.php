@@ -152,67 +152,56 @@ Notes: <?php echo $_POST["notes_" . $_SESSION['language']]?><br/>
 
 
 
-  $steps = preg_split('/\n|\r/', $_POST['steps'], -1, PREG_SPLIT_NO_EMPTY);
-  $i = 1;
-  foreach ($steps as $step)
+  // TODO merge steps / notes copy-paste
+  for ($lg_idx = 1; $lg_idx <= 3; $lg_idx++)
   {
-    $query = "INSERT INTO words('name') VALUES('" . $step . "');";
-    $db->querySingle($query);
-
-    $query = "INSERT INTO steps('id_language', 'id_recipe', 'num', 'description') VALUES('"
+    $steps = preg_split('/\n|\r/', $_POST['steps_' . $lg_idx], -1, PREG_SPLIT_NO_EMPTY);
+    $i = 1;
+    foreach ($steps as $step)
+    {
+      if ($lg_idx == 1)
+      {
+        $query = "INSERT INTO words('name') VALUES('" . $step . "');";
+        $db->querySingle($query);
+      }
+      else
+      {
+        $query = "INSERT INTO translations('id_language, 'id_word', 'name') VALUES('" . $step . "');";
+        $db->querySingle($query);
+      }
+      $query = "INSERT INTO steps('id_language', 'id_recipe', 'num', 'description') VALUES('"
       . $lg . "', '" . $id_recipe
       . "', '" . $i . "', '" . $db->lastInsertRowID() . "');";
-    $db->querySingle($query);
+      $db->querySingle($query);
 
-    ++$i;
+      ++$i;
+    }
   }
 
-
-  $notes = preg_split('/\n|\r/', $_POST['notes'], -1, PREG_SPLIT_NO_EMPTY);
-  foreach ($notes as $note)
+  for ($lg_idx = 1; $lg_idx <= 3; $lg_idx++)
   {
-    $query = "INSERT INTO words('name') VALUES('" . $note . "');";
-    $db->querySingle($query);
+    $notes = preg_split('/\n|\r/', $_POST['notes_' . $lg_idx], -1, PREG_SPLIT_NO_EMPTY);
+    foreach ($notes as $note)
+    {
+      if ($lg_idx == 1)
+      {
+        $query = "INSERT INTO words('name') VALUES('" . $note . "');";
+        $db->querySingle($query);
+      }
+      else
+      {
+        $query = "INSERT INTO translations('id_language, 'id_word', 'name') VALUES('" . $note . "');";
+        $db->querySingle($query);
+      }
 
-    $query = "INSERT INTO notes('id_language', 'id_recipe', 'description') VALUES('"
-      . $lg . "', '" . $id_recipe
-      . "', '" . $db->lastInsertRowID() . "');";
-    $db->querySingle($query);
+      $query = "INSERT INTO notes('id_language', 'id_recipe', 'description') VALUES('"
+        . $lg . "', '" . $id_recipe
+        . "', '" . $db->lastInsertRowID() . "');";
+      $db->querySingle($query);
+
+      ++$i;
+    }
   }
-
-
-
-
-  // Translations handling
-
-  $steps = preg_split('/\n|\r/', $_POST['steps'], -1, PREG_SPLIT_NO_EMPTY);
-  $i = 1;
-  foreach ($steps as $step)
-  {
-    $query = "INSERT INTO words('name') VALUES('" . $step . "');";
-    $db->querySingle($query);
-
-    $query = "INSERT INTO steps('id_language', 'id_recipe', 'num', 'description') VALUES('"
-      . $lg . "', '" . $id_recipe
-      . "', '" . $i . "', '" . $db->lastInsertRowID() . "');";
-    $db->querySingle($query);
-
-    ++$i;
-  }
-
-
-  $notes = preg_split('/\n|\r/', $_POST['notes'], -1, PREG_SPLIT_NO_EMPTY);
-  foreach ($notes as $note)
-  {
-    $query = "INSERT INTO words('name') VALUES('" . $note . "');";
-    $db->querySingle($query);
-
-    $query = "INSERT INTO notes('id_language', 'id_recipe', 'description') VALUES('"
-      . $lg . "', '" . $id_recipe
-      . "', '" . $db->lastInsertRowID() . "');";
-    $db->querySingle($query);
-  }
-
 
 
 
