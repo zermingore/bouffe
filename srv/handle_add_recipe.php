@@ -153,61 +153,52 @@ Notes: <?php echo $_POST["notes_" . $_SESSION['language']]?><br/>
 
   // TODO place-holder if one translation array is larger than the default language one
 
-  // TODO merge steps / notes copy-paste
-  $word_ids = []; // Keeping track of words index
-  for ($lg_idx = 1; $lg_idx <= 3; $lg_idx++)
+  $types = ["steps", "notes"];
+  foreach ($types as $type)
   {
-    $steps = preg_split('/\n|\r/', $_POST['steps_' . $lg_idx], -1, PREG_SPLIT_NO_EMPTY);
-    $i = 1;
-    foreach ($steps as $step)
+    $word_ids = array(); // Keeping track of words index
+    for ($lg_idx = 1; $lg_idx <= 3; $lg_idx++)
     {
-      if ($lg_idx == 1)
+      $items = preg_split(
+        '/\n|\r/', $_POST[$type . '_' . $lg_idx], -1, PREG_SPLIT_NO_EMPTY);
+      $i = 1;
+      foreach ($items as $item)
       {
-        $query = "INSERT INTO words('name') VALUES('" . $step . "');";
-        $db->querySingle($query);
-        array_push($word_ids, $db->lastInsertRowID());
-      }
-      else
-      {
-        $query = "INSERT INTO translations('id_language', 'id_word', 'name') "
-          . "VALUES('" . $lg_idx . "', '" . $word_ids[$i - 1] . "', '" . $step . "');";
-        $db->querySingle($query);
-      }
-      $query = "INSERT INTO steps('id_language', 'id_recipe', 'num', 'description') VALUES('"
-      . $lg_idx . "', '" . $id_recipe
-      . "', '" . $i . "', '" . $word_ids[$i - 1] . "');";
-      $db->querySingle($query);
+        if ($lg_idx == 1)
+        {
+          $query = "INSERT INTO words('name') VALUES('" . $item . "');";
+          $db->querySingle($query);
+          array_push($word_ids, $db->lastInsertRowID());
+        }
+        else
+        {
+          $query = "INSERT INTO translations('id_language', 'id_word', 'name') "
+            . "VALUES('" . $lg_idx . "', '". $word_ids[$i - 1] . "', '" . $item . "');";
+          $db->querySingle($query);
+        }
 
-      ++$i;
-    }
-  }
+        if ($type == "steps")
+        {
+          $query = "INSERT INTO " . $type
+            . " ('id_language', 'id_recipe', 'num', 'description') VALUES('"
+            . $lg_idx . "', '" . $id_recipe
+            . "', '" . $i . "', '" . $word_ids[$i - 1] . "');";
+        }
+        elseif ($type == "notes")
+        {
+          $query = "INSERT INTO notes('id_language', 'id_recipe', 'description') VALUES('"
+            . $lg_idx . "', '" . $id_recipe
+            . "', '" . $word_ids[$i - 1] . "');";
+        }
+        else
+        {
+          echo("[IMPLEMENTATION ERROR] Invalid type [" . $type . "]<br/>");
+          return;
+        }
 
-  $word_ids = array(); // Keeping track of words index
-  for ($lg_idx = 1; $lg_idx <= 3; $lg_idx++)
-  {
-    $notes = preg_split('/\n|\r/', $_POST['notes_' . $lg_idx], -1, PREG_SPLIT_NO_EMPTY);
-    $i = 1;
-    foreach ($notes as $note)
-    {
-      if ($lg_idx == 1)
-      {
-        $query = "INSERT INTO words('name') VALUES('" . $note . "');";
         $db->querySingle($query);
-        array_push($word_ids, $db->lastInsertRowID());
+        ++$i;
       }
-      else
-      {
-        $query = "INSERT INTO translations('id_language', 'id_word', 'name') "
-          . "VALUES('" . $lg_idx . "', '" . $word_ids[$i - 1] . "', '" . $note . "');";
-        $db->querySingle($query);
-      }
-
-      $query = "INSERT INTO notes('id_language', 'id_recipe', 'description') VALUES('"
-        . $lg_idx . "', '" . $id_recipe
-        . "', '" . $word_ids[$i - 1] . "');";
-      $db->querySingle($query);
-
-      ++$i;
     }
   }
 
