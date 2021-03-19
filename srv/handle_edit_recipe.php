@@ -7,22 +7,10 @@
 <?php
   if (!isset($_GET['id']))
   {
-    echo("Recipe id not forwarder; Aborting");
+    echo("Recipe id not forwarded; Aborting");
     return;
   }
 ?>
-
-Recipe __<?php echo $_POST["name"]; ?>__<br/>
-id: <?php echo($_GET["id"])?><br/>
-
-time crafting: <?php "time_crafting"?><br/>
-time backing: <?php "time_backing"?><br/>
-
-Quantity: <?php echo $_POST["quantity"]?><br/>
-
-Difficulty: <?php echo $_POST["difficulty"]?><br/>
-Annoyance: <?php echo $_POST["annoyance"]?><br/>
-Threads: <?php echo $_POST["threads"]?><br/>
 
 
 <hr/>
@@ -35,11 +23,16 @@ Threads: <?php echo $_POST["threads"]?><br/>
 
 
   // Insert the recipe name only if it does not exist yet
-  $query = "SELECT id FROM words WHERE name='" . $_POST['name'] . "';";
+  $query = "SELECT id FROM words WHERE name='" . $_POST['name_1'] . "';";
   $name_id = $db->querySingle($query);
   if (empty($name_id))
   {
-    $query = "INSERT INTO words('name') VALUES('" . $_POST['name'] . "');";
+    $str = $_POST['name_1'];
+    if (empty($str))
+    {
+      $str = "TR__" . $_POST['name_2'] . "__" . $_POST['name_3']; // TODO no handy listing
+    }
+    $query = "INSERT INTO words('name') VALUES('" . $str . "');";
     $db->querySingle($query);
     $name_id=$db->lastInsertRowID();
   }
@@ -148,36 +141,57 @@ Threads: <?php echo $_POST["threads"]?><br/>
 
 
 
-  $steps = preg_split('/\n|\r/', $_POST['steps'], -1, PREG_SPLIT_NO_EMPTY);
-  $i = 1;
-  foreach ($steps as $step)
+  $types = ["steps", "notes"];
+  foreach ($types as $type)
   {
-    $query = "INSERT INTO words('name') VALUES('" . $step . "');";
-    $db->querySingle($query);
+    // Clear related entries before adding the new ones
+    $query = "DELETE FROM $type WHERE id_recipe=$id_recipe;";
+    $db->query($query);
 
-    $query = "INSERT INTO steps('id_language', 'id_recipe', 'num', 'description') VALUES('"
-      . $lg . "', '" . $id_recipe
-      . "', '" . $i . "', '" . $db->lastInsertRowID() . "');";
-    $db->querySingle($query);
+    $word_ids = array(); // Keeping track of words index
+    for ($lg_idx = 1; $lg_idx <= 3; $lg_idx++)
+    {
+      $items = preg_split(
+        '/\n|\r/', $_POST[$type . '_' . $lg_idx], -1, PREG_SPLIT_NO_EMPTY);
+      $i = 1;
+      foreach ($items as $item)
+      {
+        if ($lg_idx == 1)
+        {
+          $query = "INSERT INTO words('name') VALUES('" . $item . "');";
+          $db->querySingle($query);
+          array_push($word_ids, $db->lastInsertRowID());
+        }
+        else
+        {
+          $query = "INSERT INTO translations('id_language', 'id_word', 'name') "
+            . "VALUES('" . $lg_idx . "', '". $word_ids[$i - 1] . "', '" . $item . "');";
+          $db->querySingle($query);
+        }
 
-    ++$i;
-  }
+        if ($type == "steps")
+        {
+          $query = "INSERT INTO " . $type
+            . " ('id_language', 'id_recipe', 'num', 'description') VALUES('"
+            . $lg_idx . "', '" . $id_recipe
+            . "', '" . $i . "', '" . $word_ids[$i - 1] . "');";
+        }
+        elseif ($type == "notes")
+        {
+          $query = "INSERT INTO notes('id_language', 'id_recipe', 'description') VALUES('"
+            . $lg_idx . "', '" . $id_recipe
+            . "', '" . $word_ids[$i - 1] . "');";
+        }
+        else
+        {
+          echo("[IMPLEMENTATION ERROR] Invalid type [" . $type . "]<br/>");
+          return;
+        }
 
-
-  // Clear notes before adding the new ones
-  $query = "DELETE FROM notes WHERE id_recipe=$id_recipe;";
-  $db->query($query);
-
-  $notes = preg_split('/\n|\r/', $_POST['notes'], -1, PREG_SPLIT_NO_EMPTY);
-  foreach ($notes as $note)
-  {
-    $query = "INSERT INTO words('name') VALUES('" . $note . "');";
-    $db->querySingle($query);
-
-    $query = "INSERT INTO notes('id_language', 'id_recipe', 'description') VALUES('"
-      . $lg . "', '" . $id_recipe
-      . "', '" . $db->lastInsertRowID() . "');";
-    $db->querySingle($query);
+        $db->querySingle($query);
+        ++$i;
+      }
+    }
   }
 
 

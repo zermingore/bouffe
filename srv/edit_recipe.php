@@ -59,8 +59,10 @@
   <hr/>
   <?php
     $short = ": <input type='text' name=";
-    echo($h->fetchWord("Name") . "$short'name' value='" .  $name . "'><br/>");
-    echo($h->fetchWord("Summary") . "$short'summary' value='$summary'>");
+    echo($h->fetchWord("Name") . "$short'name_" . $_SESSION["language"]
+         . "' value='" .  $name . "'><br/>");
+    echo($h->fetchWord("Summary") . "$short'summary_" . $_SESSION["language"]
+         . "' value='$summary'>");
   ?>
 
   <br/><br/>
@@ -334,7 +336,8 @@
     print("</ul>");
 
     echo($h->fetchWord("1 per line") . "<br/>");
-    echo("<textarea name='steps' rows='5' cols='80'>" . $steps . "</textarea><br/>");
+    echo("<textarea name='steps_" . $_SESSION['language']
+         . "' rows='5' cols='80'>" . $steps . "</textarea><br/>");
   ?>
 
 
@@ -361,7 +364,8 @@
     print("</ul>");
 
     echo($h->fetchWord("1 per line") . "<br/>");
-    echo("<textarea name='notes' rows='5' cols='80'>" . $notes . "</textarea><br/>");
+    echo("<textarea name='notes_" . $_SESSION['language']
+         . "' rows='5' cols='80'>" . $notes . "</textarea><br/>");
   ?>
 
 
