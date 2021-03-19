@@ -17,7 +17,6 @@
   if (!$recipe['id'])
   {
     print("Unable to find the recipe id:" . $_GET['id'] . "<br/>");
-    // TODO link home page
     return;
   }
 
@@ -26,8 +25,10 @@
   $name = "";
   if (isset($recipe["id_word"]))
   {
+    // Fetch recipe name
     $query = "SELECT name FROM words WHERE id={$recipe['id_word']};";
-    $name = $db->querySingle($query, true)['name'];
+    $tmp = $db->querySingle($query, true)['name'];
+    $name = $h->fetchWord($tmp);
   }
 
   $summary = "";
@@ -363,6 +364,65 @@
     echo("<textarea name='notes' rows='5' cols='80'>" . $notes . "</textarea><br/>");
   ?>
 
+
+  <br/><br/>
+  <hr/>
+  <?php echo("<input type='submit' value='" . $h->fetchWord("Edit the recipe") . "'>"); ?>
+
+  <br/><br/>
+  <hr/>
+  <?php
+    echo("<h3>" . $h->fetchWord("Translations") . "</h3>");
+    $languages = $h->getLanguages();
+
+    // TODO: Avoid copy-pastes
+    // $sections = [ "Name", "Summary" ];
+
+    $query = "SELECT name FROM words WHERE id={$recipe['id_word']};";
+    $translations = $h->fetchTranslations($db->querySingle($query, true)['name']);
+    $word_translations = $h->fetchTranslations("Name");
+    for ($i = 1; $i <= 3; $i++)
+    {
+      if ($_SESSION['language'] == $i)
+      {
+        continue;
+      }
+
+      echo($word_translations[$i] . " ($languages[$i]): "
+           . "<input type='text' name='name_$i' value='" . $translations[$i] . "'><br/>");
+    }
+    echo("<br/>");
+
+
+    $query = "SELECT name FROM words WHERE id={$recipe['summary']};";
+    $translations = $h->fetchTranslations($db->querySingle($query, true)['name']);
+    $word_translations = $h->fetchTranslations("Summary");
+    for ($i = 1; $i <= 3; $i++)
+    {
+      if ($_SESSION['language'] == $i)
+      {
+        continue;
+      }
+
+      echo($word_translations[$i] . " ($languages[$i]): "
+           . "<input type='text' name='summary_$i' value='" . $translations[$i] . "'><br/>");
+    }
+
+
+    $translations = $h->fetchTranslations("Steps");
+    foreach ($translations as $id_lg => $steps)
+    {
+      echo($steps . " ($languages[$id_lg]): "
+          . "<textarea name='steps_$id_lg' rows='5' cols='80'></textarea><br/>");
+    }
+
+    $translations = $h->fetchTranslations("Notes");
+    foreach ($translations as $id_lg => $notes)
+    {
+      echo($notes . " ($languages[$id_lg]): "
+           . "<textarea name='notes_$id_lg' rows='5' cols='80'></textarea><br/>");
+    }
+  ?>
 
   <br/><br/>
   <hr/>

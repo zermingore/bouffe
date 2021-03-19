@@ -5,7 +5,6 @@ include "header.php";
 
 $db_file = "../db/db";
 $db = new SQLite3("$db_file");
-
 $h = new Helper($db_file);
 
 
@@ -18,7 +17,6 @@ $recipe = $db->querySingle($query, true);
 if (!$recipe['id'])
 {
   print("Unable to find the recipe id:" . $_GET['id'] . "<br/>");
-  // TODO link home page
   return;
 }
 
