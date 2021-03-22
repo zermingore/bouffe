@@ -2,8 +2,16 @@
 
   <!-- Translation buttons -->
   <?php
+    $get = "";
+    $delim = "?"; // URL arguments delimiter
+    foreach ($_GET as $p => $val)
+    {
+      $get = $get . $delim . $p . "=" . $val;
+      $delim = "&";
+    }
+
     echo("<form method='post' action='/srv/switch_language.php?src="
-         . $_SERVER['PHP_SELF'] . "'>");
+         . $_SERVER['PHP_SELF'] . $get . "'>");
   ?>
     <input type="submit" name="language" value="English">
     <input type="submit" name="language" value="Deutsch">

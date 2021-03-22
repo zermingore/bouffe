@@ -28,6 +28,16 @@
   }
   else
   {
-    header('Location: ../' . $_GET["src"]);
+    $get = "";
+    foreach ($_GET as $p => $val)
+    {
+      if ($p == "src")
+      {
+        continue;
+      }
+      $get = $get . "&" . $p . "=" . $val;
+    }
+
+    header('Location: ../' . $_GET["src"] . $get);
   }
 ?>
