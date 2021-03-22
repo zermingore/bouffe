@@ -15,11 +15,19 @@
       $_SESSION["language"] = "3";
       break;
 
-      default:
-        die("[IMPLEMENTATION ERROR] Invalid language " . $_POST["language"]);
-        break;
+    default:
+      die("[IMPLEMENTATION ERROR] switch_language: Invalid language ["
+          . $_POST["language"] . "]");
+      break;
   }
 
-  header('Location: ../index.html');
-  exit;
+  if (!isset($_GET["src"]) || $_GET["src"] == "")
+  {
+    die("[IMPLEMENTATION ERROR] switch_language: No redirection page");
+    // header('Location: ../index.html');
+  }
+  else
+  {
+    header('Location: ../' . $_GET["src"]);
+  }
 ?>

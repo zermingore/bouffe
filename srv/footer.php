@@ -1,7 +1,10 @@
   <hr/>
 
   <!-- Translation buttons -->
-  <form method="post" action="/srv/switch_language.php">
+  <?php
+    echo("<form method='post' action='/srv/switch_language.php?src="
+         . $_SERVER['PHP_SELF'] . "'>");
+  ?>
     <input type="submit" name="language" value="English">
     <input type="submit" name="language" value="Deutsch">
     <input type="submit" name="language" value="Français">
