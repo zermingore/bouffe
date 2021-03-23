@@ -10,13 +10,65 @@
   $h = new Helper($db_file);
   echo("<h3>" . $h->fetchWord("Add a recipe") . "</h3>");
 ?>
+<p class="error_report"></p>
 
-<form method="post" action="handle_add_recipe.php">
+
+<script>
+function validateForm()
+{
+  // Times consistency
+  var error_msg = "";
+  var times_list = ["time_preparation", "time_crafting", "time_backing"]
+  for (var time in times_list)
+  {
+    var val = document.forms["mainForm"][times_list[time]].value;
+    if (!isNaN(val) && val != "")
+    {
+      if (val < 0)
+      {
+        error_msg += "Negative time in " + times_list[time] + "<br/>";
+      }
+    }
+  }
+
+  // At least one valid ingredient
+  if (g_ingredients_number < 1)
+  {
+    error_msg += "No ingredient provided<br/>";
+  }
+  for (var i = 1; i <= g_ingredients_number; ++i)
+  {
+    if (document.getElementById("ingredient_input_field_" + i).value == "")
+    {
+      error_msg += "Empty ingredient " + i + "<br/>";
+    }
+  }
+
+
+  // On error, display error message and return an error
+  if (error_msg != "")
+  {
+    alert(error_msg.replace(/(?:<br\/>|<br\/>)/g, '\n'));
+
+    list = document.getElementsByClassName("error_report");
+    for (elt in list)
+    {
+      list[elt].innerHTML = error_msg;
+    }
+
+    return false;
+  }
+
+  return true;
+}
+</script>
+
+<form name="mainForm" method="post" action="handle_add_recipe.php" onsubmit="return validateForm()">
 
   <hr/>
   <?php
     echo($h->fetchWord("Name")
-      . ": <input type='text' name='name_" . $_SESSION["language"] . "'><br/>");
+      . ": <input type='text' name='name_" . $_SESSION["language"] . "' required><br/>");
     echo($h->fetchWord("Summary")
       . ": <input type='text' name='summary_" . $_SESSION["language"] . "'>");
   ?>
@@ -165,6 +217,7 @@
 
         // Name <input> element
         var ingredient_name = document.createElement("input");
+        ingredient_name.id = "ingredient_input_field_" + g_ingredients_number;
         ingredient_name.type = "text";
         ingredient_name.name = prefix + "_name";
         ingredient_container.appendChild(ingredient_name);
@@ -215,6 +268,7 @@
 
   <br/><br/>
   <hr/>
+  <p class="error_report"></p>
   <?php echo("<input type='submit' value='" . $h->fetchWord("Add the recipe") . "'>"); ?>
 
   <br/><br/>
@@ -256,6 +310,7 @@
 
   <br/><br/>
   <hr/>
+  <p class="error_report"></p>
   <?php echo("<input type='submit' value='" . $h->fetchWord("Add the recipe") . "'>"); ?>
 
   </form>
