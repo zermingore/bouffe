@@ -555,3 +555,4 @@ INSERT INTO translations(id_language, id_word, name)
 
 
 .read ../custom/db/custom_values.sql
+.read ../custom/db/db.patch

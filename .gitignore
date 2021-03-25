@@ -3,4 +3,5 @@
 generated/
 
 db/db
+db/tmp/
 custom/
