@@ -3,7 +3,7 @@ pragma foreign_keys = on;
 BEGIN TRANSACTION;
 
 CREATE table version(major, minor, patch);
-INSERT INTO version VALUES(0, 0, 1);
+INSERT INTO version VALUES(0, 0, 2);
 
 
 
@@ -105,6 +105,11 @@ CREATE TABLE recipes(
   difficulty INTEGER,
   annoyance INTEGER,
   threads INTEGER,
+
+  vegetarian INTEGER DEFAULT 0,
+  vegan INTEGER DEFAULT 0,
+
+  origin TEXT,
 
   FOREIGN KEY(id_word) REFERENCES words(id)
   FOREIGN KEY(summary) REFERENCES translations(id)
