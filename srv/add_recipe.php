@@ -112,6 +112,18 @@ function validateForm()
   <input type="radio" name="threads" value="6">5+
 
   <br/><br/>
+  <?php echo($h->fetchWord("vegetarian: ")); ?>
+  <input type="checkbox" id="vegetarian">
+  <label for="vegetarian">vegetarian</label><br>
+
+  <?php echo($h->fetchWord("vegan: ")); ?>
+  <input type="checkbox" id="vegan">
+  <label for="vegan">vegan</label><br>
+
+  <?php echo($h->fetchWord("Origin")
+      . ": <input type='text' name='origin_" . $_SESSION["language"] . "'>"); ?>
+
+  <br/><br/>
   <?php
     echo($h->fetchWord("For") . ": <input type='text' name='quantity'><br/>");
   ?>

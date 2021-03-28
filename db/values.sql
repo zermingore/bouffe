@@ -363,6 +363,24 @@ INSERT INTO translations(id_language, id_word, name)
 INSERT INTO translations(id_language, id_word, name)
   VALUES (3, (SELECT id FROM words WHERE name="Ideal number of cooks"), "Nombre idéal de cuisiniers");
 
+INSERT INTO words(name) VALUES ("Vegetarian");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (2, (SELECT id FROM words WHERE name="Vegetarian"), "Vegetarisch");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (3, (SELECT id FROM words WHERE name="Vegetarian"), "Végétarien");
+
+INSERT INTO words(name) VALUES ("Vegan");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (2, (SELECT id FROM words WHERE name="Vegan"), "Vegan");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (3, (SELECT id FROM words WHERE name="Vegan"), "Vegan");
+
+INSERT INTO words(name) VALUES ("Origin");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (2, (SELECT id FROM words WHERE name="Origin"), "Ursprungsort");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (3, (SELECT id FROM words WHERE name="Origin"), "Origine");
+
 
 INSERT INTO words(name) VALUES ("For");
 INSERT INTO translations(id_language, id_word, name)

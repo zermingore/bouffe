@@ -1,0 +1,4 @@
+ALTER TABLE recipes ADD COLUMN vegetarian;
+ALTER TABLE recipes ADD COLUMN vegan;
+ALTER TABLE recipes ADD COLUMN origin;
+UPDATE version SET patch=2 WHERE rowid=1;

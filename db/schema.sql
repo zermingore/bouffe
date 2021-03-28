@@ -109,7 +109,7 @@ CREATE TABLE recipes(
   vegetarian INTEGER DEFAULT 0,
   vegan INTEGER DEFAULT 0,
 
-  origin TEXT,
+  origin INTEGER,
 
   FOREIGN KEY(id_word) REFERENCES words(id)
   FOREIGN KEY(summary) REFERENCES translations(id)
