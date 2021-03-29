@@ -32,17 +32,21 @@ Notes: <?php echo $_POST["notes_" . $_SESSION['language']]?><br/>
   $summary_id = $h->addWordAndOrTranslations(
     array($_POST["summary_1"], $_POST["summary_2"], $_POST["summary_3"]));
 
+  $origin_id = $h->addWordAndOrTranslations(
+    array($_POST["origin_1"], $_POST["origin_2"], $_POST["origin_3"]));
+
   $query = "INSERT INTO recipes(
     id_word,
     summary,
-    time_preparation, time_crafting, time_backing,
-    quantity, difficulty, annoyance, threads) VALUES("
+    time_preparation, time_crafting, time_backing, quantity,
+    difficulty, annoyance, threads, vegetarian, vegan, origin) VALUES("
     . "'" . $name_id . "', '" . $summary_id . "', '"
     . $_POST['time_preparation'] . "', '"
     . $_POST['time_crafting'] . "', '" . $_POST['time_backing'] . "', '"
-    . $_POST['difficulty'] . "', '" . $_POST['annoyance'] . "', '" . $_POST['threads'] . "', '"
-    . $_POST['quantity']
-    . "');";
+    . $_POST['difficulty'] . "', '" . $_POST['annoyance'] . "', '"
+    . $_POST['threads'] . "', '" . $_POST['quantity'] . ", "
+    . $_POST['vegetarian'] . ", " . $_POST['vegan'] . ", "
+    . $origin_id . "');";
   $db->query($query);
   $id_recipe = $db->lastInsertRowID();
 
