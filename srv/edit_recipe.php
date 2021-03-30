@@ -398,18 +398,21 @@
     echo("<br/>");
 
 
-    $query = "SELECT name FROM words WHERE id={$recipe['summary']};";
-    $translations = $h->fetchTranslations($db->querySingle($query, true)['name']);
-    $word_translations = $h->fetchTranslations("Summary");
-    for ($i = 1; $i <= 3; $i++)
+    if (isset($recipe['summary']))
     {
-      if ($_SESSION['language'] == $i)
+      $query = "SELECT name FROM words WHERE id={$recipe['summary']};";
+      $translations = $h->fetchTranslations($db->querySingle($query, true)['name']);
+      $word_translations = $h->fetchTranslations("Summary");
+      for ($i = 1; $i <= 3; $i++)
       {
-        continue;
-      }
+        if ($_SESSION['language'] == $i)
+        {
+          continue;
+        }
 
-      echo($word_translations[$i] . " ($languages[$i]): "
-           . "<input type='text' name='summary_$i' value='" . $translations[$i] . "'><br/>");
+        echo($word_translations[$i] . " ($languages[$i]): "
+            . "<input type='text' name='summary_$i' value='" . $translations[$i] . "'><br/>");
+      }
     }
 
 
