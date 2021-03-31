@@ -107,6 +107,27 @@
     {
       addInputField($i, "threads", $threads);
     }
+    echo("<br/>");
+
+
+    echo("<br/><br/>");
+    $checkbox_names = [ "Vegetarian", "Vegan" ];
+    foreach ($checkbox_names as $chk_name)
+    {
+      $check = "";
+      if (isset($recipe[$chk_name]) && $recipe[$chk_name] == true)
+      {
+        $check = "checked='true'";
+      }
+      echo('<input name="' . strtolower($chk_name) . '" value="0" type="hidden">');
+      echo('<input name="' . strtolower($chk_name) . '" type="checkbox" id="'
+           . $chk_name . '" ' . $check .'>');
+      echo('<label for="' . $chk_name . '">' . $h->fetchWord($chk_name) . "</label><br/>");
+    }
+    echo("<br/>");
+
+    echo($h->fetchWord("Origin")
+      . ": <input type='text' name='origin_'" . $_SESSION["language"] . "'>");
   ?>
 
 

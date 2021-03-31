@@ -22,7 +22,8 @@
   $db = new SQLite3("$db_file");
 
 
-  // Insert the recipe name only if it does not exist yet
+  // TODO Clean copy-pastes
+  // Insert the recipe name / summary / origin only if they do not exist yet
   $query = "SELECT id FROM words WHERE name='" . $_POST['name_1'] . "';";
   $name_id = $db->querySingle($query);
   if (empty($name_id))
@@ -30,23 +31,38 @@
     $str = $_POST['name_1'];
     if (empty($str))
     {
-      $str = "TR__" . $_POST['name_2'] . "__" . $_POST['name_3']; // TODO no handy listing
+      // TODO no handy listing
+      $str = "TR__" . $_POST['name_2'] . "__" . $_POST['name_3'];
     }
     $query = "INSERT INTO words('name') VALUES('" . $str . "');";
     $db->querySingle($query);
     $name_id=$db->lastInsertRowID();
   }
 
-
-  // Insert the recipe summary only if it does not exist yet
-  $query = "SELECT id FROM words WHERE name='" . $_POST['summary'] . "';";
-  $summary_id = $db->querySingle($query);
-  if (empty($summary_id))
+  $summary_id = 1; // '-'
+  $summary = $_POST['summary_' . $_SESSION["language"]];
+  if (isset($summary))
   {
-    $query = "INSERT INTO words('name') VALUES('" . $_POST['summary'] . "');";
-    $db->querySingle($query);
-    $summary_id=$db->lastInsertRowID();
+    $summary_id = $h->fetchWordByName($summary, true);
+    if (empty($summary_id))
+    {
+      $query = "INSERT INTO words('name') VALUES('" . $_POST['summary'] . "');";
+      $db->querySingle($query);
+      $summary_id=$db->lastInsertRowID();
+    }
   }
+
+  $origin = $_POST['origin_' . $_SESSION["language"]];
+  $query = "SELECT id FROM words WHERE name='" . $origin . "';";
+  $origin_id = $db->querySingle($query);
+  if (empty($origin_id))
+  {
+    $query = "INSERT INTO words('name') VALUES('" . $origin . "');";
+    $db->querySingle($query);
+    $origin_id=$db->lastInsertRowID();
+  }
+
+
 
   $id_recipe = $_GET['id'];
   $query = "REPLACE INTO recipes(
@@ -54,14 +70,14 @@
     id_word,
     summary,
     time_preparation, time_crafting, time_backing,
-    quantity, difficulty, annoyance, threads) VALUES("
+    quantity, difficulty, annoyance, threads, vegetarian, vegan, origin) VALUES("
     . "'" . $id_recipe . "', "
     . "'" . $name_id . "', '" . $summary_id . "', '"
     . $_POST['time_preparation'] . "', '"
     . $_POST['time_crafting'] . "', '" . $_POST['time_backing'] . "', '"
     . $_POST['difficulty'] . "', '" . $_POST['annoyance'] . "', '" . $_POST['threads'] . "', '"
-    . $_POST['quantity']
-    . "');";
+    . $_POST['quantity'] . $_POST['vegetarian'] . ", " . $_POST['vegan'] . ", "
+    . $origin_id . "');";
   $db->query($query);
 
   // Clear ingredients before adding the new ones

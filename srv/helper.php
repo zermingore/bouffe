@@ -109,6 +109,7 @@
     }
 
 
+
     public function fetchWordById(int $id, $accept_error)
     {
       $query = "SELECT name from words where id='" . $id . "'";
