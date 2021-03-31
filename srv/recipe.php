@@ -71,6 +71,24 @@ print("<ul>");
 print("  <li>" . $h->fetchWord("For") . ": " . $recipe['quantity'] . "</li>");
 print("  <li>" . $h->fetchWord("Difficulty") . ": " . $recipe['difficulty'] . "</li>");
 print("  <li>" . $h->fetchWord("Ideal number of cooks") . ": " . $recipe['threads'] . "</li>");
+
+$flags = [ "Vegetarian", "Vegan" ];
+foreach ($flags as $flag)
+{
+  $lower = strtolower($flag);
+  if (isset($recipe[$lower]) && $recipe[$lower] == true)
+  {
+    echo("<li>" . $h->fetchWord($flag) . "</li>");
+  }
+}
+
+if (isset($recipe['origin']) && $recipe['origin'] > 1)
+{
+  echo("<li>" . $h->fetchWord("Origin")
+       . ": " . $h->fetchWord($recipe['origin']) . "</li>");
+}
+
+
 print("</ul>");
 print("<hr/>");
 
