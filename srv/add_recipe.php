@@ -112,8 +112,8 @@ function validateForm()
   <input type="radio" name="threads" value="6">5+
 
   <br/><br/>
-  <input name="vegetarish" value="0" type="hidden">
-  <input name="vegetarish" type="checkbox" id="vegetarian">
+  <input name="vegetarian" value="0" type="hidden">
+  <input name="vegetarian" type="checkbox" id="vegetarian">
   <label for="vegetarian"><?php echo($h->fetchWord("vegetarian")); ?></label><br/>
 
   <input name="vegan" value="0" type="hidden">
@@ -304,6 +304,12 @@ function validateForm()
            . "<input type='text' name='summary_$id_lg'><br/>");
     }
 
+    $translations = $h->fetchTranslations("Origin");
+    foreach ($translations as $id_lg => $origin)
+    {
+      echo($origin . " ($languages[$id_lg]): "
+           . "<input type='text' name='origin_$id_lg'><br/>");
+    }
 
     $translations = $h->fetchTranslations("Steps");
     foreach ($translations as $id_lg => $steps)

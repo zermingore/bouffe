@@ -44,8 +44,8 @@ Notes: <?php echo $_POST["notes_" . $_SESSION['language']]?><br/>
     . $_POST['time_preparation'] . "', '"
     . $_POST['time_crafting'] . "', '" . $_POST['time_backing'] . "', '"
     . $_POST['difficulty'] . "', '" . $_POST['annoyance'] . "', '"
-    . $_POST['threads'] . "', '" . $_POST['quantity'] . ", "
-    . $_POST['vegetarian'] . ", " . $_POST['vegan'] . ", "
+    . $_POST['threads'] . "', '" . $_POST['quantity'] . "', '"
+    . $_POST['vegetarian'] . "', '" . $_POST['vegan'] . "', '"
     . $origin_id . "');";
   $db->query($query);
   $id_recipe = $db->lastInsertRowID();
