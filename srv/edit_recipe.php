@@ -127,7 +127,7 @@
     echo("<br/>");
 
     echo($h->fetchWord("Origin")
-      . ": <input type='text' name='origin_'" . $_SESSION["language"] . "'>");
+      . ": <input type='text' name='origin_" . $_SESSION["language"] . "'>");
   ?>
 
 
