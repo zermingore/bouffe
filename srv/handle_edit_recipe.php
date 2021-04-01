@@ -39,29 +39,11 @@
     $name_id=$db->lastInsertRowID();
   }
 
-  $summary_id = 1; // '-'
-  $summary = $_POST['summary_' . $_SESSION["language"]];
-  if (isset($summary))
-  {
-    $summary_id = $h->fetchWordByName($summary, true);
-    if (empty($summary_id))
-    {
-      $query = "INSERT INTO words('name') VALUES('" . $_POST['summary'] . "');";
-      $db->querySingle($query);
-      $summary_id=$db->lastInsertRowID();
-    }
-  }
+  $summary_id = $h->addWordAndOrTranslations(
+    array($_POST["summary_1"], $_POST["summary_2"], $_POST["summary_3"]));
 
-  $origin = $_POST['origin_' . $_SESSION["language"]];
-  $query = "SELECT id FROM words WHERE name='" . $origin . "';";
-  $origin_id = $db->querySingle($query);
-  if (empty($origin_id))
-  {
-    $query = "INSERT INTO words('name') VALUES('" . $origin . "');";
-    $db->querySingle($query);
-    $origin_id=$db->lastInsertRowID();
-  }
-
+  $origin_id = $h->addWordAndOrTranslations(
+    array($_POST["origin_1"], $_POST["origin_2"], $_POST["origin_3"]));
 
 
   $id_recipe = $_GET['id'];
@@ -76,8 +58,8 @@
     . $_POST['time_preparation'] . "', '"
     . $_POST['time_crafting'] . "', '" . $_POST['time_backing'] . "', '"
     . $_POST['difficulty'] . "', '" . $_POST['annoyance'] . "', '" . $_POST['threads'] . "', '"
-    . $_POST['quantity'] . $_POST['vegetarian'] . ", " . $_POST['vegan'] . ", "
-    . $origin_id . "');";
+    . $_POST['quantity'] . "', '" . $_POST['vegetarian'] . "', '" . $_POST['vegan'] . "', "
+    . $origin_id . ");";
   $db->query($query);
 
   // Clear ingredients before adding the new ones
