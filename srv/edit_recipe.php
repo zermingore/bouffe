@@ -124,10 +124,21 @@
            . $chk_name . '" ' . $check .'>');
       echo('<label for="' . $chk_name . '">' . $h->fetchWord($chk_name) . "</label><br/>");
     }
-    echo("<br/>");
+    echo("<br/><br/>");
+
+
+    $origin = "";
+    if (isset($recipe["id_word"]))
+    {
+      // Fetch recipe name
+      $query = "SELECT name FROM words WHERE id={$recipe['origin']};";
+      $tmp = $db->querySingle($query, true)['name'];
+      $origin = $h->fetchWord($tmp);
+    }
 
     echo($h->fetchWord("Origin")
-      . ": <input type='text' name='origin_" . $_SESSION["language"] . "'>");
+        . ": <input type='text' name='origin_" . $_SESSION["language"]
+        . "' value='" .  $origin . "'><br/>");
   ?>
 
 
@@ -423,18 +434,40 @@
     {
       $query = "SELECT name FROM words WHERE id={$recipe['summary']};";
       $translations = $h->fetchTranslations($db->querySingle($query, true)['name']);
-      $word_translations = $h->fetchTranslations("Summary");
-      for ($i = 1; $i <= 3; $i++)
-      {
-        if ($_SESSION['language'] == $i)
-        {
-          continue;
-        }
-
-        echo($word_translations[$i] . " ($languages[$i]): "
-            . "<input type='text' name='summary_$i' value='" . $translations[$i] . "'><br/>");
-      }
     }
+    $word_translations = $h->fetchTranslations("Summary");
+    for ($i = 1; $i <= 3; $i++)
+    {
+      if ($_SESSION['language'] == $i)
+      {
+        continue;
+      }
+
+      $tr = "";
+      if (isset($translations) && isset($translations[$i]))
+      {
+        $tr = $translations[$i];
+      }
+      echo($word_translations[$i] . " ($languages[$i]): "
+           . "<input type='text' name='summary_$i' value='" . $tr . "'><br/>");
+    }
+    echo("<br/>");
+
+
+    $query = "SELECT name FROM words WHERE id={$recipe['origin']};";
+    $translations = $h->fetchTranslations($db->querySingle($query, true)['name']);
+    $word_translations = $h->fetchTranslations("Origin");
+    for ($i = 1; $i <= 3; $i++)
+    {
+      if ($_SESSION['language'] == $i)
+      {
+        continue;
+      }
+
+      echo($word_translations[$i] . " ($languages[$i]): "
+          . "<input type='text' name='origin_$i' value='" . $translations[$i] . "'><br/>");
+    }
+    echo("<br/><br/>");
 
 
     $translations = $h->fetchTranslations("Steps");
