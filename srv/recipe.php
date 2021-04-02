@@ -70,6 +70,7 @@ print("<h2>" . $h->fetchWord("Metadata") . "</h2>");
 print("<ul>");
 print("  <li>" . $h->fetchWord("For") . ": " . $recipe['quantity'] . "</li>");
 print("  <li>" . $h->fetchWord("Difficulty") . ": " . $recipe['difficulty'] . "</li>");
+print("  <li>" . $h->fetchWord("Annoyance") . ": " . $recipe['annoyance'] . "</li>");
 print("  <li>" . $h->fetchWord("Ideal number of cooks") . ": " . $recipe['threads'] . "</li>");
 
 $flags = [ "Vegetarian", "Vegan" ];
