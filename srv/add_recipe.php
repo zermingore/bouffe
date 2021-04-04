@@ -22,12 +22,26 @@ function validateForm()
   for (var time in times_list)
   {
     var val = document.forms["mainForm"][times_list[time]].value;
-    if (!isNaN(val) && val != "")
+    if (val == "")
     {
-      if (val < 0)
-      {
-        error_msg += "Negative time in " + times_list[time] + "<br/>";
-      }
+      continue;
+    }
+
+    if (isNaN(val))
+    {
+      error_msg += "Time is not a number " + times_list[time] + "<br/>";
+      continue;
+    }
+
+    if (parseInt(Number(val)) != val || isNaN(parseInt(val, 10)))
+    {
+      error_msg += "Invalid time in " + times_list[time] + "<br/>";
+      continue;
+    }
+
+    if (val < 0)
+    {
+      error_msg += "Negative time in " + times_list[time] + "<br/>";
     }
   }
 
