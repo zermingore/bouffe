@@ -52,7 +52,8 @@ function validateForm()
   }
   for (var i = 1; i <= g_ingredients_number; ++i)
   {
-    if (document.getElementById("ingredient_input_field_" + i).value == "")
+    ingredient = document.getElementById("ingredient_input_field_" + i);
+    if (ingredient && ingredient.value == "")
     {
       error_msg += "Empty ingredient " + i + "<br/>";
     }
