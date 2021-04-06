@@ -287,6 +287,32 @@ INSERT INTO translations(id_language, id_word, name)
   VALUES (3, (SELECT id FROM words WHERE name="Translations"), "Traductions");
 
 
+-- Error messages
+INSERT INTO words(name) VALUES ("Duration is not a number");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (2, (SELECT id FROM words WHERE name="Duration is not a number"), "Zeitdauer ist kein Nummer");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (3, (SELECT id FROM words WHERE name="Duration is not a number"), "Durée non numérique");
+
+INSERT INTO words(name) VALUES ("Invalid duration");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (2, (SELECT id FROM words WHERE name="Invalid duration"), "Ungültige Zeitdauer");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (3, (SELECT id FROM words WHERE name="Invalid duration"), "Durée invalide");
+
+INSERT INTO words(name) VALUES ("Negative duration");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (2, (SELECT id FROM words WHERE name="Negative duration"), "Negative Zeitdauer");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (3, (SELECT id FROM words WHERE name="Negative duration"), "Durée négative");
+
+INSERT INTO words(name) VALUES ("Empty ingredient name");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (2, (SELECT id FROM words WHERE name="Empty ingredient name"), "Leere Zutatenname");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (3, (SELECT id FROM words WHERE name="Empty ingredient name"), "Nom de l'ingredient requis"); -- '
+
+
 -- Add recipe
 
 INSERT INTO words(name) VALUES ('Unit');
