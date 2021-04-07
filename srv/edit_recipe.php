@@ -121,7 +121,7 @@
       }
       echo('<input name="' . strtolower($chk_name) . '" value="0" type="hidden">');
       echo('<input name="' . strtolower($chk_name) . '" type="checkbox" id="'
-           . $chk_name . '" ' . $check .'>');
+           . $chk_name . '" ' . $check . ' onclick="' . $chk_name . 'Check()">');
       echo('<label for="' . $chk_name . '">' . $h->fetchWord($chk_name) . "</label><br/>");
     }
     echo("<br/><br/>");
@@ -141,6 +141,25 @@
         . "' value='" .  $origin . "'><br/>");
   ?>
 
+<script>
+    function VeganCheck()
+    {
+      var vegan = document.getElementById("Vegan");
+      var vegetarian = document.getElementById("Vegetarian");
+
+      if (vegan.checked)
+        vegetarian.checked = true;
+    }
+
+    function VegetarianCheck()
+    {
+      var vegan = document.getElementById("Vegan");
+      var vegetarian = document.getElementById("Vegetarian");
+
+      if (vegetarian.checked == false)
+        vegan.checked = false;
+    }
+  </script>
 
   <br/><br/>
   <?php

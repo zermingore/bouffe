@@ -126,14 +126,36 @@ function validateForm()
   <input type="radio" name="threads" value="5">5
   <input type="radio" name="threads" value="6">5+
 
+
   <br/><br/>
   <input name="vegetarian" value="0" type="hidden">
-  <input name="vegetarian" type="checkbox" id="vegetarian">
+  <input name="vegetarian" type="checkbox" id="vegetarian" onclick="disableVegan()">
   <label for="vegetarian"><?php echo($h->fetchWord("vegetarian")); ?></label><br/>
 
   <input name="vegan" value="0" type="hidden">
-  <input name="vegan" type="checkbox" id="vegan">
+  <input name="vegan" type="checkbox" id="vegan" onclick="enableVegetarian()">
   <label for="vegan"><?php echo($h->fetchWord("vegan")); ?></label><br/>
+
+  <script>
+    function enableVegetarian()
+    {
+      var vegan = document.getElementById("vegan");
+      var vegetarian = document.getElementById("vegetarian");
+
+      if (vegan.checked)
+        vegetarian.checked = true;
+    }
+
+    function disableVegan()
+    {
+      var vegan = document.getElementById("vegan");
+      var vegetarian = document.getElementById("vegetarian");
+
+      if (vegetarian.checked == false)
+        vegan.checked = false;
+    }
+  </script>
+
 
   <?php echo($h->fetchWord("Origin")
       . ": <input type='text' name='origin_" . $_SESSION["language"] . "'>"); ?>
