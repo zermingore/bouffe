@@ -129,31 +129,14 @@ function validateForm()
 
   <br/><br/>
   <input name="vegetarian" value="0" type="hidden">
-  <input name="vegetarian" type="checkbox" id="vegetarian" onclick="disableVegan()">
+  <input name="vegetarian" type="checkbox" id="Vegetarian" onclick="VegetarianCheck()">
   <label for="vegetarian"><?php echo($h->fetchWord("vegetarian")); ?></label><br/>
 
   <input name="vegan" value="0" type="hidden">
-  <input name="vegan" type="checkbox" id="vegan" onclick="enableVegetarian()">
+  <input name="vegan" type="checkbox" id="Vegan" onclick="VeganCheck()">
   <label for="vegan"><?php echo($h->fetchWord("vegan")); ?></label><br/>
 
-  <script>
-    function enableVegetarian()
-    {
-      var vegan = document.getElementById("vegan");
-      var vegetarian = document.getElementById("vegetarian");
-
-      if (vegan.checked)
-        vegetarian.checked = true;
-    }
-
-    function disableVegan()
-    {
-      var vegan = document.getElementById("vegan");
-      var vegetarian = document.getElementById("vegetarian");
-
-      if (vegetarian.checked == false)
-        vegan.checked = false;
-    }
+  <script src=js/checkboxes.js>
   </script>
 
 
