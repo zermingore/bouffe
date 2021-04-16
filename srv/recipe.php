@@ -175,7 +175,7 @@ print("</ul>");
 
 
 echo "<hr>";
-echo "<a href=/srv/edit_recipe.php?id=" . $_GET['id'] . ">"
+echo "<a href=/srv/add_edit_recipe.php?id=" . $_GET['id'] . ">"
   . $h->fetchWord("edit") . "</a><br/>";
 
 include "footer.php";
