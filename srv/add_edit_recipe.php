@@ -376,22 +376,25 @@
   <!-- Instructions steps -->
   <?php
     $word_step = $h->fetchWord("Steps");
-
-    $query = "SELECT * FROM steps WHERE id_recipe={$recipe_id}; ORDER BY num";
-    $result = $db->query($query);
     print("<h2>$word_step</h2>");
-    print("<ul>");
-    $steps = "";
-    while ($step = $result->fetchArray())
-    {
-      $query = "SELECT name FROM words WHERE id={$step['description']};";
-      $description = $db->querySingle($query);
 
-      // fancy display; use later with steps re-ordering support
-      // echo("<input type='text' name=step_{$step['num']} value='". $description . "'><br/>");
-      $steps = $steps . $description . "\n";
+    if ($g_mode_edit)
+    {
+      $query = "SELECT * FROM steps WHERE id_recipe={$recipe_id}; ORDER BY num";
+      $result = $db->query($query);
+      print("<ul>");
+      $steps = "";
+      while ($step = $result->fetchArray())
+      {
+        $query = "SELECT name FROM words WHERE id={$step['description']};";
+        $description = $db->querySingle($query);
+
+        // fancy display; use later with steps re-ordering support
+        // echo("<input type='text' name=step_{$step['num']} value='". $description . "'><br/>");
+        $steps = $steps . $description . "\n";
+      }
+      print("</ul>");
     }
-    print("</ul>");
 
     echo($h->fetchWord("1 per line") . "<br/>");
     echo("<textarea name='steps_" . $_SESSION['language']
@@ -404,22 +407,25 @@
   <hr/>
   <?php
     $word_note = $h->fetchWord("Notes");
-
-    $query = "SELECT * FROM notes WHERE id_recipe={$recipe_id}; ORDER BY num";
-    $result = $db->query($query);
     print("<h2>$word_note</h2>");
-    print("<ul>");
-    $notes = "";
-    while ($note = $result->fetchArray())
-    {
-      $query = "SELECT name FROM words WHERE id={$note['description']};";
-      $description = $db->querySingle($query);
 
-      // fancy display; use later with notes re-ordering support
-      // echo("<input type='text' name=note_{$note['num']} value='". $description . "'><br/>");
-      $notes = $notes . $description . "\n";
+    if ($g_mode_edit)
+    {
+      $query = "SELECT * FROM notes WHERE id_recipe={$recipe_id}; ORDER BY num";
+      $result = $db->query($query);
+      print("<ul>");
+      $notes = "";
+      while ($note = $result->fetchArray())
+      {
+        $query = "SELECT name FROM words WHERE id={$note['description']};";
+        $description = $db->querySingle($query);
+
+        // fancy display; use later with notes re-ordering support
+        // echo("<input type='text' name=note_{$note['num']} value='". $description . "'><br/>");
+        $notes = $notes . $description . "\n";
+      }
+      print("</ul>");
     }
-    print("</ul>");
 
     echo($h->fetchWord("1 per line") . "<br/>");
     echo("<textarea name='notes_" . $_SESSION['language']

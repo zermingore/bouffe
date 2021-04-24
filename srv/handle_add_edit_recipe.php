@@ -46,7 +46,6 @@
     array($_POST["origin_1"], $_POST["origin_2"], $_POST["origin_3"]));
 
 
-  $id_recipe = $_GET['id'];
   $query = "REPLACE INTO recipes(
     id,
     id_word,
