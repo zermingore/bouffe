@@ -78,6 +78,81 @@
 ?>
 
 
+<script>
+function validateForm()
+{
+  // Times consistency
+  var error_msg = "";
+  var times_list = ["time_preparation", "time_crafting", "time_backing"]
+  for (var time in times_list)
+  {
+    var val = document.forms["mainForm"][times_list[time]].value;
+    if (val == "")
+    {
+      continue;
+    }
+
+    if (isNaN(val))
+    {
+      error_msg += "Time is not a number " + times_list[time] + "<br/>";
+      continue;
+    }
+
+    if (parseInt(Number(val)) != val || isNaN(parseInt(val, 10)))
+    {
+      error_msg += "Invalid time in " + times_list[time] + "<br/>";
+      continue;
+    }
+
+    if (val < 0)
+    {
+      error_msg += "Negative time in " + times_list[time] + "<br/>";
+    }
+  }
+
+  // At least one valid ingredient
+  if (g_ingredients_number < 1)
+  {
+    error_msg += "No ingredient provided<br/>";
+  }
+  for (var i = 1; i <= g_ingredients_number; ++i)
+  {
+    ingredient = document.getElementById("ingredient_input_field_" + i);
+    if (ingredient && ingredient.value == "")
+    {
+      error_msg += "Empty ingredient " + i + "<br/>";
+    }
+  }
+
+  // At least one non-empty name
+  if (   document.forms["mainForm"]["name_1"].value == ""
+      && document.forms["mainForm"]["name_2"].value == ""
+      && document.forms["mainForm"]["name_3"].value == "")
+  {
+    error_msg += "Empty name<br/>"
+  }
+
+
+  // On error, display error message and return an error
+  if (error_msg != "")
+  {
+    alert(error_msg.replace(/(?:<br\/>|<br\/>)/g, '\n'));
+
+    list = document.getElementsByClassName("error_report");
+    for (elt in list)
+    {
+      list[elt].innerHTML = error_msg;
+    }
+
+    return false;
+  }
+
+  return true;
+}
+</script>
+
+
+
 <form name="mainForm"
       method="post"
       action="<?php echo("handle_add_edit_recipe.php?id=$recipe_id"); ?>"
@@ -318,52 +393,60 @@
     </div>
 
 
-    <!-- Add already existing ingredients -->
+    <!-- Already existing ingredients on edit; First ingredient on add -->
     <?php
-    $id_unit_ingredient = $db->querySingle("SELECT id FROM words WHERE name='unit_ingredient'");
-    $id_unit_none = $db->querySingle("SELECT id FROM words WHERE name='unit_none'");
-
-    if (!isset($_SESSION["language"]) || $_SESSION["language"] == "1")
+    if ($g_mode_edit)
     {
-      $query = "SELECT * FROM words WHERE"
-      . " id IN (SELECT id_word FROM units WHERE (id_type="
-      . $id_unit_ingredient . " OR id_type=" . $id_unit_none . "))";
+      $id_unit_ingredient = $db->querySingle("SELECT id FROM words WHERE name='unit_ingredient'");
+      $id_unit_none = $db->querySingle("SELECT id FROM words WHERE name='unit_none'");
+
+      if (!isset($_SESSION["language"]) || $_SESSION["language"] == "1")
+      {
+        $query = "SELECT * FROM words WHERE"
+        . " id IN (SELECT id_word FROM units WHERE (id_type="
+        . $id_unit_ingredient . " OR id_type=" . $id_unit_none . "))";
+      }
+      else
+      {
+        $query = "SELECT * FROM translations WHERE id_language="
+        . $_SESSION["language"]
+        . " AND id_word IN (SELECT id_word FROM units WHERE (id_type="
+        . $id_unit_ingredient . " OR id_type=" . $id_unit_none . "))";
+      }
+
+      $units_list = $db->query($query);
+      $units_list->reset();
+
+      // Fetch ingredients from 'requirements' table
+      $query = "SELECT * FROM requirements WHERE id_recipe={$recipe_id};";
+      $result = $db->query($query);
+      while ($requirement = $result->fetchArray())
+      {
+        $query = "SELECT name FROM words WHERE id={$requirement['id_ingredient']};";
+        $ingredient_name = $db->querySingle($query);
+        $ingredient_name = $h->fetchWord($ingredient_name);
+
+        if ($requirement['id_unit'] != "")
+        {
+          $query = "SELECT id_word FROM units WHERE id={$requirement['id_unit']};";
+          $id_symbol = $db->querySingle($query);
+
+          $query_name = "SELECT name FROM words WHERE id={$id_symbol};";
+          $unit_name = $db->querySingle($query_name);
+
+          $unit_name = $h->fetchWord($unit_name);
+        }
+
+        echo("<script> addIngredientField("
+          . "'" . $requirement['quantity'] . "', "
+          . "'" . $unit_name . "', "
+          . "'" . $ingredient_name . "'); </script>");
+      }
     }
     else
     {
-      $query = "SELECT * FROM translations WHERE id_language="
-      . $_SESSION["language"]
-      . " AND id_word IN (SELECT id_word FROM units WHERE (id_type="
-      . $id_unit_ingredient . " OR id_type=" . $id_unit_none . "))";
-    }
-
-    $units_list = $db->query($query);
-    $units_list->reset();
-
-    // Fetch ingredients from 'requirements' table
-    $query = "SELECT * FROM requirements WHERE id_recipe={$recipe_id};";
-    $result = $db->query($query);
-    while ($requirement = $result->fetchArray())
-    {
-      $query = "SELECT name FROM words WHERE id={$requirement['id_ingredient']};";
-      $ingredient_name = $db->querySingle($query);
-      $ingredient_name = $h->fetchWord($ingredient_name);
-
-      if ($requirement['id_unit'] != "")
-      {
-        $query = "SELECT id_word FROM units WHERE id={$requirement['id_unit']};";
-        $id_symbol = $db->querySingle($query);
-
-        $query_name = "SELECT name FROM words WHERE id={$id_symbol};";
-        $unit_name = $db->querySingle($query_name);
-
-        $unit_name = $h->fetchWord($unit_name);
-      }
-
-      echo("<script> addIngredientField("
-        . "'" . $requirement['quantity'] . "', "
-        . "'" . $unit_name . "', "
-        . "'" . $ingredient_name . "'); </script>");
+      // Add first ingredient fields
+      echo("<script> addIngredientField(); </script>");
     }
   ?>
   </div>

@@ -7,7 +7,7 @@
 <?php
   if (!isset($_GET['id']))
   {
-    echo("Recipe id not forwarded; Aborting");
+    echo("Add recipe");
     return;
   }
 ?>
