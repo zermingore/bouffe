@@ -1,25 +1,26 @@
 <html>
-<?php include "header.php"; echo "<pre>post:"; print_r($_POST); echo "</pre>";
+<?php
+  include "header.php";
+  echo "<pre>post:"; print_r($_POST); echo "</pre><hr/>";
 ?>
 <body>
 
 
 <?php
-  if (!isset($_GET['id']))
+  $g_language = $_SESSION["language"];
+  if (!isset($_GET['id']) || $_GET['id'] == 0)
   {
-    echo("Add recipe");
-    return;
+    echo("Add recipe<br/>");
   }
-?>
+  else
+  {
+    echo("Edit recipe " . $_GET['id'] . "<br/>");
+    $g_mode_edit = true;
+  }
 
-
-<hr/>
-
-<!-- TODO: (Re)Move the 'old' recipe -->
-
-<?php
   $db_file = "../db/db";
   $db = new SQLite3("$db_file");
+  $h = new Helper($db_file);
 
 
   // TODO Clean copy-pastes
@@ -45,34 +46,57 @@
   $origin_id = $h->addWordAndOrTranslations(
     array($_POST["origin_1"], $_POST["origin_2"], $_POST["origin_3"]));
 
+  $common_fields = "id_word, summary,
+    time_preparation, time_crafting, time_backing, quantity,
+    difficulty, annoyance, threads, vegetarian, vegan, origin";
 
-  $query = "REPLACE INTO recipes(
-    id,
-    id_word,
-    summary,
-    time_preparation, time_crafting, time_backing,
-    quantity, difficulty, annoyance, threads, vegetarian, vegan, origin) VALUES("
-    . "'" . $id_recipe . "', "
-    . "'" . $name_id . "', '" . $summary_id . "', '"
+  $common_values = "'" . $name_id . "', '" . $summary_id . "', '"
     . $_POST['time_preparation'] . "', '"
     . $_POST['time_crafting'] . "', '" . $_POST['time_backing'] . "', '"
-    . $_POST['difficulty'] . "', '" . $_POST['annoyance'] . "', '" . $_POST['threads'] . "', '"
-    . $_POST['quantity'] . "', '" . $_POST['vegetarian'] . "', '" . $_POST['vegan'] . "', "
-    . $origin_id . ");";
-  $db->query($query);
+    . $_POST['difficulty'] . "', '" . $_POST['annoyance'] . "', '"
+    . $_POST['threads'] . "', '" . $_POST['quantity'] . "', '"
+    . $_POST['vegetarian'] . "', '" . $_POST['vegan'] . "', '"
+    . $origin_id . "'";
 
-  // Clear ingredients before adding the new ones
-  $query = "DELETE FROM requirements WHERE id_recipe=$id_recipe;";
-  $db->query($query);
+  if ($g_mode_edit)
+  {
+    $id_recipe = $_GET['id'];
+
+    $query = "REPLACE INTO recipes(id" . $common_fields . ") VALUES("
+      . "'" . $id_recipe . "', " . $common_values . ");";
+    $db->query($query);
+
+    // Clear ingredients before adding the new ones
+    $query = "DELETE FROM requirements WHERE id_recipe=$id_recipe;";
+    $db->query($query);
+  }
+  else
+  {
+    $query = "INSERT INTO recipes(" . $common_fields . ") VALUES("
+        . $common_values . ");";
+    $db->query($query);
+    $id_recipe = $db->lastInsertRowID();
+  }
 
 
   echo "Ingredients:<br/>";
 
-  $db_ingredients = $db->query("SELECT * FROM words WHERE id IN (SELECT id FROM ingredients)");
+  $db_ingredients;
+  if ($g_language == "1")
+  {
+    $db_ingredients = $db->query(
+      "SELECT * FROM words WHERE id IN (SELECT id FROM ingredients);");
+  }
+  else
+  {
+    $db_ingredients = $db->query(
+        "SELECT * FROM translations WHERE id_language = " . $g_language
+      . " AND id_word IN (SELECT id FROM ingredients);");
+  }
 
-  // TODO handle translations (searching by name...)
   for ($i = 1; $i <= count($_POST); $i++) // count($_POST) overkill but safe
   {
+    // TODO handle translations (searching by name...)
     if (!isset($_POST["ingredient_" . $i . "_name"]))
     {
       continue;
@@ -89,10 +113,12 @@
     $ingredient_name = $_POST["ingredient_" . $i . "_name"];
     $ingredient_found = 0;
     $db_ingredients->reset();
+    $id_word = -1;
     while ($res = $db_ingredients->fetchArray())
     {
       if ($res['name'] == $ingredient_name)
       {
+        $id_word = $res['id_word'];
         $ingredient_found = 1;
         break;
       }
@@ -101,49 +127,89 @@
     // Insert the ingredient name only if it does not exist yet
     if (!$ingredient_found)
     {
-      $query = "INSERT INTO words('name') VALUES('" . $ingredient_name . "');";
-      $db->querySingle($query);
-      $query = "INSERT INTO ingredients('id') VALUES('" . $db->lastInsertRowID() . "');";
-      $db->querySingle($query);
+      if ($_SESSION["language"] == "1")
+      {
+        $query = "INSERT INTO words('name') VALUES('"
+          . $ingredient_name . "');";
+        $db->querySingle($query);
+
+        $query = "INSERT INTO ingredients('id') VALUES('"
+          . $db->lastInsertRowID() . "');";
+        $db->querySingle($query);
+      }
+      else
+      {
+        if ($id_word != -1) // word found based on its translation
+        {
+          $query = "INSERT INTO translations('id_language', 'id_word', 'name')"
+            . "VALUES('" . $_SESSION["language"]
+            . "', '" . $id_word
+            . "', '" . $ingredient_name . "');";
+        }
+        else
+        {
+          // Word not found; add a place-holder based on its translation
+          $query = "INSERT INTO words('name') VALUES"
+            . "('TR__" . $ingredient_name . "');";
+        }
+        $db->querySingle($query);
+        $id_word = $db->lastInsertRowID();
+
+        $query = "INSERT INTO ingredients('id') VALUES('" . $id_word . "');";
+        $db->querySingle($query);
+      }
+
+      $ingredient_id = $db->lastInsertRowID();
     }
 
 
     // Fetch the ingredient id
-    $ingredient_id = $db->querySingle(
-      "SELECT * FROM ingredients WHERE id IN (SELECT id FROM words WHERE name='"
-      . $ingredient_name . "')");
+    if (!isset($ingredient_id))
+    {
+      $ingredient_id = $db->querySingle(
+        "SELECT * FROM ingredients WHERE id IN (SELECT id FROM words WHERE "
+        . "name='" . $ingredient_name
+        . "' or name='TR__" . $ingredient_name . "')");
+    }
 
     // Fetch the quantity unit id
     $quantity_unit_id = $db->querySingle(
-      "SELECT * FROM units WHERE id_word IN (SELECT id FROM words WHERE name='"
+      "SELECT * FROM units WHERE id_word IN "
+      . "(SELECT id FROM words WHERE name='"
       .  $_POST["ingredient_" . $i . "_qty_unit"] . "')");
 
     // Add the requirement
-    $query =
-      "INSERT INTO requirements('id_recipe', 'id_ingredient', 'quantity', 'id_unit') VALUES('"
+    $query = "INSERT INTO requirements("
+      . "'id_recipe', 'id_ingredient', 'quantity', 'id_unit') VALUES('"
       . $id_recipe . "','" . $ingredient_id . "', '"
-      . $_POST["ingredient_" . $i . "_qty"] . "', '" . $quantity_unit_id . "');";
+      . $_POST["ingredient_" . $i . "_qty"] . "', '"
+      . $quantity_unit_id . "');";
     $res = $db->query($query);
 
     if ($_POST["ingredient_" . $i . "_qty_unit"] != "-")
     {
-      echo $ingredient_name . " (". $_POST["ingredient_" . $i . "_qty"]
-      . " ". $_POST["ingredient_" . $i . "_qty_unit"] . ")<br/>";
+      echo($ingredient_name . " (". $_POST["ingredient_" . $i . "_qty"]
+      . " ". $_POST["ingredient_" . $i . "_qty_unit"] . ")<br/>");
     }
     else
     {
-      echo $_POST["ingredient_" . $i . "_qty"] . " " . $ingredient_name . "<br/>";
+      echo($_POST["ingredient_" . $i . "_qty"]
+        . " " . $ingredient_name . "<br/>");
     }
   }
 
 
+  // TODO Warning if translation arrays differ in size?
 
   $types = ["steps", "notes"];
   foreach ($types as $type)
   {
-    // Clear related entries before adding the new ones
-    $query = "DELETE FROM $type WHERE id_recipe=$id_recipe;";
-    $db->query($query);
+    if ($g_mode_edit)
+    {
+      // Clear related entries before adding the new ones
+      $query = "DELETE FROM $type WHERE id_recipe=$id_recipe;";
+      $db->query($query);
+    }
 
     $word_ids = array(); // Keeping track of words index
     for ($lg_idx = 1; $lg_idx <= 3; $lg_idx++)
@@ -161,8 +227,9 @@
         }
         else
         {
-          $query = "INSERT INTO translations('id_language', 'id_word', 'name') "
-            . "VALUES('" . $lg_idx . "', '". $word_ids[$i - 1] . "', '" . $item . "');";
+          $query = "INSERT INTO translations("
+            . "'id_language', 'id_word', 'name') VALUES('"
+            . $lg_idx . "', '". $word_ids[$i - 1] . "', '" . $item . "');";
           $db->querySingle($query);
         }
 
@@ -175,7 +242,8 @@
         }
         elseif ($type == "notes")
         {
-          $query = "INSERT INTO notes('id_language', 'id_recipe', 'description') VALUES('"
+          $query = "INSERT INTO " . $type
+            . "('id_language', 'id_recipe', 'description') VALUES('"
             . $lg_idx . "', '" . $id_recipe
             . "', '" . $word_ids[$i - 1] . "');";
         }
