@@ -62,9 +62,12 @@
   {
     $id_recipe = $_GET['id'];
 
-    $query = "REPLACE INTO recipes(id" . $common_fields . ") VALUES("
+    $query = "REPLACE INTO recipes(id, " . $common_fields . ") VALUES("
       . "'" . $id_recipe . "', " . $common_values . ");";
-    $db->query($query);
+    if (!$db->query($query))
+    {
+      echo("Issue in recipe replacement; request:<br/>" . $query . "<br/>");
+    }
 
     // Clear ingredients before adding the new ones
     $query = "DELETE FROM requirements WHERE id_recipe=$id_recipe;";
@@ -232,7 +235,10 @@
           $query = "INSERT INTO translations("
             . "'id_language', 'id_word', 'name') VALUES('"
             . $lg_idx . "', '". $word_ids[$i - 1] . "', '" . $item . "');";
-          $db->querySingle($query);
+          if (!$db->querySingle($query))
+          {
+            echo("Issue inserting translation; request:<br/>" . $query . "<br/>");
+          }
         }
 
         if ($type == "steps")
