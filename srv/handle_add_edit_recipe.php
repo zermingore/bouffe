@@ -196,6 +196,8 @@
       echo($_POST["ingredient_" . $i . "_qty"]
         . " " . $ingredient_name . "<br/>");
     }
+
+    unset($ingredient_id);
   }
 
 
