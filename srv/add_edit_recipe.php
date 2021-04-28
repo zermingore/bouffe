@@ -8,6 +8,8 @@
   $db = new SQLite3("$db_file");
   $h = new Helper($db_file);
 
+  echo('<p class="error_report"></p>');
+
   $g_mode_edit = isset($_GET['id']);
 
   if ($g_mode_edit)
@@ -83,6 +85,7 @@ function validateForm()
 {
   // Times consistency
   var error_msg = "";
+
   var times_list = ["time_preparation", "time_crafting", "time_backing"]
   for (var time in times_list)
   {
@@ -162,7 +165,7 @@ function validateForm()
   <?php
     $short = ": <input type='text' name=";
     echo($h->fetchWord("Name") . "$short'name_" . $_SESSION["language"]
-         . "' value='" .  $name . "'><br/>");
+         . "' value='" .  $name . "' required><br/>");
     echo($h->fetchWord("Summary") . "$short'summary_" . $_SESSION["language"]
          . "' value='$summary'>");
   ?>
@@ -360,6 +363,7 @@ function validateForm()
 
         // Name <input> element
         var ingredient_name = document.createElement("input");
+        ingredient_name.id = "ingredient_input_field_" + current_id;
         ingredient_name.type = "text";
         ingredient_name.name = prefix + "_name";
         if (name)
