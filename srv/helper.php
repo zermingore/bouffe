@@ -186,7 +186,25 @@
      */
     public function addWordAndOrTranslations($names)
     {
-      // TODO Sanity check: at least a name in one language required?
+      $nb_translations = 2;  // TODO Fetch from the DB
+
+      // Return 0 if no name is set
+      $name_found = false;
+      echo("See me<br/>");
+      for ($i = 0; $i <= $nb_translations; $i++)
+      {
+        if (isset($names[$i]) || $names[$i] != "")
+        {
+          $name_found = true;
+          break;
+        }
+      }
+      if (!$name_found)
+      {
+        echo("No name found<br/>");
+        return 0;
+      }
+
 
       // Insert the recipe name only if it does not exist yet
       if (isset($names[0]) && !empty($names[0]))
@@ -205,7 +223,7 @@
       $place_holder = ""; // No 'Name' in any language -> don't add anything in the DB
       if (empty($name_id))
       {
-        for ($i = 1; $i <= 2; $i++) // TODO Clean foreach translation
+        for ($i = 1; $i <= $nb_translations; $i++)
         {
           if (isset($names[$i]))
           {
