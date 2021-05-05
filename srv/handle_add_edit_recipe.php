@@ -119,9 +119,15 @@
     $id_word = -1;
     while ($res = $db_ingredients->fetchArray())
     {
+      $tmp = $res['id'];
+      if (isset($res['id_word']))
+      {
+        $tmp = $res['id_word'];
+      }
+
       if ($res['name'] == $ingredient_name)
       {
-        $id_word = $res['id_word'];
+        $id_word = $tmp;
         $ingredient_found = 1;
         break;
       }
