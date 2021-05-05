@@ -11,6 +11,7 @@
   if (!isset($_GET['id']) || $_GET['id'] == 0)
   {
     echo("Add recipe<br/>");
+    $g_mode_edit = false;
   }
   else
   {

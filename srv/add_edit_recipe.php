@@ -54,7 +54,6 @@
     $annoyance = $recipe["annoyance"];
     $threads = $recipe["threads"];
 
-
     echo("<h1>" . $h->fetchWord("edit") . ": $name</h1>");
   }
   else
@@ -465,12 +464,12 @@ function validateForm()
     $word_step = $h->fetchWord("Steps");
     print("<h2>$word_step</h2>");
 
+    $steps = "";
     if ($g_mode_edit)
     {
       $query = "SELECT * FROM steps WHERE id_recipe={$recipe_id}; ORDER BY num";
       $result = $db->query($query);
       print("<ul>");
-      $steps = "";
       while ($step = $result->fetchArray())
       {
         $query = "SELECT name FROM words WHERE id={$step['description']};";
@@ -496,12 +495,12 @@ function validateForm()
     $word_note = $h->fetchWord("Notes");
     print("<h2>$word_note</h2>");
 
+    $notes = "";
     if ($g_mode_edit)
     {
       $query = "SELECT * FROM notes WHERE id_recipe={$recipe_id}; ORDER BY num";
       $result = $db->query($query);
       print("<ul>");
-      $notes = "";
       while ($note = $result->fetchArray())
       {
         $query = "SELECT name FROM words WHERE id={$note['description']};";
