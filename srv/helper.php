@@ -225,7 +225,7 @@
       {
         for ($i = 1; $i <= $nb_translations; $i++)
         {
-          if (isset($names[$i]))
+          if (isset($names[$i]) && $names[$i] != "")
           {
             $place_holder .= "__" . $place_holder . $names[$i];
           }
