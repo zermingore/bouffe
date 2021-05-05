@@ -37,30 +37,28 @@ if (isset($recipe['summary']))
 print("<hr/>");
 
 // Read time
-// TODO Time units
 print("<h2>" . $h->fetchWord("Time") . "</h2>");
 print("<ul>");
-$time_total = $recipe['time_preparation'] + $recipe['time_crafting'] +  $recipe['time_backing'];
+
+
+$time_total = 0;
+$times = array("Time preparation" => $recipe['time_preparation'],
+              "Time crafting" => $recipe['time_crafting'],
+              "Time backing" => $recipe['time_backing']);
+foreach ($times as $time_str => $time_value)
+{
+  if (isset($time_value) && $time_value != 0)
+  {
+    echo("  <li>" . $h->fetchWord($time_str) . ": " . $time_value
+        . " " . $h->fetchWord("min.") . "</li>");
+
+    $time_total += $time_value;
+  }
+}
+
 print("  <li>" . $h->fetchWord("Time total") . ": " . $time_total
-      . " " . $h->fetchWord("min.") . "</li>");
+. " " . $h->fetchWord("min.") . "</li>");
 
-if ($recipe['time_preparation'] != 0)
-{
-  print("  <li>" . $h->fetchWord("Time preparation") . ": " . $recipe['time_preparation']
-    . " " . $h->fetchWord("min.") . "</li>");
-}
-
-if ($recipe['time_crafting'] != 0)
-{
-  print("  <li>" . $h->fetchWord("Time crafting") . ": " . $recipe['time_crafting']
-    . " " . $h->fetchWord("min.") . "</li>");
-}
-
-if ($recipe['time_backing'] != 0)
-{
-  print("  <li>" . $h->fetchWord("Time backing") . ": ". $recipe['time_backing']
-    . " " . $h->fetchWord("min.") . "</li>");
-}
 
 print("</ul>");
 print("<hr/>");
