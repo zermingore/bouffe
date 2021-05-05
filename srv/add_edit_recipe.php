@@ -232,10 +232,10 @@ function validateForm()
     echo("<br/><br/>");
 
 
+    // Fetch recipe origin
     $origin = "";
-    if (isset($recipe["id_word"]))
+    if (isset($recipe["origin"]))
     {
-      // Fetch recipe name
       $query = "SELECT name FROM words WHERE id={$recipe['origin']};";
       $tmp = $db->querySingle($query, true)['name'];
       $origin = $h->fetchWord($tmp);
