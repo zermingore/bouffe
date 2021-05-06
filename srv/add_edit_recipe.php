@@ -472,8 +472,7 @@ function validateForm()
       print("<ul>");
       while ($step = $result->fetchArray())
       {
-        $query = "SELECT name FROM words WHERE id={$step['description']};";
-        $description = $db->querySingle($query);
+        $description = $h->fetchWord($step['description'], true);
 
         // fancy display; use later with steps re-ordering support
         // echo("<input type='text' name=step_{$step['num']} value='". $description . "'><br/>");
@@ -503,8 +502,7 @@ function validateForm()
       print("<ul>");
       while ($note = $result->fetchArray())
       {
-        $query = "SELECT name FROM words WHERE id={$note['description']};";
-        $description = $db->querySingle($query);
+        $description = $h->fetchWord($note['description'], true);
 
         // fancy display; use later with notes re-ordering support
         // echo("<input type='text' name=note_{$note['num']} value='". $description . "'><br/>");

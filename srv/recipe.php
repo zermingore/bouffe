@@ -31,8 +31,7 @@ if (isset($recipe['summary']))
 {
   $query = "SELECT name FROM words WHERE id={$recipe['summary']};";
   $summary = $db->querySingle($query, true)['name'];
-  $print_summary = $h->fetchWord($summary);
-  print("<h3>$print_summary</h3>");
+  print("<h3>" . $h->fetchWord($summary) . "</h3>");
 }
 print("<hr/>");
 
@@ -61,9 +60,9 @@ print("  <li>" . $h->fetchWord("Time total") . ": " . $time_total
 
 
 print("</ul>");
+
+
 print("<hr/>");
-
-
 print("<h2>" . $h->fetchWord("Metadata") . "</h2>");
 print("<ul>");
 print("  <li>" . $h->fetchWord("For") . ": " . $recipe['quantity'] . "</li>");
@@ -87,14 +86,12 @@ if (isset($recipe['origin']) && $recipe['origin'] > 1)
        . ": " . $h->fetchWord($recipe['origin']) . "</li>");
 }
 
-
 print("</ul>");
+
+
 print("<hr/>");
-
-
 print("<h2>" . $h->fetchWord("Ingredients") . "</h2>");
 print("<ul>");
-
 
 // Fetch ingredients from 'requirements' table
 $query = "SELECT * FROM requirements WHERE id_recipe={$recipe['id']};";
@@ -102,8 +99,7 @@ $result = $db->query($query);
 while ($requirement = $result->fetchArray())
 {
   $query = "SELECT name FROM words WHERE id={$requirement['id_ingredient']};";
-  $ingredient_name = $db->querySingle($query);
-  $ingredient_name = $h->fetchWord($ingredient_name);
+  $ingredient_name = $h->fetchWord($db->querySingle($query));
 
   if ($requirement['id_unit'] != "")
   {
@@ -159,9 +155,9 @@ $nb_steps = $db->querySingle(
   "SELECT MAX(num) FROM steps WHERE id_recipe={$recipe['id']};");
 $word_step = $h->fetchWord("Steps");
 
-$query = "SELECT * FROM steps WHERE id_recipe={$recipe['id']} "
-  . "AND id_language={$_SESSION['language']}; ORDER BY num";
+$query = "SELECT * FROM steps WHERE id_recipe={$recipe['id']} ORDER BY num";
 $result = $db->query($query);
+
 print("<h2>" . "$nb_steps" . " $word_step</h2>");
 print("<ul>");
 while ($step = $result->fetchArray())
@@ -170,6 +166,7 @@ while ($step = $result->fetchArray())
     . $h->fetchWord($step['description'], true) . "</li>");
 }
 print("</ul>");
+
 
 
 echo "<hr>";

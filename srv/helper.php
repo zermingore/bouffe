@@ -7,6 +7,14 @@
       $this->db = new SQLite3($db_path);
     }
 
+
+    public function getNbLanguages()
+    {
+      $query = "SELECT COUNT(*) FROM languages";
+      return $this->db->querySingle($query);
+    }
+
+
     public function fetchWord($word, $accept_error = false)
     {
       if (gettype($word) == "string")
@@ -46,6 +54,7 @@
     }
 
 
+
     public function fetchWordByName(string $word, $accept_error)
     {
       $language_id = $_SESSION["language"];
@@ -57,7 +66,8 @@
       }
 
       // Sanity check
-      if ($language_id != "2" && $language_id != "3")
+      $nb_languages = $this->getNbLanguages();
+      if ($language_id > $nb_languages || $language_id < 0)
       {
         echo "Invalid language " . $language_id . "<br/>";
         return "___" . $word . "___";
@@ -186,12 +196,12 @@
      */
     public function addWordAndOrTranslations($names)
     {
-      $nb_translations = 2;  // TODO Fetch from the DB
+      $nb_languages = $this->getNbLanguages();
 
       // Return 0 if no name is set
       $name_found = false;
       echo("See me<br/>");
-      for ($i = 0; $i <= $nb_translations; $i++)
+      for ($i = 0; $i < $nb_languages; $i++)
       {
         if (isset($names[$i]) || $names[$i] != "")
         {
@@ -223,7 +233,7 @@
       $place_holder = ""; // No 'Name' in any language -> don't add anything in the DB
       if (empty($name_id))
       {
-        for ($i = 1; $i <= $nb_translations; $i++)
+        for ($i = 1; $i < $nb_languages; $i++)
         {
           if (isset($names[$i]) && $names[$i] != "")
           {
@@ -249,9 +259,8 @@
         $name_id = $this->db->lastInsertRowID();
       }
 
-
       // Add translations if required
-      for ($i = 1; $i <= 2; $i++) // TODO Clean foreach translation
+      for ($i = 1; $i < $nb_languages; $i++)
       {
         if (!isset($names[$i]))
         {
