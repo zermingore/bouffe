@@ -129,7 +129,7 @@ print("</ul>");
 print("<hr/>");
 
 
-// Notes: display nothing if there's none
+// Notes: display nothing if there is no notes
 $query = "SELECT * FROM notes WHERE id_recipe={$recipe['id']}";
 $check_empty = $db->querySingle($query);
 if (!empty($check_empty))
@@ -137,8 +137,7 @@ if (!empty($check_empty))
   print("<h2>" . $h->fetchWord("Notes") . "</h2>");
   print("<hr/>");
 
-  $query = "SELECT * FROM notes WHERE id_recipe={$recipe['id']} "
-    . "AND id_language={$_SESSION['language']}";
+  $query = "SELECT * FROM notes WHERE id_recipe={$recipe['id']}";
   $result = $db->query($query);
   print("<ul>");
   while ($note = $result->fetchArray())

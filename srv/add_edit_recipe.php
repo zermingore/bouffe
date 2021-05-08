@@ -474,6 +474,12 @@ function validateForm()
       {
         $description = $h->fetchWord($step['description'], true);
 
+        // Skip words not found in the current language
+        if ($description[0] == '[')
+        {
+          continue;
+        }
+
         // fancy display; use later with steps re-ordering support
         // echo("<input type='text' name=step_{$step['num']} value='". $description . "'><br/>");
         $steps = $steps . $description . "\n";
@@ -503,6 +509,12 @@ function validateForm()
       while ($note = $result->fetchArray())
       {
         $description = $h->fetchWord($note['description'], true);
+
+        // Skip words not found in the current language
+        if ($description[0] == '[')
+        {
+          continue;
+        }
 
         // fancy display; use later with notes re-ordering support
         // echo("<input type='text' name=note_{$note['num']} value='". $description . "'><br/>");
@@ -539,10 +551,10 @@ function validateForm()
     // TODO: Avoid copy-pastes
     // $sections = [ "Name", "Summary" ];
 
-    $query = "SELECT name FROM words WHERE id={$recipe_id};";
 
-    if ($g_mode_edit)
+    if (isset($recipe['summary']))
     {
+      $query = "SELECT name FROM words WHERE id={$recipe['id_word']};";
       $translations = $h->fetchTranslations($db->querySingle($query, true)['name']);
     }
     $word_translations = $h->fetchTranslations("Name");
@@ -553,13 +565,13 @@ function validateForm()
         continue;
       }
 
-      $tr = "";
+      $tr = "not set";
       if (isset($translations) && isset($translations[$i]))
       {
         $tr = $translations[$i];
       }
       echo($word_translations[$i] . " ($languages[$i]): "
-           . "<input type='text' name='name_$i' value='" . $tr . "'><br/>");
+          . "<input type='text' name='name_$i' value='" . $tr . "'><br/>");
     }
     echo("<br/>");
 
@@ -588,7 +600,7 @@ function validateForm()
     echo("<br/>");
 
 
-    if (isset($recipe['summary']))
+    if (isset($recipe['origin']))
     {
       $query = "SELECT name FROM words WHERE id={$recipe['origin']};";
       $translations = $h->fetchTranslations($db->querySingle($query, true)['name']);
@@ -619,12 +631,41 @@ function validateForm()
           . "<textarea name='steps_$id_lg' rows='5' cols='80'></textarea><br/>");
     }
 
+
+    $notes = "";
     $translations = $h->fetchTranslations("Notes");
     foreach ($translations as $id_lg => $notes)
     {
-      echo($notes . " ($languages[$id_lg]): "
-           . "<textarea name='notes_$id_lg' rows='5' cols='80'></textarea><br/>");
+      if (!$g_mode_edit)
+      {
+        echo($notes . " ($languages[$id_lg]): "
+             . "<textarea name='notes_$id_lg' rows='5' cols='80'></textarea><br/>");
+        continue;
+      }
+
+      $query = "SELECT * FROM notes WHERE id_recipe={$recipe_id}; ORDER BY num";
+      $result = $db->query($query);
+      print("<ul>");
+      while ($note = $result->fetchArray())
+      {
+        $description = $h->fetchWord($note['description'], true);
+
+        // Skip words not found in the current language
+        if ($description[0] == '[')
+        {
+          continue;
+        }
+
+        // fancy display; use later with notes re-ordering support
+        // echo("<input type='text' name=note_{$note['num']} value='". $description . "'><br/>");
+        $notes = $notes . $description . "\n";
+      }
+      print("</ul>");
     }
+
+    echo($h->fetchWord("1 per line") . "<br/>");
+    echo("<textarea name='notes_" . $_SESSION['language']
+         . "' rows='5' cols='80'>" . $notes . "</textarea><br/>");
   ?>
 
   <br/><br/>
