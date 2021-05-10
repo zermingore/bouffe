@@ -565,7 +565,7 @@ function validateForm()
         continue;
       }
 
-      $tr = "not set";
+      $tr = "";
       if (isset($translations) && isset($translations[$i]))
       {
         $tr = $translations[$i];
@@ -624,48 +624,42 @@ function validateForm()
     echo("<br/><br/>");
 
 
-    $translations = $h->fetchTranslations("Steps");
-    foreach ($translations as $id_lg => $steps)
+    $types = ["steps", "notes"];
+    foreach ($types as $type)
     {
-      echo($steps . " ($languages[$id_lg]): "
-          . "<textarea name='steps_$id_lg' rows='5' cols='80'></textarea><br/>");
-    }
-
-
-    $notes = "";
-    $translations = $h->fetchTranslations("Notes");
-    foreach ($translations as $id_lg => $notes)
-    {
-      if (!$g_mode_edit)
+      $translations = $h->fetchTranslations(ucfirst($type));
+      foreach ($translations as $id_lg => $translation)
       {
-        echo($notes . " ($languages[$id_lg]): "
-             . "<textarea name='notes_$id_lg' rows='5' cols='80'></textarea><br/>");
-        continue;
-      }
+        echo($translation . " ($languages[$id_lg]) - ");
+        echo($h->fetchWord("1 per line") . "<br/>");
+        echo("<textarea name='{$type}_$id_lg' rows='5' cols='80'>");
 
-      $query = "SELECT * FROM notes WHERE id_recipe={$recipe_id}; ORDER BY num";
-      $result = $db->query($query);
-      print("<ul>");
-      while ($note = $result->fetchArray())
-      {
-        $description = $h->fetchWord($note['description'], true);
-
-        // Skip words not found in the current language
-        if ($description[0] == '[')
+        if (!$g_mode_edit) // Populate only in edit mode
         {
+          echo("</textarea><br/>");
           continue;
         }
 
-        // fancy display; use later with notes re-ordering support
-        // echo("<input type='text' name=note_{$note['num']} value='". $description . "'><br/>");
-        $notes = $notes . $description . "\n";
-      }
-      print("</ul>");
-    }
 
-    echo($h->fetchWord("1 per line") . "<br/>");
-    echo("<textarea name='notes_" . $_SESSION['language']
-         . "' rows='5' cols='80'>" . $notes . "</textarea><br/>");
+        $query = "SELECT * FROM {$type}"
+          . " WHERE id_recipe={$recipe_id} and id_language={$id_lg};"
+          . " ORDER BY num";
+        $result = $db->query($query);
+        while ($elt = $result->fetchArray())
+        {
+          $query = "SELECT name FROM words WHERE id={$elt['description']};";
+          $res = $db->query($query);
+          while ($e = $res->fetchArray())
+          {
+            echo($h->fetchTranslations($e['name'])[$id_lg] . "\n");
+          }
+        }
+
+        echo("</textarea><br/>");
+      }
+
+      echo("<br/>");
+    }
   ?>
 
   <br/><br/>

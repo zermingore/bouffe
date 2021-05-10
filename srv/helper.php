@@ -29,7 +29,8 @@
     }
 
 
-    public function fetchTranslations($word)
+
+    public function fetchTranslations(string $word)
     {
       $language_id = $_SESSION["language"];
 
