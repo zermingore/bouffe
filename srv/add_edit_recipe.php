@@ -548,80 +548,33 @@ function validateForm()
     echo("<h3>" . $h->fetchWord("Translations") . "</h3>");
     $languages = $h->getLanguages();
 
-    // TODO: Avoid copy-pastes
-    // $sections = [ "Name", "Summary" ];
-
-
-    if (isset($recipe['summary']))
+    $sections = [ "name", "summary", "origin" ];
+    foreach ($sections as $section)
     {
-      $query = "SELECT name FROM words WHERE id={$recipe['id_word']};";
-      $translations = $h->fetchTranslations($db->querySingle($query, true)['name']);
-    }
-    $word_translations = $h->fetchTranslations("Name");
-    for ($i = 1; $i <= 3; $i++)
-    {
-      if ($_SESSION['language'] == $i)
+      if (isset($recipe[$section]))
       {
-        continue;
+        $query = "SELECT name FROM words WHERE id={$recipe[$section]};";
+        $translations = $h->fetchTranslations($db->querySingle($query, true)['name']);
       }
-
-      $tr = "";
-      if (isset($translations) && isset($translations[$i]))
+      $word_translations = $h->fetchTranslations(ucfirst($section));
+      for ($i = 1; $i <= 3; $i++)
       {
-        $tr = $translations[$i];
-      }
-      echo($word_translations[$i] . " ($languages[$i]): "
-          . "<input type='text' name='name_$i' value='" . $tr . "'><br/>");
-    }
-    echo("<br/>");
+        if ($_SESSION['language'] == $i)
+        {
+          continue;
+        }
 
-
-    if (isset($recipe['summary']))
-    {
-      $query = "SELECT name FROM words WHERE id={$recipe['summary']};";
-      $translations = $h->fetchTranslations($db->querySingle($query, true)['name']);
-    }
-    $word_translations = $h->fetchTranslations("Summary");
-    for ($i = 1; $i <= 3; $i++)
-    {
-      if ($_SESSION['language'] == $i)
-      {
-        continue;
+        $tr = "";
+        if (isset($translations) && isset($translations[$i]))
+        {
+          $tr = $translations[$i];
+        }
+        echo($word_translations[$i] . " ($languages[$i]): "
+            . "<input type='text' name='{$section}_$i' value='" . $tr . "'><br/>");
       }
-
-      $tr = "";
-      if (isset($translations) && isset($translations[$i]))
-      {
-        $tr = $translations[$i];
-      }
-      echo($word_translations[$i] . " ($languages[$i]): "
-           . "<input type='text' name='summary_$i' value='" . $tr . "'><br/>");
+      echo("<br/>");
     }
     echo("<br/>");
-
-
-    if (isset($recipe['origin']))
-    {
-      $query = "SELECT name FROM words WHERE id={$recipe['origin']};";
-      $translations = $h->fetchTranslations($db->querySingle($query, true)['name']);
-    }
-    $word_translations = $h->fetchTranslations("Origin");
-    for ($i = 1; $i <= 3; $i++)
-    {
-      if ($_SESSION['language'] == $i)
-      {
-        continue;
-      }
-
-      $tr = "";
-      if (isset($translations) && isset($translations[$i]))
-      {
-        $tr = $translations[$i];
-      }
-      echo($word_translations[$i] . " ($languages[$i]): "
-          . "<input type='text' name='origin_$i' value='" . $tr . "'><br/>");
-    }
-    echo("<br/><br/>");
 
 
     $types = ["steps", "notes"];
@@ -639,7 +592,6 @@ function validateForm()
           echo("</textarea><br/>");
           continue;
         }
-
 
         $query = "SELECT * FROM {$type}"
           . " WHERE id_recipe={$recipe_id} and id_language={$id_lg};"
