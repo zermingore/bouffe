@@ -542,6 +542,7 @@ function validateForm()
     }
   ?>
 
+
   <br/><br/>
   <hr/>
   <?php
@@ -551,12 +552,18 @@ function validateForm()
     $sections = [ "name", "summary", "origin" ];
     foreach ($sections as $section)
     {
-      if (isset($recipe[$section]))
+      $sec = $section;
+      if ($section == "name")
       {
-        $query = "SELECT name FROM words WHERE id={$recipe[$section]};";
+        $sec = "id_word";
+      }
+
+      if (isset($recipe[$sec]))
+      {
+        $query = "SELECT name FROM words WHERE id={$recipe[$sec]};";
         $translations = $h->fetchTranslations($db->querySingle($query, true)['name']);
       }
-      $word_translations = $h->fetchTranslations(ucfirst($section));
+      $word_translations = $h->fetchTranslations(ucfirst($sec));
       for ($i = 1; $i <= 3; $i++)
       {
         if ($_SESSION['language'] == $i)
@@ -570,7 +577,7 @@ function validateForm()
           $tr = $translations[$i];
         }
         echo($word_translations[$i] . " ($languages[$i]): "
-            . "<input type='text' name='{$section}_$i' value='" . $tr . "'><br/>");
+             . "<input type='text' name='{$section}_$i' value='" . $tr . "'><br/>");
       }
       echo("<br/>");
     }
