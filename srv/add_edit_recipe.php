@@ -27,21 +27,46 @@
     }
 
     // Recipe data
-    $name = "";
-    if (isset($recipe["id_word"]))
+    $sections = [ "name", "summary", "origin" ];
+
+    foreach ($sections as $section)
     {
-      // Fetch recipe name
-      $query = "SELECT name FROM words WHERE id={$recipe['id_word']};";
-      $tmp = $db->querySingle($query, true)['name'];
-      $name = $h->fetchWord($tmp);
+      $sec = $section;
+      if ($section == "name")
+      {
+        $sec = "id_word";
+      }
+
+      if (isset($recipe[$sec]) && $recipe[$sec])
+      {
+        // Fetch recipe name
+        $query = "SELECT name FROM words WHERE id={$recipe[$sec]};";
+        $tmp = $db->querySingle($query, true);
+        if ($tmp && isset($tmp['name']))
+        {
+          $res = $h->fetchWord($tmp['name']);
+        }
+      }
+
+      switch ($section)
+      {
+        case "name":
+          $name = $res;
+          break;
+
+        case "summary":
+          $summary = $res;
+          break;
+
+        case "origin":
+          $origin = $res;
+          break;
+
+        default:
+          echo("[IMPLEMENTATION ERROR] Unknown recipe section");
+      }
     }
 
-    $summary = "";
-    if (isset($recipe["summary"]))
-    {
-      $query = "SELECT name FROM words WHERE id={$recipe['summary']};";
-      $summary = $db->querySingle($query, true)['name'];
-    }
 
     $time_preparation = $recipe["time_preparation"];
     $time_crafting = $recipe["time_crafting"];
@@ -559,7 +584,7 @@ function validateForm()
       }
 
       unset($translations); // make sure the variable is empty if not set here
-      if (isset($recipe[$sec]))
+      if (isset($recipe[$sec]) && $recipe[$sec])
       {
         $query = "SELECT name FROM words WHERE id={$recipe[$sec]};";
         $translations = $h->fetchTranslations($db->querySingle($query, true)['name']);
