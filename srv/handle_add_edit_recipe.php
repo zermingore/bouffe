@@ -33,6 +33,7 @@
     $str = $_POST['name_1'];
     if (empty($str))
     {
+      echo("Adding not existing name");
       // TODO no handy listing
       $str = "TR__" . $_POST['name_2'] . "__" . $_POST['name_3'];
     }

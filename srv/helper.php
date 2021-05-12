@@ -202,7 +202,6 @@
 
       // Return 0 if no name is set
       $name_found = false;
-      echo("See me<br/>");
       for ($i = 0; $i < $nb_languages; $i++)
       {
         if (isset($names[$i]) || $names[$i] != "")

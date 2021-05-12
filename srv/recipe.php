@@ -27,11 +27,15 @@ $name = $db->querySingle($query, true)['name'];
 
 // Title + summary (if any)
 echo("<h1>" . $h->fetchWord($name) . "</h1>");
-if (isset($recipe['summary']))
+if (isset($recipe['summary']) && $recipe['summary'])
 {
   $query = "SELECT name FROM words WHERE id={$recipe['summary']};";
-  $summary = $db->querySingle($query, true)['name'];
-  print("<h3>" . $h->fetchWord($summary) . "</h3>");
+  $result = $db->querySingle($query, true);
+  if ($result)
+  {
+    $summary = $result['name'];
+    print("<h3>" . $h->fetchWord($summary) . "</h3>");
+  }
 }
 print("<hr/>");
 
