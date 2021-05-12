@@ -55,8 +55,9 @@
   $common_values = "'" . $name_id . "', '" . $summary_id . "', '"
     . $_POST['time_preparation'] . "', '"
     . $_POST['time_crafting'] . "', '" . $_POST['time_backing'] . "', '"
+    . $_POST['quantity'] . "', '"
     . $_POST['difficulty'] . "', '" . $_POST['annoyance'] . "', '"
-    . $_POST['threads'] . "', '" . $_POST['quantity'] . "', '"
+    . $_POST['threads'] . "', '"
     . $_POST['vegetarian'] . "', '" . $_POST['vegan'] . "', '"
     . $origin_id . "'";
 

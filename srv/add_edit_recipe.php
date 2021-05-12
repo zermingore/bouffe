@@ -11,13 +11,17 @@
   echo('<p class="error_report"></p>');
 
   $g_mode_edit = isset($_GET['id']);
-
   if ($g_mode_edit)
   {
     // Fetch recipe
     $recipe_id = $_GET['id'];
     $query = "SELECT * FROM recipes WHERE id=" . $recipe_id . ";";
     $recipe = $db->querySingle($query, true);
+    if (!$recipe)
+    {
+      echo("Unable to fetch recipe<br/>");
+      return;
+    }
 
     // Sanity check
     if (!$recipe['id'])
