@@ -558,14 +558,17 @@ function validateForm()
         $sec = "id_word";
       }
 
+      unset($translations); // make sure the variable is empty if not set here
       if (isset($recipe[$sec]))
       {
         $query = "SELECT name FROM words WHERE id={$recipe[$sec]};";
         $translations = $h->fetchTranslations($db->querySingle($query, true)['name']);
       }
-      $word_translations = $h->fetchTranslations(ucfirst($sec));
+
+      $section_translations = $h->fetchTranslations(ucfirst($section));
       for ($i = 1; $i <= 3; $i++)
       {
+        // Do not list the current language as a translation
         if ($_SESSION['language'] == $i)
         {
           continue;
@@ -576,9 +579,10 @@ function validateForm()
         {
           $tr = $translations[$i];
         }
-        echo($word_translations[$i] . " ($languages[$i]): "
+        echo($section_translations[$i] . " ($languages[$i]): "
              . "<input type='text' name='{$section}_$i' value='" . $tr . "'><br/>");
       }
+
       echo("<br/>");
     }
     echo("<br/>");
