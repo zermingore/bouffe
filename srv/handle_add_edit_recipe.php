@@ -150,11 +150,19 @@
           $query = "INSERT INTO words('name') VALUES"
             . "('TR__" . $ingredient_name . "');";
         }
-        $db->querySingle($query);
+        if ($db->querySingle($query) == False)
+        {
+          echo("Error inserting ingredient name<br/>" .$query . "<br/>");
+          continue;
+        }
         $id_word = $db->lastInsertRowID();
 
         $query = "INSERT INTO ingredients('id') VALUES('" . $id_word . "');";
-        $db->querySingle($query);
+        if ($db->querySingle($query) == False)
+        {
+          echo("Error inserting ingredient<br/>" . $query . "<br/>");
+          continue;
+        }
       }
 
       $ingredient_id = $db->lastInsertRowID();
@@ -182,7 +190,11 @@
       . $id_recipe . "','" . $ingredient_id . "', '"
       . $_POST["ingredient_" . $i . "_qty"] . "', '"
       . $quantity_unit_id . "');";
-    $res = $db->query($query);
+    if ($db->query($query) == False)
+    {
+      echo("Error inserting requirement<br/>" . $query . "<br/>");
+      continue;
+    }
 
     if ($_POST["ingredient_" . $i . "_qty_unit"] != "-")
     {
