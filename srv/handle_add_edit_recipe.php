@@ -24,29 +24,16 @@
   $h = new Helper($db_file);
 
 
-  // TODO Clean copy-pastes
   // Insert the recipe name / summary / origin only if they do not exist yet
-  $query = "SELECT id FROM words WHERE name='" . $_POST['name_1'] . "';";
-  $name_id = $db->querySingle($query);
-  if (empty($name_id))
-  {
-    $str = $_POST['name_1'];
-    if (empty($str))
-    {
-      echo("Adding not existing name");
-      // TODO no handy listing
-      $str = "TR__" . $_POST['name_2'] . "__" . $_POST['name_3'];
-    }
-    $query = "INSERT INTO words('name') VALUES('" . $str . "');";
-    $db->querySingle($query);
-    $name_id=$db->lastInsertRowID();
-  }
+  $name_id = $h->addWordAndOrTranslations(
+    array($_POST["name_1"], $_POST["name_2"], $_POST["name_3"]));
 
   $summary_id = $h->addWordAndOrTranslations(
     array($_POST["summary_1"], $_POST["summary_2"], $_POST["summary_3"]));
 
   $origin_id = $h->addWordAndOrTranslations(
     array($_POST["origin_1"], $_POST["origin_2"], $_POST["origin_3"]));
+
 
   $common_fields = "id_word, summary,
     time_preparation, time_crafting, time_backing, quantity,
@@ -102,7 +89,6 @@
 
   for ($i = 1; $i <= count($_POST); $i++) // count($_POST) overkill but safe
   {
-    // TODO handle translations (searching by name...)
     if (!isset($_POST["ingredient_" . $i . "_name"]))
     {
       continue;
@@ -123,7 +109,7 @@
     while ($res = $db_ingredients->fetchArray())
     {
       $tmp = $res['id'];
-      if (isset($res['id_word']))
+      if (isset($res['id_word'])) // translations
       {
         $tmp = $res['id_word'];
       }

@@ -200,11 +200,11 @@
     {
       $nb_languages = $this->getNbLanguages();
 
-      // Return 0 if no name is set
+      // Return 0 if nothing is provided
       $name_found = false;
       for ($i = 0; $i < $nb_languages; $i++)
       {
-        if (isset($names[$i]) || $names[$i] != "")
+        if (isset($names[$i]) && $names[$i] != "")
         {
           $name_found = true;
           break;
@@ -217,7 +217,7 @@
       }
 
 
-      // Insert the recipe name only if it does not exist yet
+      // Insert the name only if it does not exist yet
       if (isset($names[0]) && !empty($names[0]))
       {
         $query = "SELECT id FROM words WHERE name='" . $names[0] . "';";
