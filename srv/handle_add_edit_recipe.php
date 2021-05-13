@@ -74,18 +74,9 @@
 
   echo "Ingredients:<br/>";
 
-  $db_ingredients;
-  if ($g_language == "1")
-  {
-    $db_ingredients = $db->query(
-      "SELECT * FROM words WHERE id IN (SELECT id FROM ingredients);");
-  }
-  else
-  {
-    $db_ingredients = $db->query(
-        "SELECT * FROM translations WHERE id_language = " . $g_language
-      . " AND id_word IN (SELECT id FROM ingredients);");
-  }
+  // Always refering to default language for the ingredients
+  $db_ingredients = $db->query(
+    "SELECT * FROM words WHERE id IN (SELECT id FROM ingredients);");
 
   for ($i = 1; $i <= count($_POST); $i++) // count($_POST) overkill but safe
   {
@@ -102,21 +93,45 @@
       return;
     }
 
+
     $ingredient_name = $_POST["ingredient_" . $i . "_name"];
+    $ingredient_qty_unit = $_POST["ingredient_" . $i . "_qty_unit"];
+
+    // Fetch the default language ingredient name and quantity
+    if ($g_language != 1)
+    {
+      $query = "SELECT name FROM words WHERE id="
+        . "(SELECT id_word FROM translations WHERE name='$ingredient_name')";
+      $res = $db->querySingle($query);
+      if ($res == False)
+      {
+        echo("Failure fetching Word matching translation ["
+          . $ingredient_name . "]<br/>");
+        continue;
+      }
+      $ingredient_name = $res;
+
+      $query = "SELECT name FROM words WHERE id="
+        . "(SELECT id_word FROM translations WHERE name='$ingredient_qty_unit')";
+      $res = $db->querySingle($query);
+      if ($res == False)
+      {
+        echo("Failure fetching Word matching translation ["
+          . $ingredient_name . "]<br/>");
+        continue;
+      }
+      $ingredient_qty_unit = $res;
+    }
+
+
     $ingredient_found = 0;
     $db_ingredients->reset();
     $id_word = -1;
     while ($res = $db_ingredients->fetchArray())
     {
-      $tmp = $res['id'];
-      if (isset($res['id_word'])) // translations
-      {
-        $tmp = $res['id_word'];
-      }
-
       if ($res['name'] == $ingredient_name)
       {
-        $id_word = $tmp;
+        $id_word = $res['id'];
         $ingredient_found = 1;
         break;
       }
@@ -170,7 +185,7 @@
 
 
     // Fetch the ingredient id
-    if (!isset($ingredient_id))
+    if (!isset($ingredient_id) || empty($ingredient_id))
     {
       $ingredient_id = $db->querySingle(
         "SELECT * FROM ingredients WHERE id IN (SELECT id FROM words WHERE "
@@ -178,11 +193,11 @@
         . "' or name='TR__" . $ingredient_name . "')");
     }
 
+
     // Fetch the quantity unit id
     $quantity_unit_id = $db->querySingle(
       "SELECT * FROM units WHERE id_word IN "
-      . "(SELECT id FROM words WHERE name='"
-      .  $_POST["ingredient_" . $i . "_qty_unit"] . "')");
+      . "(SELECT id FROM words WHERE name='" . $ingredient_qty_unit . "')");
 
     // Add the requirement
     $query = "INSERT INTO requirements("
@@ -196,10 +211,10 @@
       continue;
     }
 
-    if ($_POST["ingredient_" . $i . "_qty_unit"] != "-")
+    if ($ingredient_qty_unit != "-")
     {
       echo($ingredient_name . " (". $_POST["ingredient_" . $i . "_qty"]
-      . " ". $_POST["ingredient_" . $i . "_qty_unit"] . ")<br/>");
+      . " ". $ingredient_qty_unit . ")<br/>");
     }
     else
     {
