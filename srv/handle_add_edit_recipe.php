@@ -100,88 +100,70 @@
     // Fetch the default language ingredient name and quantity
     if ($g_language != 1)
     {
-      $query = "SELECT name FROM words WHERE id="
-        . "(SELECT id_word FROM translations WHERE name='$ingredient_name')";
-      $res = $db->querySingle($query);
-      if ($res == False)
+      $sections = [$ingredient_name, $ingredient_qty_unit];
+      foreach ($sections as $section)
       {
-        echo("Failure fetching Word matching translation ["
-          . $ingredient_name . "]<br/>");
-        continue;
-      }
-      $ingredient_name = $res;
-
-      $query = "SELECT name FROM words WHERE id="
-        . "(SELECT id_word FROM translations WHERE name='$ingredient_qty_unit')";
-      $res = $db->querySingle($query);
-      if ($res == False)
-      {
-        echo("Failure fetching Word matching translation ["
-          . $ingredient_name . "]<br/>");
-        continue;
-      }
-      $ingredient_qty_unit = $res;
-    }
-
-
-    $ingredient_found = 0;
-    $db_ingredients->reset();
-    $id_word = -1;
-    while ($res = $db_ingredients->fetchArray())
-    {
-      if ($res['name'] == $ingredient_name)
-      {
-        $id_word = $res['id'];
-        $ingredient_found = 1;
-        break;
-      }
-    }
-
-    // Insert the ingredient name only if it does not exist yet
-    if (!$ingredient_found)
-    {
-      if ($_SESSION["language"] == "1")
-      {
-        $query = "INSERT INTO words('name') VALUES('"
-          . $ingredient_name . "');";
-        $db->querySingle($query);
-
-        $query = "INSERT INTO ingredients('id') VALUES('"
-          . $db->lastInsertRowID() . "');";
-        $db->querySingle($query);
-      }
-      else
-      {
-        if ($id_word != -1) // word found based on its translation
+        $id_word = $h->fetchWordFromTranslation($section);
+        if (!$id_word)
         {
-          $query = "INSERT INTO translations('id_language', 'id_word', 'name')"
-            . "VALUES('" . $_SESSION["language"]
-            . "', '" . $id_word
-            . "', '" . $ingredient_name . "');";
+          // Insert a place-holder in the words table (and add the ingredient)
+          $id_word = $h->fetchWordFromTranslation($section, true);
+          if (!$id_word)
+          {
+            echo("Cannot fetch / insert [$section]<br/>");
+            echo("Query: [$query]<br/>");
+            continue;
+          }
+        }
+
+        $query = "SELECT name FROM words WHERE id='$id_word'";
+        $name = $db->querySingle($query);
+        if (!$name)
+        {
+          echo("Cannot fetch / insert [$section]<br/>");
+          echo("Query: [$query]<br/>");
+          continue;
+        }
+
+        if ($section == $ingredient_name)
+        {
+          $ingredient_name = $name;
+          $ingredient_id = $id_word;
         }
         else
         {
-          // Word not found; add a place-holder based on its translation
-          $query = "INSERT INTO words('name') VALUES"
-            . "('TR__" . $ingredient_name . "');";
+          $ingredient_qty_unit = $name;
         }
-        if ($db->querySingle($query) == False)
+      }
+    }
+    else
+    {
+      $ingredient_found = 0;
+      $db_ingredients->reset();
+      while ($res = $db_ingredients->fetchArray())
+      {
+        if ($res['name'] == $ingredient_name)
         {
-          echo("Error inserting ingredient name<br/>" .$query . "<br/>");
-          continue;
-        }
-        $id_word = $db->lastInsertRowID();
-
-        $query = "INSERT INTO ingredients('id') VALUES('" . $id_word . "');";
-        if ($db->querySingle($query) == False)
-        {
-          echo("Error inserting ingredient<br/>" . $query . "<br/>");
-          continue;
+          $ingredient_found = 1;
+          break;
         }
       }
 
-      $ingredient_id = $db->lastInsertRowID();
+      // Insert the ingredient name only if it does not exist yet
+      if (!$ingredient_found)
+      {
+        $query = "INSERT INTO words('name') VALUES('$ingredient_name');";
+        $db->querySingle($query);
+        $id_word = $db->lastInsertRowID();
+
+        $query = "INSERT INTO ingredients('id') VALUES('$id_word');";
+        echo("$query");
+        $db->querySingle($query);
+        $ingredient_id = $id_word;
+      }
     }
+
+    echo("Ingredient data: [$ingredient_name] [$ingredient_qty_unit]<br/>");
 
 
     // Fetch the ingredient id
@@ -189,8 +171,7 @@
     {
       $ingredient_id = $db->querySingle(
         "SELECT * FROM ingredients WHERE id IN (SELECT id FROM words WHERE "
-        . "name='" . $ingredient_name
-        . "' or name='TR__" . $ingredient_name . "')");
+        . "name='$ingredient_name')");
     }
 
 

@@ -57,6 +57,7 @@
       $query = "INSERT INTO translations('id_language', 'id_word', 'name')"
         . "VALUES('" . $_SESSION["language"]
         . "', '" . $id . "', '" . $translation . "');";
+      $this->db->querySingle($query);
 
       return $id;
     }
