@@ -5,6 +5,7 @@
     public function __construct(string $db_path)
     {
       $this->db = new SQLite3($db_path);
+      $this->db->busyTimeout(1000);
     }
 
 
@@ -26,6 +27,38 @@
       {
         return $this->fetchWordById($word, $accept_error);
       }
+    }
+
+
+
+    public function fetchWordFromTranslation(string $translation,
+                                             $insertPlaceholder=false)
+    {
+      $query = "SELECT id FROM words WHERE id IN
+        (SELECT id_word FROM translations WHERE name='$translation')";
+      $result = $this->db->querySingle($query);
+      if ($result)
+      {
+        return $result;
+      }
+
+      if (!$insertPlaceholder)
+      {
+        return 0;
+      }
+
+      // Insert a translation, a placeholder word and return its id
+      $place_holder = "TR__$translation";
+      $query = "INSERT INTO words('name') VALUES('$place_holder');";
+      $this->db->querySingle($query);
+      $id = $this->db->lastInsertRowID();
+
+      // Insert the translation itself
+      $query = "INSERT INTO translations('id_language', 'id_word', 'name')"
+        . "VALUES('" . $_SESSION["language"]
+        . "', '" . $id . "', '" . $translation . "');";
+
+      return $id;
     }
 
 
