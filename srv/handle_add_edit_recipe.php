@@ -207,8 +207,6 @@
   }
 
 
-  // TODO Warning if translation arrays differ in size?
-
   $types = ["steps", "notes"];
   foreach ($types as $type)
   {

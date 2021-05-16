@@ -246,7 +246,6 @@
       }
       if (!$name_found)
       {
-        echo("No name found<br/>");
         return 0;
       }
 
@@ -270,9 +269,9 @@
       {
         for ($i = 1; $i < $nb_languages; $i++)
         {
-          if (isset($names[$i]) && $names[$i] != "")
+          if (isset($names[$i]) && !empty($names[$i]))
           {
-            $place_holder .= "__" . $place_holder . $names[$i];
+            $place_holder .= "__" . $names[$i];
           }
 
           $query = "SELECT id_word FROM translations WHERE id_language='"
@@ -297,7 +296,7 @@
       // Add translations if required
       for ($i = 1; $i < $nb_languages; $i++)
       {
-        if (!isset($names[$i]))
+        if (!isset($names[$i]) || empty($names[$i]))
         {
           continue;
         }
@@ -319,6 +318,7 @@
 
       return $name_id;
     }
+
 
 
     private $db;
