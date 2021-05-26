@@ -17,13 +17,13 @@
 
     echo("<h1>" . $h->fetchWord("Recipes") . "</h1>");
 
-    $query = "SELECT id, id_word FROM recipes;";
+    $query = "SELECT id, name FROM recipes;";
     $array['dbhandle'] = $db;
     $array['query'] = "$query";
     $result = $db->query($query);
     while ($row = $result->fetchArray())
     {
-      $query_name = "SELECT name FROM words WHERE id={$row['id_word']};";
+      $query_name = "SELECT name FROM words WHERE id={$row['name']};";
       $array['dbhandle'] = $db;
       $array['query'] = "$query_name";
       $recipe_name = $db->querySingle($query_name);

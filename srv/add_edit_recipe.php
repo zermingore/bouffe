@@ -35,16 +35,10 @@
 
     foreach ($sections as $section)
     {
-      $sec = $section;
-      if ($section == "name")
-      {
-        $sec = "id_word";
-      }
-
-      if (isset($recipe[$sec]) && $recipe[$sec])
+      if (isset($recipe[$section]) && $recipe[$section])
       {
         // Fetch recipe name
-        $query = "SELECT name FROM words WHERE id={$recipe[$sec]};";
+        $query = "SELECT name FROM words WHERE id={$recipe[$section]};";
         $tmp = $db->querySingle($query, true);
         if ($tmp && isset($tmp['name']))
         {
@@ -581,16 +575,10 @@ function validateForm()
     $sections = [ "name", "summary", "origin" ];
     foreach ($sections as $section)
     {
-      $sec = $section;
-      if ($section == "name")
-      {
-        $sec = "id_word";
-      }
-
       unset($translations); // make sure the variable is empty if not set here
-      if (isset($recipe[$sec]) && $recipe[$sec])
+      if (isset($recipe[$section]) && $recipe[$section])
       {
-        $query = "SELECT name FROM words WHERE id={$recipe[$sec]};";
+        $query = "SELECT name FROM words WHERE id={$recipe[$section]};";
         $translations = $h->fetchTranslations($db->querySingle($query, true)['name']);
       }
 

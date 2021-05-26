@@ -35,7 +35,7 @@
     array($_POST["origin_1"], $_POST["origin_2"], $_POST["origin_3"]));
 
 
-  $common_fields = "id_word, summary,
+  $common_fields = "name, summary,
     time_preparation, time_crafting, time_backing, quantity,
     difficulty, annoyance, threads, vegetarian, vegan, origin";
 

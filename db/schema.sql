@@ -93,7 +93,7 @@ CREATE TABLE notes(
 
 CREATE TABLE recipes(
   id INTEGER PRIMARY KEY,
-  id_word INTEGER NOT NULL,
+  name INTEGER NOT NULL,
   summary INTEGER,
 
   time_preparation, -- minutes
@@ -111,7 +111,7 @@ CREATE TABLE recipes(
 
   origin INTEGER,
 
-  FOREIGN KEY(id_word) REFERENCES words(id)
+  FOREIGN KEY(name) REFERENCES words(id)
   FOREIGN KEY(summary) REFERENCES translations(id)
   FOREIGN KEY(quantity_unit) REFERENCES units(id)
 );

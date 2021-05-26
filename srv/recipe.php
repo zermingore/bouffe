@@ -21,7 +21,7 @@ if (!$recipe['id'])
 }
 
 // Fetch recipe name
-$query = "SELECT name FROM words WHERE id={$recipe['id_word']};";
+$query = "SELECT name FROM words WHERE id={$recipe['name']};";
 $name = $db->querySingle($query, true)['name'];
 
 
