@@ -91,6 +91,24 @@ CREATE TABLE notes(
 
 
 
+CREATE TABLE users(
+  id INTEGER PRIMARY KEY,
+  name TEXT NOT NULL
+);
+
+
+
+CREATE TABLE ratings(
+  id_recipe INTEGER NOT NULL,
+  id_user INTEGER NOT NULL,
+  rating INTEGER NOT NULL,
+
+  FOREIGN KEY(id_recipe) REFERENCES recipes(id)
+  FOREIGN KEY(id_user) REFERENCES users(id)
+);
+
+
+
 CREATE TABLE recipes(
   id INTEGER PRIMARY KEY,
   name INTEGER NOT NULL,
