@@ -109,6 +109,15 @@ CREATE TABLE ratings(
 
 
 
+CREATE TABLE history(
+  id_recipe INTEGER NOT NULL,
+  date TEXT NOT NULL,
+
+  FOREIGN KEY(id_recipe) REFERENCES recipes(id)
+);
+
+
+
 CREATE TABLE recipes(
   id INTEGER PRIMARY KEY,
   name INTEGER NOT NULL,
