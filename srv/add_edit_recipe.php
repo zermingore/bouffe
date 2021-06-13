@@ -1,6 +1,16 @@
 <html>
 <body>
 
+
+<!-- Refresh page warning -->
+<script type='text/javascript'>
+  window.onbeforeunload = function()
+  {
+    return "Changes will be lost";
+  };
+</script>
+
+
 <?php
   include "header.php";
 
