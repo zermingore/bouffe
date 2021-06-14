@@ -29,9 +29,13 @@
 
 
   <h3>Add user</h3>
+  <?php
+    echo($h->fetchWord("Name") . ": <input type='text' name='user_name'><br/>");
+  ?>
 
 
   <h3>Delete recipe</h3>
+
 
   <br/><br/>
   <hr/>
