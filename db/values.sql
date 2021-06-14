@@ -244,6 +244,12 @@ INSERT INTO translations(id_language, id_word, name)
 INSERT INTO translations(id_language, id_word, name)
   VALUES (3, (SELECT id FROM words WHERE name="Home"), "Acceuil");
 
+INSERT INTO words(name) VALUES ("confirm");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (2, (SELECT id FROM words WHERE name="confirm"), "bestätigen");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (3, (SELECT id FROM words WHERE name="confirm"), "confirmer");
+
 INSERT INTO words(name) VALUES ("edit");
 INSERT INTO translations(id_language, id_word, name)
   VALUES (2, (SELECT id FROM words WHERE name="edit"), "anpassen");

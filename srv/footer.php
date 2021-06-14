@@ -24,6 +24,8 @@
     $db = new SQLite3("$db_file");
     $h = new Helper($db_file);
     echo "<a href=/index.html>" . $h->fetchWord("Home") . "</a><br/>";
+    echo "<hr/>";
+    echo "<a href=/srv/advanced.php>Advanced</a><br/>";
   ?>
 
 </body>
