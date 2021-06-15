@@ -34,7 +34,20 @@
   ?>
 
 
-  <h3>Delete recipe</h3>
+  <h3>Add ingredient quantity unit</h3>
+  <?php
+    echo("Warning: *every* field required<br/>"); // TODO Fetch translations
+
+    $nb_languages = $h->getNbLanguages();
+    $languages = $h->getLanguages();
+    for ($lg_idx = 1; $lg_idx <= $nb_languages; $lg_idx++)
+    {
+      echo($h->fetchWord("Name") . " - " . $languages[$lg_idx]
+        . ": <input type='text' name='qty_unit_name_$lg_idx"
+        . "'><br/>");
+    }
+  ?>
+
 
 
   <br/><br/>
