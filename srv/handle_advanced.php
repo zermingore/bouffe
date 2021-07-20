@@ -50,16 +50,26 @@ if ($add_qty_unit == true)
     // Insert default language
     $query = "INSERT INTO words('name') VALUES('"
       . $_POST["qty_unit_name_1"] . "')";
-    $db->querySingle($query);
+    if ($db->querySingle($query) === False)
+    {
+      echo("Query failed: [$query] <br/>");
+      return 1;
+    }
     $qty_word_id = $db->lastInsertRowID();
 
     // Add translations
     for ($lg_idx = 1; $lg_idx <= $nb_languages; $lg_idx++)
-    $query = "INSERT INTO translations('id_language', 'id_word', 'name')"
-      . "VALUES('" . $lg_idx. "'"
-        . ", '" . $qty_word_id. "'"
-        . ", '" . $_POST["qty_unit_name_$lg_idx"] . "');";
-    $db->querySingle($query);
+    {
+      $query = "INSERT INTO translations('id_language', 'id_word', 'name')"
+        . "VALUES('" . $lg_idx. "'"
+          . ", '" . $qty_word_id. "'"
+          . ", '" . $_POST["qty_unit_name_$lg_idx"] . "');";
+      if ($db->querySingle($query) === False)
+      {
+        echo("Query failed: [$query] <br/>");
+        return 1;
+      }
+    }
 
     // Insert the unit itself
     // Handling only ingredient units type
@@ -68,6 +78,11 @@ if ($add_qty_unit == true)
     $query = "INSERT INTO units('id_word', 'id_type', 'id_symbol') VALUES('"
         . $qty_word_id . "'," . "'3'," . "'1'" . ");";
     $db->query($query);
+    if ($db->querySingle($query) === False)
+    {
+      echo("Query failed: [$query] <br/>");
+      return 1;
+    }
 }
 
 
