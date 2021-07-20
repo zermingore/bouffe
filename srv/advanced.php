@@ -43,7 +43,7 @@
     for ($lg_idx = 1; $lg_idx <= $nb_languages; $lg_idx++)
     {
       echo($h->fetchWord("Name") . " - " . $languages[$lg_idx]
-        . ": <input type='text' name='qty_unit_name_$lg_idx"
+        . ": <input type='text' name='qty_unit_name_$lg_idx'"
         . "'><br/>");
     }
   ?>
