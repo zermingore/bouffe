@@ -1,4 +1,5 @@
 <?php
+
 include "header.php";
 
 
@@ -25,21 +26,7 @@ $name = $db->querySingle($query, true)['name'];
 
 
 // Title + summary (if any)
-echo("<h1>" . $h->fetchWord($name) . "</h1>");
-?>
-
-
-<form name="mainForm"
-      method="post"
-      action="<?php echo("make_recipe.php?id=${recipe['id']}"); ?>"
-      onsubmit="return validateForm()">
-
-  <?php echo "<input type='submit' value=' " . $h->fetchWord("Make the recipe") . "'>" ?>
-</form>
-
-
-<?php
-
+echo("<h1>" .  $h->fetchword("Making") . ": " . $h->fetchWord($name) . "</h1>");
 if (isset($recipe['summary']) && $recipe['summary'])
 {
   $query = "SELECT name FROM words WHERE id={$recipe['summary']};";
@@ -50,60 +37,7 @@ if (isset($recipe['summary']) && $recipe['summary'])
     print("<h3>" . $h->fetchWord($summary) . "</h3>");
   }
 }
-print("<hr/>");
 
-// Read time
-print("<h2>" . $h->fetchWord("Time") . "</h2>");
-print("<ul>");
-
-
-$time_total = 0;
-$times = array("Time preparation" => $recipe['time_preparation'],
-              "Time crafting" => $recipe['time_crafting'],
-              "Time backing" => $recipe['time_backing']);
-foreach ($times as $time_str => $time_value)
-{
-  if (isset($time_value) && $time_value != 0)
-  {
-    echo("  <li>" . $h->fetchWord($time_str) . ": " . $time_value
-        . " " . $h->fetchWord("min.") . "</li>");
-
-    $time_total += $time_value;
-  }
-}
-
-print("  <li>" . $h->fetchWord("Time total") . ": " . $time_total
-. " " . $h->fetchWord("min.") . "</li>");
-
-
-print("</ul>");
-
-
-print("<hr/>");
-print("<h2>" . $h->fetchWord("Metadata") . "</h2>");
-print("<ul>");
-print("  <li>" . $h->fetchWord("For") . ": " . $recipe['quantity'] . "</li>");
-print("  <li>" . $h->fetchWord("Difficulty") . ": " . $recipe['difficulty'] . "</li>");
-print("  <li>" . $h->fetchWord("Annoyance") . ": " . $recipe['annoyance'] . "</li>");
-print("  <li>" . $h->fetchWord("Ideal number of cooks") . ": " . $recipe['threads'] . "</li>");
-
-$flags = [ "Vegetarian", "Vegan" ];
-foreach ($flags as $flag)
-{
-  $lower = strtolower($flag);
-  if (isset($recipe[$lower]) && $recipe[$lower] == true)
-  {
-    echo("<li>" . $h->fetchWord($flag) . "</li>");
-  }
-}
-
-if (isset($recipe['origin']) && $recipe['origin'] > 1)
-{
-  echo("<li>" . $h->fetchWord("Origin")
-       . ": " . $h->fetchWord($recipe['origin']) . "</li>");
-}
-
-print("</ul>");
 
 
 print("<hr/>");
@@ -152,7 +86,6 @@ $check_empty = $db->querySingle($query);
 if (!empty($check_empty))
 {
   print("<h2>" . $h->fetchWord("Notes") . "</h2>");
-  print("<hr/>");
 
   $query = "SELECT * FROM notes WHERE id_recipe={$recipe['id']}";
   $result = $db->query($query);
@@ -184,10 +117,6 @@ while ($step = $result->fetchArray())
 print("</ul>");
 
 
-
-echo "<hr>";
-echo "<a href=/srv/add_edit_recipe.php?id=" . $_GET['id'] . ">"
-  . $h->fetchWord("edit") . "</a><br/>";
 
 include "footer.php";
 

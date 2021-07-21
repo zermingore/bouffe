@@ -292,6 +292,30 @@ INSERT INTO translations(id_language, id_word, name)
 INSERT INTO translations(id_language, id_word, name)
   VALUES (3, (SELECT id FROM words WHERE name="Translations"), "Traductions");
 
+INSERT INTO words(name) VALUES ("Make the recipe");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (2, (SELECT id FROM words WHERE name="Make the recipe"), "Rezept machen");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (3, (SELECT id FROM words WHERE name="Make the recipe"), "Faire la recette");
+
+INSERT INTO words(name) VALUES ("Done");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (2, (SELECT id FROM words WHERE name="Done"), "Gemacht");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (3, (SELECT id FROM words WHERE name="Done"), "Terminé");
+
+INSERT INTO words(name) VALUES ("Abort");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (2, (SELECT id FROM words WHERE name="Abort"), "Abbruch");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (3, (SELECT id FROM words WHERE name="Abort"), "Abandon");
+
+INSERT INTO words(name) VALUES ("Making");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (2, (SELECT id FROM words WHERE name="Making"), "Zubereitung");
+INSERT INTO translations(id_language, id_word, name)
+  VALUES (3, (SELECT id FROM words WHERE name="Making"), "Préparation");
+
 
 -- Error messages
 INSERT INTO words(name) VALUES ("Duration is not a number");
