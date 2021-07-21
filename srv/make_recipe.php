@@ -64,11 +64,13 @@ while ($requirement = $result->fetchArray())
 
     if ($unit_name != "-")
     {
-      print("  <li>$ingredient_name ({$requirement['quantity']} $unit_name)</li>");
+      print("  <li>$ingredient_name ({$requirement['quantity']} $unit_name)"
+        . " <input type='checkbox'></li>");
     }
     else
     {
-      print("  <li>$ingredient_name ({$requirement['quantity']})</li>");
+      print("  <li>$ingredient_name ({$requirement['quantity']})"
+        . " <input type='checkbox'></li>");
     }
   }
   else
@@ -111,8 +113,11 @@ print("<h2>" . "$nb_steps" . " $word_step</h2>");
 print("<ul>");
 while ($step = $result->fetchArray())
 {
-  print("  <li>{$step['num']}/$nb_steps - "
-    . $h->fetchWord($step['description'], true) . "</li>");
+  print("  <li id=step_{$step['num']}>{$step['num']}/$nb_steps - "
+    . $h->fetchWord($step['description'], true));
+
+  echo("<input id='chk_step_{$step['num']}' type='checkbox' . onclick='updateSteps()'>");
+  echo("</li>");
 }
 print("</ul>");
 
@@ -121,3 +126,33 @@ print("</ul>");
 include "footer.php";
 
 ?>
+
+
+
+<script type='text/javascript'>
+  function updateSteps()
+  {
+    var i = 1;
+    while (true)
+    {
+      var checkbox_idx = "chk_step_" + i;
+      var checkbox = document.getElementById(checkbox_idx);
+      if (checkbox == null)
+      {
+        break;
+      }
+
+      var elt = document.getElementById("step_" + i)
+      if (checkbox.checked)
+      {
+        elt.style.setProperty("text-decoration", "line-through");
+      }
+      else
+      {
+        elt.style.setProperty("text-decoration", "");
+      }
+
+      i++;
+    }
+  }
+</script>
