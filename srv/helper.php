@@ -321,6 +321,17 @@
 
 
 
+    public function updateRecipeHistory(int $id)
+    {
+      $making_date = date('Y-m-d');
+      $query = "INSERT INTO history('id_recipe', 'date') VALUES('$id', '$making_date')";
+      if ($this->db->querySingle($query) === false)
+      {
+        echo("Failure running query [$query]<br/>");
+      }
+    }
+
+
     private $db;
   }
 

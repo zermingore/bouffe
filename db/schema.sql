@@ -3,7 +3,7 @@ pragma foreign_keys = on;
 BEGIN TRANSACTION;
 
 CREATE table version(major, minor, patch);
-INSERT INTO version VALUES(0, 0, 2);
+INSERT INTO version VALUES(0, 0, 3);
 
 
 
@@ -114,6 +114,7 @@ CREATE TABLE history(
   date TEXT NOT NULL,
 
   FOREIGN KEY(id_recipe) REFERENCES recipes(id)
+  UNIQUE(id_recipe, date) ON CONFLICT REPLACE
 );
 
 

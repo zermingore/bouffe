@@ -133,10 +133,18 @@ while ($step = $result->fetchArray())
 }
 print("</ul>");
 
-
-include "footer.php"; // Really include it?
-
 ?>
+
+
+<hr>
+<form name="mainForm"
+      method="post"
+      action="<?php $h->updateRecipeHistory($recipe['id']); echo("/index.html"); ?>"
+      onsubmit="return validateForm()">
+
+  <?php echo "<input type='submit' value=' " . $h->fetchWord("Done") . "'>" ?>
+</form>
+
 
 
 
