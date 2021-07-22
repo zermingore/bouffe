@@ -1,3 +1,15 @@
+<html>
+<body>
+
+<!-- Refresh page warning -->
+<script type='text/javascript'>
+  window.onbeforeunload = function()
+  {
+    return "Abort the recipe creation?";
+  };
+</script>
+
+
 <?php
 
 include "header.php";
@@ -122,8 +134,7 @@ while ($step = $result->fetchArray())
 print("</ul>");
 
 
-
-include "footer.php";
+include "footer.php"; // Really include it?
 
 ?>
 
@@ -156,3 +167,7 @@ include "footer.php";
     }
   }
 </script>
+
+
+</body>
+</html>
