@@ -8,6 +8,12 @@ apache php-apache
 
 # Configuration
 ---------------
+php.ini
+extension=sqlite3.so
+extension=pdo_sqlite.so
+
+
+
 /etc/httpd/conf/httpd.conf
 
 # libphp7.so will only work with mod_mpm_prefork (not mod_mpm_event)
