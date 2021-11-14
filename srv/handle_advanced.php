@@ -36,6 +36,26 @@ for ($lg_idx = 1; $lg_idx <= $nb_languages; $lg_idx++)
 }
 
 
+// The quantity must not exist yet
+if ($add_qty_unit == true)
+{
+  $query = "SELECT id FROM units WHERE"
+    . " id_word IN (SELECT id FROM words WHERE name='"
+    . $_POST["qty_unit_name_1"] . "')";
+  $res = $db->querySingle($query);
+  if ($res === false)
+  {
+    echo("Query failed: [$query] <br/>");
+    return 1;
+  }
+  if ($res !== NULL)
+  {
+    echo("Unit [" . $_POST["qty_unit_name_1"] . "] already exists<br/>");
+    return 1;
+  }
+}
+
+
 if ($add_qty_unit == true)
 {
   echo "Inserting new quantity:";
